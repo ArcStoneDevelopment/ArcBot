@@ -7,7 +7,6 @@ import net.dv8tion.jda.core.entities.Role;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.TreeMap;
 
 /**
@@ -20,6 +19,12 @@ import java.util.TreeMap;
  * @since v1.0
  */
 public class Server implements Serializable {
+
+    private long id;
+
+    public boolean drop;
+
+    private long ownerID;
 
     /**
      * Storage of certain server settings. Bot server settings are stored in this HashMap. These settings are originally
@@ -88,7 +93,10 @@ public class Server implements Serializable {
     private HashMap<Integer, StaffApp> archiveApply;
 
     public Server(Guild guild) {
+        System.out.println("Registered new server.");
         this.id = guild.getIdLong();
+        this.ownerID = guild.getOwner().getUser().getIdLong();
+        this.drop = false;
         settings = new HashMap<>(Settings.defaultGuildSettings);
         levels = new TreeMap<>();
 
@@ -113,6 +121,7 @@ public class Server implements Serializable {
                put(c, true);
            }
         }};
+        System.out.println("Commands: " + commands.size());
 
         rolePermissions = new HashMap<>();
 
@@ -127,6 +136,14 @@ public class Server implements Serializable {
         incompleteApply = new HashMap<>();
         openApply = new HashMap<>();
         archiveApply = new HashMap<>();
+    }
+
+    public long getOwnerID() {
+        return this.ownerID;
+    }
+
+    public long getID() {
+        return this.id;
     }
 
     public String getSetting(String settingName) {
@@ -165,8 +182,21 @@ public class Server implements Serializable {
         return textChannels.get(name);
     }
 
+    public boolean isFunction(String name) {
+        return functions.keySet().contains(name);
+    }
+
     public Function getFunction (String name) {
         return functions.get(name);
+    }
+
+    public boolean isCommand(String invoke) {
+        for (Command c : commands.keySet()) {
+            if (c.getInvoke().equalsIgnoreCase(invoke)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Command getCommand(String invoke) {
@@ -188,7 +218,7 @@ public class Server implements Serializable {
         }
     }
 
-    public void disableCommands (String invoke) {
+    public void disableCommand (String invoke) {
         for (Command c : commands.keySet()) {
             if (c.getInvoke().equalsIgnoreCase(invoke)) {
                 commands.remove(c);

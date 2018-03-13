@@ -7,7 +7,9 @@ import java.util.HashMap;
 
 public class Settings {
     private static boolean isLoaded = false;
-    public static HashMap<String, String> defaultGuildSettings = new HashMap<>();
+    public static HashMap<String, String> defaultGuildSettings = new HashMap<>() {{
+        put ("prefix", "-");
+    }};
 
     public static Connection SQL_CONNECTION;
 
@@ -16,8 +18,9 @@ public class Settings {
             return;
         }
 
-        SQL_CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306?useSSL=false",
+        SQL_CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/ArcBot?useSSL=false",
                 "root", "root");
+        isLoaded = true;
         
     }
 }

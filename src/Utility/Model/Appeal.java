@@ -1,4 +1,6 @@
 package Utility.Model;
 
-public class Appeal {
+import java.io.Serializable;
+
+public class Appeal implements Serializable {
 }
