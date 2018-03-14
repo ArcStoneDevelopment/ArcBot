@@ -6,8 +6,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Defines how the bot should interact with a particular Discord server. This class contains settings, level data and
@@ -142,6 +141,10 @@ public class Server implements Serializable {
         return this.ownerID;
     }
 
+    public void setOwnerID(long ownerID) {
+        this.ownerID = ownerID;
+    }
+
     public long getID() {
         return this.id;
     }
@@ -165,8 +168,26 @@ public class Server implements Serializable {
         levels.put(id, user);
     }
 
-    public boolean textChannelsInit() {
-        if (textChannels.get("spam") == -1L) {
+    public Set<String> getTextChannelNames() {
+        return textChannels.keySet();
+    }
+
+    public String getTextChannelName(long id) {
+        for (Map.Entry<String, Long> entry : textChannels.entrySet()) {
+            if (entry.getValue() == id) {
+                return entry.getKey();
+            }
+        }
+        return "";
+    }
+
+    public void clearTextChannel(String name) {
+        textChannels.remove(name);
+        textChannels.put(name, -1L);
+    }
+
+    public boolean textChannelsInit(String name) {
+        if (textChannels.get(name) == -1L) {
             return false;
         } else {
             return true;
@@ -182,12 +203,24 @@ public class Server implements Serializable {
         return textChannels.get(name);
     }
 
+    public Collection<Long> getTextChannels() {
+        return textChannels.values();
+    }
+
+    public Collection<Function> getFunctions() {
+        return functions.values();
+    }
+
     public boolean isFunction(String name) {
         return functions.keySet().contains(name);
     }
 
     public Function getFunction (String name) {
         return functions.get(name);
+    }
+
+    public Set<Command> getCommands() {
+        return commands.keySet();
     }
 
     public boolean isCommand(String invoke) {
@@ -237,8 +270,18 @@ public class Server implements Serializable {
         return false;
     }
 
+    public boolean isPermission(String name) {
+        ArrayList<String> permissions = new ArrayList<>() {{
+            add("OWNER");
+            add("STAFFTEAM");
+            add("DONATOR");
+            add("DEFAULT");
+        }};
+        return permissions.contains(name.toUpperCase());
+    }
+
     public Permission getPermission (Role role) {
-        return rolePermissions.getOrDefault(role.getIdLong(), Permission.Default);
+        return rolePermissions.getOrDefault(role.getIdLong(), Permission.DEFAULT);
     }
 
     public void setPermission(Role role, Permission permission) {

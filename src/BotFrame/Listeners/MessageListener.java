@@ -2,13 +2,15 @@ package BotFrame.Listeners;
 
 import BotFrame.Parser;
 import Levels.Level;
+import Utility.Model.Command;
 import Utility.Model.CommandBox;
 import Utility.Model.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-public class GuildListener extends ListenerAdapter {
+public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -25,12 +27,19 @@ public class GuildListener extends ListenerAdapter {
             Level.handle(event);
         }
 
-        if (event.getMessage().getContentRaw().startsWith(server.getSetting("prefix"))) {
-            CommandBox command = Parser.parse(server, event);
-            if (server.getCommandStatus(command.getInvoke().toLowerCase())) {
-                server.getCommand(command.getInvoke().toLowerCase())
-                        .log(server.getCommand(command.getInvoke().toLowerCase()).execute(command), command);
+        if (server.getFunction("discord").isEnabled()) {
+            if (event.getMessage().getContentRaw().startsWith(server.getSetting("prefix"))) {
+                CommandBox command = Parser.parse(server, event);
+                if (server.getCommandStatus(command.getInvoke())) {
+                    Command cmd = server.getCommand(command.getInvoke().toLowerCase());
+                    cmd.log(cmd.execute(command), command);
+                }
             }
         }
+    }
+
+    @Override
+    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+
     }
 }

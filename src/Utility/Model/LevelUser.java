@@ -1,6 +1,6 @@
 package Utility.Model;
 
-import Levels.LevelConstants;
+import Levels.Level;
 import Utility.SystemTime;
 
 import java.io.Serializable;
@@ -24,7 +24,7 @@ public class LevelUser implements Serializable {
     public void update(int pointCount) {
         points += pointCount;
         int previousLevel = this.level;
-        if (points > LevelConstants.getThreshold(previousLevel)) {
+        if (points > Level.getThreshold(previousLevel)) {
             level++;
             levelHistory.put(level, SystemTime.getTime());
         }

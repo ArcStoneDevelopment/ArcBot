@@ -1,7 +1,7 @@
 package BotFrame;
 
 import BotFrame.Listeners.BotListener;
-import BotFrame.Listeners.GuildListener;
+import BotFrame.Listeners.MessageListener;
 import Utility.Servers;
 import Utility.Settings;
 import net.dv8tion.jda.core.AccountType;
@@ -21,7 +21,7 @@ public class Main {
                 bot.setAutoReconnect(true);
                 bot.setAudioEnabled(true);
             bot.addEventListener(new BotListener(),
-                                 new GuildListener());
+                                 new MessageListener());
             bot.buildBlocking();
         } catch (Exception e) {
             e.printStackTrace();

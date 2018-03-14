@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Level {
+
     public static void handle(GuildMessageReceivedEvent event) {
         Server guild = Servers.activeServers.get(event.getGuild().getIdLong());
         int points = new Random().nextInt(20) + 1;
@@ -31,6 +32,23 @@ public class Level {
             user.update(points);
             guild.setLevelUser(event.getAuthor().getIdLong(), user);
         }
+    }
+
+    /**
+     * This method returns the upper bound point count for the given level. If you imagine a level value as having a range
+     * of points that fall into that level, this method returns the highest level in that range.
+     * <br> For example:
+     * <br> * Level 1 : Ranges from 100 to 255.
+     * <br> * This method returns 255.
+     * @param currentLevel
+     * The level whose threshold is desired.
+     * @return int - The upper-bound of a given level's range.
+     */
+    public static int getThreshold(int currentLevel) {
+        if (currentLevel == 0) {
+            return 100;
+        }
+        return ((5 * (currentLevel * currentLevel) + 50 * currentLevel + 100) + getThreshold(currentLevel - 1));
     }
 
     public static MessageEmbed getLevel(GuildMessageReceivedEvent event, Server server, long userID) {
