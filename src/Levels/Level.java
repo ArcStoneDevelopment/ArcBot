@@ -8,18 +8,29 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 public class Level {
+
+    public static HashMap<UUID, Long> lastSentMessage = new HashMap<>();
 
     public static void handle(GuildMessageReceivedEvent event) {
         Server guild = Servers.activeServers.get(event.getGuild().getIdLong());
         int points = new Random().nextInt(20) + 1;
         if (guild.hasLevelUser(event.getAuthor().getIdLong())) {
             LevelUser user = guild.getLevelUser(event.getAuthor().getIdLong());
+            if (lastSentMessage.containsKey(user.getUuid())) {
+                if (System.currentTimeMillis() - lastSentMessage.get(user.getUuid()) <= 30000) {
+                    return;
+                }
+                lastSentMessage.remove(user.getUuid());
+            }
             int previousLevel = user.getLevel();
             user.update(points);
             int newLevel = user.getLevel();
+//            TODO: Level up notification
             /*
             if (previousLevel < newLevel) {
                 **Update Message coming soon**
@@ -27,6 +38,7 @@ public class Level {
             }
             */
             guild.setLevelUser(event.getAuthor().getIdLong(), user);
+            lastSentMessage.put(user.getUuid(), System.currentTimeMillis());
         } else {
             LevelUser user = new LevelUser(event.getAuthor().getIdLong());
             user.update(points);

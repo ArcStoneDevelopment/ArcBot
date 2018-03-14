@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.Role;
 import java.io.Serializable;
 import java.util.*;
 
+// TODO: Javadocs
 /**
  * Defines how the bot should interact with a particular Discord server. This class contains settings, level data and
  * all function data for a particular server. These classes are expected to be saved to SQL on occasion to ensure no loss
@@ -25,6 +26,7 @@ public class Server implements Serializable {
 
     private long ownerID;
 
+//    TODO: Changing of these settings needs to be implemented/propagated throughout the rest of the bot.
     /**
      * Storage of certain server settings. Bot server settings are stored in this HashMap. These settings are originally
      * pulled from {@link Settings} upon object construction, but can be changed by the bot user with appropriate
@@ -42,7 +44,7 @@ public class Server implements Serializable {
      * comparators to be applied when constructing a leaderboard of the top users. The key in this map is the discord
      * snowflake ID for the user to whom the {@link LevelUser} object (which is the value) matches.
      */
-    private TreeMap<Long, LevelUser> levels;
+    private HashMap<Long, LevelUser> levels;
 
     /**
      * Provides storage for the Discord IDs of TextChannels that have been designated for bot use. The key in this map
@@ -97,7 +99,7 @@ public class Server implements Serializable {
         this.ownerID = guild.getOwner().getUser().getIdLong();
         this.drop = false;
         settings = new HashMap<>(Settings.defaultGuildSettings);
-        levels = new TreeMap<>();
+        levels = new HashMap<>();
 
         textChannels = new HashMap<>() {{
             put("spam", -1L);
@@ -159,6 +161,10 @@ public class Server implements Serializable {
 
     public LevelUser getLevelUser(long id) {
         return levels.get(id);
+    }
+
+    public HashMap<Long, LevelUser> getLevels() {
+        return levels;
     }
 
     public void setLevelUser(long id, LevelUser user) {

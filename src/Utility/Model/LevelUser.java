@@ -5,14 +5,17 @@ import Utility.SystemTime;
 
 import java.io.Serializable;
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class LevelUser implements Serializable {
     private int level;
     private int points;
     private long id;
     private TreeMap<Integer, String> levelHistory;
+    private UUID uuid;
 
     public LevelUser(long id) {
+        this.uuid = UUID.randomUUID();
         level = 0;
         points = 0;
         this.id = id;
@@ -28,6 +31,10 @@ public class LevelUser implements Serializable {
             level++;
             levelHistory.put(level, SystemTime.getTime());
         }
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public int getLevel() {

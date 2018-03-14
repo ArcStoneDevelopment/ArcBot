@@ -2,12 +2,14 @@ package Discord.Commands;
 
 import Utility.Model.*;
 import Utility.Servers;
-import Utility.SystemTime;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+
+// TODO: JavaDocs for this class and its methods.
 
 public class ServerEditorCommand implements Command {
     @Override
@@ -39,8 +41,10 @@ public class ServerEditorCommand implements Command {
                 return true;
             }
         } catch (PermissionException e) {
-            
+//            TODO: Permission error responses.
         } catch (SyntaxException e) {
+//            TODO: Proper messaging and error logging needs to be written.
+//            TODO: A re-write of the number system to reduce confusion.
             switch (e.getIntCause()) {
                 case 1:
                     System.out.println("1");
@@ -69,124 +73,6 @@ public class ServerEditorCommand implements Command {
             }
         }
         return false;
-    }
-
-    /**
-     * Sub-method to handle the {@code -arcbot command} sub-command.
-     * @param command
-     * The {@link CommandBox} that called this command. Sent from the {@code execute()} method.
-     * @param server
-     * The server that the command was issued from. This is also the server that the operation will be performed on.
-     * @throws PermissionException
-     * Thrown when the user does not have permission to run the command. In this case, the permission required is owner
-     * of the guild.
-     * @throws SyntaxException
-     * The Syntax exception is thrown if there is any problem with the structure of the command. This includes invalid
-     * actions. The integer cause values for this exception are:
-     * <ol>
-     *     <li>The command arguments length is not the required length (3).</li>
-     *     <li>The command given (in the second argument) is not a valid command.</li>
-     *     <li>The third argument is not {@code enable} or {@code disable}.</li>
-     *     <li>The command is already enabled when given a command to enable.</li>
-     *     <li>The command is already disabled when given a command to disable.</li>
-     * </ol>
-     */
-    private void command(CommandBox command, Server server) throws PermissionException, SyntaxException {
-        if (command.getEvent().getGuild().getOwner().getUser().getIdLong() == server.getOwnerID()) {
-            if (command.getArgs().length == 3) {
-                String invokeKey = command.getArgs()[1];
-                if (server.isCommand(invokeKey)) {
-                    if (command.getArgs()[2].equalsIgnoreCase("enable")) {
-                        if (!(server.getCommandStatus(invokeKey))) {
-                            server.enableCommand(invokeKey);
-                        } else {
-                            throw new SyntaxException(4);
-                        }
-                    } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
-                        if (server.getCommandStatus(invokeKey)) {
-                            server.disableCommand(invokeKey);
-                        } else {
-                            throw new SyntaxException(5);
-                        }
-                    } else {
-                        throw new SyntaxException(3);
-                    }
-                } else {
-                    throw new SyntaxException(2);
-                }
-            } else {
-                throw new SyntaxException(1);
-            }
-        } else {
-            throw new PermissionException();
-        }
-    }
-    
-    private void function(CommandBox command, Server server) throws PermissionException, SyntaxException {
-        if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
-            if (command.getArgs().length == 3) {
-                if (server.isFunction(command.getArgs()[1].toLowerCase())) {
-                    if (command.getArgs()[2].equalsIgnoreCase("enable")) {
-                        if (!(server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled())) {
-                            server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(true);
-                        } else {
-                            throw new SyntaxException(4);
-                        }
-                    } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
-                        if (server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled()) {
-                            server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(false);
-                        } else {
-                            throw new SyntaxException(5);
-                        }
-                    } else {
-                        throw new SyntaxException(3);
-                    }
-                } else {
-                    throw new SyntaxException(6);
-                }
-            } else {
-                throw new SyntaxException(1);
-            }
-        } else {
-            throw new PermissionException();
-        }
-    }
-
-    private void textChannel(CommandBox command, Server server) throws PermissionException, SyntaxException {
-        if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
-            if (command.getArgs().length == 2) {
-                if (server.getTextChannelNames().contains(command.getArgs()[1].toLowerCase())) {
-                    server.initTextChannel(command.getArgs()[1].toLowerCase(), command.getEvent().getChannel().getIdLong());
-                } else {
-                    throw new SyntaxException(2);
-                }
-            } else {
-                throw new SyntaxException(1);
-            }
-        } else {
-            throw new PermissionException();
-        }
-    }
-
-    private void permission(CommandBox command, Server server ) throws PermissionException, SyntaxException {
-        if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
-            if (command.getArgs().length >= 3) {
-                if (command.getEvent().getMessage().getMentionedRoles().size() == 1) {
-                    if (server.isPermission(command.getArgs()[1])) {
-                        Permission permission = Permission.valueOf(command.getArgs()[1].toUpperCase());
-                        server.setPermission(command.getEvent().getMessage().getMentionedRoles().get(0), permission);
-                    } else {
-                        throw new SyntaxException(8);
-                    }
-                } else {
-                    throw new SyntaxException(7);
-                }
-            } else {
-                throw new SyntaxException(1);
-            }
-        } else {
-            throw new PermissionException();
-        }
     }
 
     private void arcBot(CommandBox command, Server server) throws PermissionException {
@@ -269,23 +155,140 @@ public class ServerEditorCommand implements Command {
         }
     }
 
-    @Override
-    public void log(boolean executed, CommandBox command) {
-
+    private void command(CommandBox command, Server server) throws PermissionException, SyntaxException {
+        if (command.getEvent().getGuild().getOwner().getUser().getIdLong() == server.getOwnerID()) {
+            if (command.getArgs().length == 3) {
+                String invokeKey = command.getArgs()[1];
+                if (server.isCommand(invokeKey)) {
+                    if (command.getArgs()[2].equalsIgnoreCase("enable")) {
+                        if (!(server.getCommandStatus(invokeKey))) {
+                            server.enableCommand(invokeKey);
+                        } else {
+                            throw new SyntaxException(4);
+                        }
+                    } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
+                        if (server.getCommandStatus(invokeKey)) {
+                            server.disableCommand(invokeKey);
+                        } else {
+                            throw new SyntaxException(5);
+                        }
+                    } else {
+                        throw new SyntaxException(3);
+                    }
+                } else {
+                    throw new SyntaxException(2);
+                }
+            } else {
+                throw new SyntaxException(1);
+            }
+        } else {
+            throw new PermissionException();
+        }
+    }
+    
+    private void function(CommandBox command, Server server) throws PermissionException, SyntaxException {
+        if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
+            if (command.getArgs().length == 3) {
+                if (server.isFunction(command.getArgs()[1].toLowerCase())) {
+                    if (command.getArgs()[2].equalsIgnoreCase("enable")) {
+                        if (!(server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled())) {
+                            server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(true);
+                        } else {
+                            throw new SyntaxException(4);
+                        }
+                    } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
+                        if (server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled()) {
+                            server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(false);
+                        } else {
+                            throw new SyntaxException(5);
+                        }
+                    } else {
+                        throw new SyntaxException(3);
+                    }
+                } else {
+                    throw new SyntaxException(6);
+                }
+            } else {
+                throw new SyntaxException(1);
+            }
+        } else {
+            throw new PermissionException();
+        }
     }
 
+    private void permission(CommandBox command, Server server ) throws PermissionException, SyntaxException {
+        if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
+            if (command.getArgs().length >= 3) {
+                if (command.getEvent().getMessage().getMentionedRoles().size() == 1) {
+                    if (server.isPermission(command.getArgs()[1])) {
+                        Permission permission = Permission.valueOf(command.getArgs()[1].toUpperCase());
+                        server.setPermission(command.getEvent().getMessage().getMentionedRoles().get(0), permission);
+                    } else {
+                        throw new SyntaxException(8);
+                    }
+                } else {
+                    throw new SyntaxException(7);
+                }
+            } else {
+                throw new SyntaxException(1);
+            }
+        } else {
+            throw new PermissionException();
+        }
+    }
+
+    private void textChannel(CommandBox command, Server server) throws PermissionException, SyntaxException {
+        if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
+            if (command.getArgs().length == 2) {
+                if (server.getTextChannelNames().contains(command.getArgs()[1].toLowerCase())) {
+                    server.initTextChannel(command.getArgs()[1].toLowerCase(), command.getEvent().getChannel().getIdLong());
+                } else {
+                    throw new SyntaxException(2);
+                }
+            } else {
+                throw new SyntaxException(1);
+            }
+        } else {
+            throw new PermissionException();
+        }
+    }
+
+    /**
+     * This method is left intentionally empty. This command is entirely excluded from the help mechanism because it is
+     * only available to the owner of the discord server. Calling these methods will return default values for the given
+     * return data types.
+     * @param subCommand
+     * The subCommand whose help values are to be returned.
+     * @return String - Since this method is left blank, the return here will be an empty string.
+     */
     @Override
     public String getHelp(String subCommand) {
-        return null;
+        return "";
     }
 
+    /**
+     * This method is left intentionally empty. This command is entirely excluded from the help mechanism because it is
+     * only available to the owner of the discord server. Calling these methods will return default values for the given
+     * return data types.
+     * @param subCommand
+     * The subCommand whose help values are to be returned.
+     * @return {@code ArrayList<Permission>} - Since this method is left blank, the return here will be a singleton list
+     * with {@code Permission.DEFAULT}.
+     */
     @Override
     public ArrayList<Permission> getPermission(String subCommand) {
-        return null;
+        return new ArrayList<>(Collections.singletonList(Permission.DEFAULT));
     }
 
+    /**
+     * This method is left intentionally empty. This command is entirely excluded from the help mechanism because
+     * it is only available to the owner of the discord server. Calling these methods will return default values for the
+     * given return data types.
+     * @return {@code ArrayList<String>} - Since this method is left blank, the return here will be a singleton list with
+     * an empty string.
+     */
     @Override
     public ArrayList<String> getSubCommands() {
-        return null;
+        return new ArrayList<>(Collections.singletonList(""));
     }
 }

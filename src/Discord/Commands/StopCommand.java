@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * @deprecated - For removal before production release.
+ */
+// TODO: Remove this command before production release. The stop command is not to be used when released.
 public class StopCommand implements Command {
     @Override
     public String getInvoke() {
@@ -31,11 +35,6 @@ public class StopCommand implements Command {
             System.out.println("Error");
             return false;
         }
-
-    }
-
-    @Override
-    public void log(boolean executed, CommandBox command) {
 
     }
 
