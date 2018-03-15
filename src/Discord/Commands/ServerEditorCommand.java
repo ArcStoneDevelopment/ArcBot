@@ -252,43 +252,4 @@ public class ServerEditorCommand implements Command {
             throw new PermissionException();
         }
     }
-
-    /**
-     * This method is left intentionally empty. This command is entirely excluded from the help mechanism because it is
-     * only available to the owner of the discord server. Calling these methods will return default values for the given
-     * return data types.
-     * @param subCommand
-     * The subCommand whose help values are to be returned.
-     * @return String - Since this method is left blank, the return here will be an empty string.
-     */
-    @Override
-    public String getHelp(String subCommand) {
-        return "";
-    }
-
-    /**
-     * This method is left intentionally empty. This command is entirely excluded from the help mechanism because it is
-     * only available to the owner of the discord server. Calling these methods will return default values for the given
-     * return data types.
-     * @param subCommand
-     * The subCommand whose help values are to be returned.
-     * @return {@code ArrayList<Permission>} - Since this method is left blank, the return here will be a singleton list
-     * with {@code Permission.DEFAULT}.
-     */
-    @Override
-    public ArrayList<Permission> getPermission(String subCommand) {
-        return new ArrayList<>(Collections.singletonList(Permission.DEFAULT));
-    }
-
-    /**
-     * This method is left intentionally empty. This command is entirely excluded from the help mechanism because
-     * it is only available to the owner of the discord server. Calling these methods will return default values for the
-     * given return data types.
-     * @return {@code ArrayList<String>} - Since this method is left blank, the return here will be a singleton list with
-     * an empty string.
-     */
-    @Override
-    public ArrayList<String> getSubCommands() {
-        return new ArrayList<>(Collections.singletonList(""));
-    }
 }

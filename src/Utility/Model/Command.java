@@ -17,7 +17,5 @@ public interface Command extends Serializable {
             Logger.errorLog(server, "{-} **" + command.getRaw() + "** executed by " + command.getEvent().getMember().getEffectiveName());
         }
     }
-    String getHelp(String subCommand);
-    ArrayList<Permission> getPermission(String subCommand);
-    ArrayList<String> getSubCommands();
+
 }

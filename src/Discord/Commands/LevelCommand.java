@@ -109,19 +109,4 @@ public class LevelCommand implements Command {
             throw new SyntaxException(0);
         }
     }
-
-    @Override
-    public String getHelp(String subCommand) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Permission> getPermission(String subCommand) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<String> getSubCommands() {
-        return null;
-    }
 }

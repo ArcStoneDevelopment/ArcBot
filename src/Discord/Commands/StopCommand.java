@@ -37,19 +37,4 @@ public class StopCommand implements Command {
         }
 
     }
-
-    @Override
-    public String getHelp(String subCommand) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Permission> getPermission(String subCommand) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<String> getSubCommands() {
-        return null;
-    }
 }

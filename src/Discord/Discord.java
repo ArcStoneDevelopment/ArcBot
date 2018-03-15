@@ -1,6 +1,7 @@
 package Discord;
 
 import Discord.Commands.LevelCommand;
+import Discord.Commands.MinecraftCommand;
 import Discord.Commands.ServerEditorCommand;
 import Discord.Commands.StopCommand;
 import Utility.Model.Command;
@@ -12,5 +13,6 @@ public class Discord {
         add(new StopCommand());
         add(new ServerEditorCommand());
         add(new LevelCommand());
+        add (new MinecraftCommand());
     }};
 }
