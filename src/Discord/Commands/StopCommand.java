@@ -1,11 +1,9 @@
 package Discord.Commands;
 
-import Utility.Model.Command;
-import Utility.Model.CommandBox;
-import Utility.Model.Permission;
+import Utility.Command;
+import Utility.CommandBox;
 import Utility.Servers;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 

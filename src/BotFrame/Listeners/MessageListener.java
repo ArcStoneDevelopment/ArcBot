@@ -2,9 +2,9 @@ package BotFrame.Listeners;
 
 import BotFrame.Parser;
 import Levels.Level;
-import Utility.Model.Command;
-import Utility.Model.CommandBox;
-import Utility.Model.Server;
+import Utility.Command;
+import Utility.CommandBox;
+import Utility.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;

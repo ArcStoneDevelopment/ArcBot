@@ -1,7 +1,8 @@
 package Discord.Commands;
 
-import Utility.Model.*;
-import Utility.Servers;
+import Utility.Command;
+import Utility.CommandBox;
+import Utility.SyntaxException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;

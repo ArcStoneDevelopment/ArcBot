@@ -1,7 +1,6 @@
 package Discord.Commands;
 
-import Utility.Model.*;
-import Utility.Servers;
+import Utility.*;
 
 public class ClearCommand implements Command {
 

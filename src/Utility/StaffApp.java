@@ -1,4 +1,4 @@
-package Utility.Model;
+package Utility;
 
 public class StaffApp {
 }

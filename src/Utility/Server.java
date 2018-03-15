@@ -1,7 +1,6 @@
-package Utility.Model;
+package Utility;
 
 import Discord.Discord;
-import Utility.Settings;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;

@@ -1,8 +1,6 @@
 package Discord.Commands;
 
-import Levels.Level;
-import Utility.Model.*;
-import Utility.Servers;
+import Utility.*;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 

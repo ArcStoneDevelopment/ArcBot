@@ -4,7 +4,7 @@ import Discord.Commands.LevelCommand;
 import Discord.Commands.MinecraftCommand;
 import Discord.Commands.ServerEditorCommand;
 import Discord.Commands.StopCommand;
-import Utility.Model.Command;
+import Utility.Command;
 
 import java.util.ArrayList;
 

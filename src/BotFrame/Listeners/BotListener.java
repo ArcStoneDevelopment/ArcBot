@@ -1,6 +1,6 @@
 package BotFrame.Listeners;
-import Utility.Model.Permission;
-import Utility.Model.Server;
+import Utility.Permission;
+import Utility.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.events.channel.text.TextChannelDeleteEvent;

@@ -1,9 +1,6 @@
-package Utility.Model;
-
-import Utility.Logger;
+package Utility;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public interface Command extends Serializable {
     String getInvoke();

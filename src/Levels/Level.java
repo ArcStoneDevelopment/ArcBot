@@ -1,7 +1,7 @@
 package Levels;
 
-import Utility.Model.LevelUser;
-import Utility.Model.Server;
+import Utility.LevelUser;
+import Utility.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;

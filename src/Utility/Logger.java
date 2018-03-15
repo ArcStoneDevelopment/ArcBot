@@ -1,7 +1,5 @@
 package Utility;
 
-import Utility.Model.Server;
-
 public class Logger {
     public static void infoLog(Server server, String message) {
 //        TODO: Information logger implementation

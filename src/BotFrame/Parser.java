@@ -1,8 +1,7 @@
 package BotFrame;
 
-import Utility.Model.CommandBox;
-import Utility.Model.Server;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import Utility.CommandBox;
+import Utility.Server;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
