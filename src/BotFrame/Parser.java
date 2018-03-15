@@ -19,6 +19,8 @@ import java.util.Arrays;
 public class Parser {
     /**
      * The actual parsing method to break down {@code MessageReceivedEvent} objects into {@link CommandBox} objects.
+     * @param server
+     * The {@link Server} object that corresponds to the {@code Guild} in the {@code event} parameter.
      * @param event
      * The {@code MessageReceivedEvent} to be parsed.
      * @return CommandBox - The final parsed container.

@@ -21,6 +21,11 @@ public class LevelCommand implements Command {
     public boolean execute(CommandBox command) {
         try {
             Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
+            if (!(server.getFunction("level").isEnabled())) {
+//                TODO: Notification
+                return false;
+            }
+
             if (command.getArgs().length == 0) {
                 levelUser(command, server);
                 return true;

@@ -3,6 +3,7 @@ package Utility.Model;
 import Discord.Discord;
 import Utility.Settings;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 
 import java.io.Serializable;
@@ -274,6 +275,16 @@ public class Server implements Serializable {
             }
         }
         return false;
+    }
+
+    public boolean hasPermission(Member member, Permission permission) {
+        Permission highestPermission = Permission.DEFAULT;
+        for (Role r : member.getRoles()) {
+            if (Permission.comparator.compare(getPermission(r), highestPermission) > 0) {
+                highestPermission = getPermission(r);
+            }
+        }
+        return Permission.comparator.compare(highestPermission, permission) >= 0;
     }
 
     public boolean isPermission(String name) {
