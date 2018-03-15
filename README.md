@@ -9,6 +9,11 @@ Once you have added the bot to your server, please read the setup page on the wi
 [here](https://github.com/ArcStoneDevelopment/ArcBot/wiki/Setting-Up-Your-ArcBot) to make sure you make the most out of 
 the bot's available functionality.
 
+## For the Future
+When ArcBot v1.0 is released, a permanent version of the javadocs for the whole project will be available in the web format.
+For the time being, if you wish to read the unfinished javadocs, the `DOC` folder in the repository root contains the files
+for the javadoc.
+
 ## Credits / Legal
 ArcBot was conceived and designed by the development team at ArcStone Development LLC. While the bot is completely open
 sourced, unless you get specific permission, we would like for individual users to __not__ host their own copies of this
