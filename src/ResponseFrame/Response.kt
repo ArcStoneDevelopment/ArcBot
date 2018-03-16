@@ -1,0 +1,4 @@
+package ResponseFrame
+
+class Response() {
+}

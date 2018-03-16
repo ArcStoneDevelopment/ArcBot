@@ -23,7 +23,7 @@ public class Main {
             Settings.load();
             Servers.load();
             JDABuilder bot = new JDABuilder(AccountType.BOT);
-                bot.setToken(""); //Left intentionally empty for security reasons.
+                bot.setToken("NDIyOTM0MjM3MTE3Njc3NTc4.DY1ldg.nYTPlNyCQbQ-jYvs_fhP3QRsK4I"); //Left intentionally empty for security reasons.
                 bot.setGame(Game.playing("ArcStone Development"));
                 bot.setStatus(OnlineStatus.ONLINE);
                 bot.setAutoReconnect(true);
@@ -31,10 +31,10 @@ public class Main {
             bot.addEventListener(new BotListener(),
                                  new MessageListener());
             bot.buildBlocking();
-            LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true, null,
+            LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
                     "Bot Load Complete.");
         } catch (Exception e) {
-            LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), false, null,
+            LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), false,
                     "Exception Loading Bot.");
             System.exit(-1);
         }
