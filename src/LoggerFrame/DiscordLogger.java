@@ -6,7 +6,6 @@ import Utility.SystemTime;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.channel.text.TextChannelDeleteEvent;
 
 import java.awt.*;
 
@@ -17,13 +16,13 @@ class DiscordLogger implements Loggable {
         TextChannel channel = guild.getTextChannelById(server.getTextChannelID("log"));
         EmbedBuilder eb = new EmbedBuilder();
         if (success) {
-            eb.setColor(Color.BLUE);
+            eb.setColor(Color.GREEN);
         } else {
             eb.setColor(Color.RED);
         }
         eb.setTitle(SystemTime.getTime());
         eb.setDescription(message);
-        eb.setFooter(SystemTime.getTime(), )
+        eb.setFooter(SystemTime.getTime(), "https://imgur.com/a/yvWkm");
 
     }
 }

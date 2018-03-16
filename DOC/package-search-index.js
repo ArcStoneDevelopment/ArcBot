@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"BotFrame"},{"l":"BotFrame.Listeners"},{"l":"Discord"},{"l":"Discord.Commands"},{"l":"Levels"},{"l":"LoggerFrame"},{"l":"Utility"}]
