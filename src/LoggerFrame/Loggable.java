@@ -1,5 +1,7 @@
 package LoggerFrame;
 
+import net.dv8tion.jda.core.entities.Guild;
+
 /**
  * Serves as a standardization gateway for {@link ConsoleLogger}, {@link DiscordLogger} and {@link FileLogger}. In order
  * for any of the three layers of logging to be accessed by the {@link LoggerCore}, each logger needs to use the same method
@@ -18,12 +20,12 @@ interface Loggable {
      * @param success
      * If the method fully achieved the expected outcome/made the expected changes this should be true. Otherwise, false.
      * @param serverID
-     * The long Discord ID of the {@link Utility.Server} object. This is required if the {@link LoggerPolicy} is
+     * The Guild object related to the {@link Utility.Server} object. This is required if the {@link LoggerPolicy} is
      * {@code Discord}. If the logger policy is not set to this, and/or the action carried out was not connected to a
-     * particular server, this should be {@code -1L} (for standardization).
+     * particular server, this should be {@code null} (for standardization).
      * @param message
      * The String message to be logged. This should be short, reasonable and understandable. Furthermore, this should not
      * include a leading space.
      */
-    void log(boolean success, long serverID, String message);
+    void log(boolean success, Guild guild, String message);
 }

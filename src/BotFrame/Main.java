@@ -23,7 +23,7 @@ public class Main {
             Settings.load();
             Servers.load();
             JDABuilder bot = new JDABuilder(AccountType.BOT);
-                bot.setToken(""); //Left intentionally empty for security reasons.
+                bot.setToken("NDIyOTM0MjM3MTE3Njc3NTc4.DYi_0Q.6VEP2jnklOYoBDV47wP0qwm2ddI"); //Left intentionally empty for security reasons.
                 bot.setGame(Game.playing("ArcStone Development"));
                 bot.setStatus(OnlineStatus.ONLINE);
                 bot.setAutoReconnect(true);
