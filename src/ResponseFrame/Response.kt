@@ -1,4 +1,3 @@
 package ResponseFrame
 
-class Response() {
-}
+class Response(val type : ResponseType)
