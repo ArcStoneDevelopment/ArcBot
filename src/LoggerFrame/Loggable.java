@@ -19,13 +19,17 @@ interface Loggable {
      * <br> Real Example: {@code {Mar 15, 2018} - [12:32:00 AM] [[SERVER ID: -1]] {+} Bot Loaded!}
      * @param success
      * If the method fully achieved the expected outcome/made the expected changes this should be true. Otherwise, false.
-     * @param serverID
+     * @param guild
      * The Guild object related to the {@link Utility.Server} object. This is required if the {@link LoggerPolicy} is
      * {@code Discord}. If the logger policy is not set to this, and/or the action carried out was not connected to a
      * particular server, this should be {@code null} (for standardization).
      * @param message
      * The String message to be logged. This should be short, reasonable and understandable. Furthermore, this should not
      * include a leading space.
+     * @throws LoggerException
+     * Exception thrown if anything goes wrong in the logging process. Because there are so many possible errors, it is
+     * important to read the {@code .getMessage()} from the exception object if you get caught up with this exception.
+     *
      */
-    void log(boolean success, Guild guild, String message);
+    void log(boolean success, Guild guild, String message) throws LoggerException;
 }
