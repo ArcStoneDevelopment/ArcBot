@@ -69,9 +69,9 @@ public enum LoggerPolicy {
             case 0:
                 return new int[]{0};
             case 1:
-                return new int[]{1,0};
+                return new int[]{0,1};
             case 2:
-                return new int[]{2,1,0};
+                return new int[]{0,1,2};
             default:
                 return new int[]{-1};
         }

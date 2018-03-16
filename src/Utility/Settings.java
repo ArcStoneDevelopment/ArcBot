@@ -1,5 +1,10 @@
 package Utility;
 
+import LoggerFrame.Logger;
+import LoggerFrame.LoggerCore;
+import LoggerFrame.LoggerException;
+import LoggerFrame.LoggerPolicy;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,7 +18,8 @@ public class Settings {
 
     public static Connection SQL_CONNECTION;
 
-    public static void load() throws SQLException {
+    @Logger(LoggerPolicy.FILE)
+    public static void load() throws SQLException, LoggerException {
         if (isLoaded) {
             return;
         }
@@ -21,6 +27,7 @@ public class Settings {
         SQL_CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/ArcBot?useSSL=false",
                 "root", "root");
         isLoaded = true;
-        
+        LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
+                "Settings Core Initialized.");
     }
 }

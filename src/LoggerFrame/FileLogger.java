@@ -44,8 +44,8 @@ class FileLogger implements Loggable {
     /**
      * This method invokes a print writer object on the {@code file} instance field. It then writes a line to the
      * {@code logger.txt} in the following form:
-     * <br> Standard Form: {@code [MMM dd, yyyy] - [hh:mm:ss aa] [[SERVER ID: <ID>]] {<Status>} <Message>}
-     * <br> Real Example: {@code {Mar 15, 2018} - [12:32:00 AM] [[SERVER ID: -1]] {+} Bot Loaded!}
+     * <br> Standard Form: {@code [MMM dd, yyyy] - [hh:mm:ss aa] <SERVER ID: <ID>> {<Status>} <Message>}
+     * <br> Real Example: {@code {Mar 15, 2018} - [12:32:00 AM] <SERVER ID: -1> {+} Bot Loaded!}
      * @param success
      * If the method fully achieved the expected outcome/made the expected changes this should be true. Otherwise, false.
      * @param guild
@@ -70,9 +70,9 @@ class FileLogger implements Loggable {
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
             if (success) {
-                writer.println(SystemTime.getTime() + "[[SERVER ID: " + guildID + "]] {+} " + message);
+                writer.println(SystemTime.getTime() + "<SERVER ID: " + guildID + "> {+} " + message);
             } else {
-                writer.println(SystemTime.getTime() + "[[SERVER ID: " + guildID + "]] {-} " + message);
+                writer.println(SystemTime.getTime() + "<SERVER ID: " + guildID + "> {-} " + message);
             }
             writer.close();
         } catch (Exception e) {

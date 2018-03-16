@@ -24,8 +24,8 @@ public class LoggerCore {
      */
     private static HashMap<Integer, Loggable> loggers = new HashMap<>(){{
         put (0, new ConsoleLogger());
-        put (1, new DiscordLogger());
-        put (2, new FileLogger());
+        put (2, new DiscordLogger());
+        put (1, new FileLogger());
     }};
 
     /**
@@ -101,5 +101,19 @@ public class LoggerCore {
             }
             loggers.get(i).log(actionSuccess, null, message);
         }
+    }
+
+    /**
+     * This is a special logging mechanic that should only be invoked inside catch statements for the LoggerException.
+     * The {@link LoggerException} is a strange situation. The problem is, if there is an issue with the logger, how are
+     * you supposed to log the issue? This method provides a direct exception-free connection to the {@link ConsoleLogger}
+     * specifically to log {@link LoggerException} messages. This should only be used inside the catch block for this
+     * exception.
+     * @param e
+     * The LoggerException that is preventing logging from occurring.
+     */
+    public static void exceptionLogger(LoggerException e) {
+        ConsoleLogger consoleLogger = (ConsoleLogger)loggers.get(0);
+        consoleLogger.log(false, null, "EXCEPTION: " + e.getMessage());
     }
 }

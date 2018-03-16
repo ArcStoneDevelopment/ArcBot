@@ -16,8 +16,8 @@ class ConsoleLogger implements Loggable {
      * Log the given message to the {@code System.out} stream if {@code success}, otherwise, log to the {@code System.err}
      * stream. If the guild parameter is not null, it is appended to the log message.
      * <br><br> <strong>Message Format</strong>
-     * <br> Standard Form: {@code [MMM dd, yyyy] - [hh:mm:ss aa] [[SERVER ID: <ID>]] {<Status>} <Message>}
-     * <br> Real Example: {@code {Mar 15, 2018} - [12:32:00 AM] [[SERVER ID: -1]] {+} Bot Loaded!}
+     * <br> Standard Form: {@code [MMM dd, yyyy] - [hh:mm:ss aa] <SERVER ID: <ID>> {<Status>} <Message>}
+     * <br> Real Example: {@code {Mar 15, 2018} - [12:32:00 AM] <SERVER ID: -1> {+} Bot Loaded!}
      * @param success
      * If the method fully achieved the expected outcome/made the expected changes this should be true. Otherwise, false.
      * @param guild
@@ -38,9 +38,9 @@ class ConsoleLogger implements Loggable {
         }
 
         if (success) {
-            System.out.println(SystemTime.getTime() + "[[SERVER ID: " + guildID + "]] {+} " + message);
+            System.out.println(SystemTime.getTime() + "<SERVER ID: " + guildID + "> {+} " + message);
         } else {
-            System.err.println(SystemTime.getTime() + "[[SERVER ID: " + guildID + "]] {-} " + message);
+            System.err.println(SystemTime.getTime() + "<SERVER ID: " + guildID + "> {-} " + message);
         }
     }
 }

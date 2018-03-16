@@ -32,7 +32,7 @@ public class MessageListener extends ListenerAdapter {
                 CommandBox command = Parser.parse(server, event);
                 if (server.getCommandStatus(command.getInvoke())) {
                     Command cmd = server.getCommand(command.getInvoke().toLowerCase());
-                    cmd.log(cmd.execute(command), command, server);
+                    cmd.log(cmd.execute(command), command);
                 }
             }
         }

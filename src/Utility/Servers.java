@@ -1,5 +1,10 @@
 package Utility;
 
+import LoggerFrame.Logger;
+import LoggerFrame.LoggerCore;
+import LoggerFrame.LoggerException;
+import LoggerFrame.LoggerPolicy;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -63,7 +68,8 @@ public class Servers {
         stmt.close();
     }
 
-    public static void load() throws SQLException, IOException, ClassNotFoundException {
+    @Logger(LoggerPolicy.FILE)
+    public static void load() throws SQLException, IOException, ClassNotFoundException, LoggerException {
         activeServers.clear();
         Statement stmt = Settings.SQL_CONNECTION.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM servers");
@@ -73,6 +79,7 @@ public class Servers {
             Server thisServer = (Server)objectIn.readObject();
             activeServers.put(thisServer.getID(), thisServer);
         }
-        System.out.println("Servers initialized.");
+        LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
+                "Servers initialized from SQL.");
     }
 }

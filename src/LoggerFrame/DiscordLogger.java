@@ -38,8 +38,14 @@ class DiscordLogger implements Loggable {
      * include a leading space.
      */
     @Override
-    public void log(boolean success, Guild guild, String message) {
+    public void log(boolean success, Guild guild, String message) throws LoggerException {
+        if (guild == null) {
+            throw new LoggerException("Guild cannot be null!");
+        }
         Server server = Servers.activeServers.get(guild.getIdLong());
+        if (!server.textChannelsInit("log")) {
+            throw new LoggerException("Log channel is not initialized!");
+        }
         TextChannel channel = guild.getTextChannelById(server.getTextChannelID("log"));
         EmbedBuilder eb = new EmbedBuilder();
         if (success) {
