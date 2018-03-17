@@ -1,9 +1,6 @@
 package Discord;
 
-import Discord.Commands.LevelCommand;
-import Discord.Commands.MinecraftCommand;
-import Discord.Commands.ServerEditorCommand;
-import Discord.Commands.StopCommand;
+import Discord.Commands.*;
 import Utility.Command;
 
 import java.util.ArrayList;
@@ -14,5 +11,6 @@ public class Discord {
         add(new ServerEditorCommand());
         add(new LevelCommand());
         add (new MinecraftCommand());
+        add(new ClearCommand());
     }};
 }

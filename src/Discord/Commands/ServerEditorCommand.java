@@ -1,5 +1,7 @@
 package Discord.Commands;
 
+import ResponseFrame.ErrorResponse;
+import ResponseFrame.ResponseBuilder;
 import Utility.*;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
@@ -39,7 +41,7 @@ public class ServerEditorCommand implements Command {
                 return true;
             }
         } catch (PermissionException e) {
-//            TODO: Permission error responses.
+            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(1))).queue();
         } catch (SyntaxException e) {
 //            TODO: Proper messaging and error logging needs to be written.
 //            TODO: A re-write of the number system to reduce confusion.

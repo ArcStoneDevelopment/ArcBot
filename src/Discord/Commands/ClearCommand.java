@@ -1,5 +1,7 @@
 package Discord.Commands;
 
+import ResponseFrame.ErrorResponse;
+import ResponseFrame.ResponseBuilder;
 import Utility.*;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageHistory;
@@ -32,7 +34,7 @@ public class ClearCommand implements Command {
                 throw new SyntaxException(0);
             }
         } catch (PermissionException e) {
-
+            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(1))).queue();
         } catch (SyntaxException e) {
 
         }
@@ -51,6 +53,7 @@ public class ClearCommand implements Command {
                     break;
                 }
             }
+            /*
             Message response = command.getEvent().getChannel().sendMessage().complete();
             new Timer().schedule(new TimerTask() {
                 @Override
@@ -58,6 +61,7 @@ public class ClearCommand implements Command {
                     response.delete().complete();
                 }
             }, 3000);
+            */
 
         } else {
             throw new PermissionException();
