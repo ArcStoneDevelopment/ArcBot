@@ -1,6 +1,12 @@
 package Discord.Commands;
 
 import Utility.*;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageHistory;
+
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClearCommand implements Command {
 
@@ -16,6 +22,8 @@ public class ClearCommand implements Command {
             if (command.getArgs().length == 1) {
                 switch (command.getArgs()[0]) {
                     case "all":
+                        clearAll(command, server);
+                        return true;
                     default:
                         clearNum(command, server);
                         return true;
@@ -29,6 +37,31 @@ public class ClearCommand implements Command {
 
         }
         return false;
+    }
+
+    private void clearAll(CommandBox command, Server server) throws PermissionException {
+        if (server.hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
+            MessageHistory history = new MessageHistory(command.getEvent().getChannel());
+            List<Message> messages;
+            while (true) {
+                try {
+                    messages = history.retrievePast(1).complete();
+                    messages.get(0).delete().queue();
+                } catch (IndexOutOfBoundsException e) {
+                    break;
+                }
+            }
+            Message response = command.getEvent().getChannel().sendMessage().complete();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    response.delete().complete();
+                }
+            }, 3000);
+
+        } else {
+            throw new PermissionException();
+        }
     }
 
     private void clearNum(CommandBox command, Server server) throws PermissionException, SyntaxException {
