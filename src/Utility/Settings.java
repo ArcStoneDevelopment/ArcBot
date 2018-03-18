@@ -24,7 +24,7 @@ public class Settings {
             return;
         }
 
-        SQL_CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/ArcBot?useSSL=false",
+        SQL_CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/ArcBot?useSSL=false&serverTimezone=UTC",
                 "root", "root");
         isLoaded = true;
         LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
