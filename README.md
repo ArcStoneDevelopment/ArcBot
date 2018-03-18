@@ -1,7 +1,11 @@
 ![ArcBot](https://github.com/ArcStoneDevelopment/ArcBot/blob/master/IMG/ArcBotBANNER.png)
 <p align="center">
   <a href="https://github.com/ArcStoneDevelopment/ArcBot/wiki">
-    <img src="https://img.shields.io/badge/Wiki-FAQ-blue.svg">
+    <img src="https://img.shields.io/badge/Wiki-Information-brightgreen.svg">
+  </a>
+  
+  <a href="https://discordapp.com/oauth2/authorize?client_id=422934237117677578&permissions=8&scope=bot">
+    <img src="https://img.shields.io/badge/Discord-Invite%20ArcBot-blue.svg">
   </a>
 </p>
 
