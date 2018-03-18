@@ -9,7 +9,7 @@ Once you have added the bot to your server, please read the setup page on the wi
 [here](https://github.com/ArcStoneDevelopment/ArcBot/wiki/Setting-Up-Your-ArcBot) to make sure you make the most out of 
 the bot's available functionality.
 
-##Specification
+## Specification
 The standards used in this bot that are required for any pull requests to be accepted can be found in the 
 [structure guide.](https://github.com/ArcStoneDevelopment/ArcBot/wiki/Structure-Guide)
 
