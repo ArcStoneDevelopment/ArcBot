@@ -3,6 +3,7 @@
   <img src="https://img.shields.io/badge/Wiki-FAQ-blue.svg">
 </p>
 ***
+
 ArcBot is an incredibly powerful, multifunction Minecraft discord bot that can completely reshape the way that your 
 community runs. When used correctly, this bot can handle all of the needs of a Minecraft server community! 
 
