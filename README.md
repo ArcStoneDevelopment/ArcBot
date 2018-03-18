@@ -1,6 +1,8 @@
 ![ArcBot](https://github.com/ArcStoneDevelopment/ArcBot/blob/master/IMG/ArcBotBANNER.png)
 <p align="center">
-  <img src="https://img.shields.io/badge/Wiki-FAQ-blue.svg">
+  <a href="https://github.com/ArcStoneDevelopment/ArcBot/wiki">
+    <img src="https://img.shields.io/badge/Wiki-FAQ-blue.svg">
+  </a>
 </p>
 
 ***
