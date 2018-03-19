@@ -34,6 +34,7 @@ public class Main {
             LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
                     "Bot Load Complete.");
         } catch (Exception e) {
+            e.printStackTrace();
             LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), false,
                     "Exception Loading Bot.");
             System.exit(-1);
