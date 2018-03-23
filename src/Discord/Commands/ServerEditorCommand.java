@@ -1,5 +1,6 @@
 package Discord.Commands;
 
+import FunctionFrame.Function;
 import ResponseFrame.ErrorResponse;
 import ResponseFrame.MasterResponse;
 import ResponseFrame.ResponseBuilder;

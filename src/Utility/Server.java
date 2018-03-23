@@ -1,6 +1,7 @@
 package Utility;
 
 import Discord.Discord;
+import FunctionFrame.*;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -81,17 +82,9 @@ public class Server implements Serializable {
      */
     private HashMap<Long, Permission> rolePermissions;
 
-    private HashMap<Integer, Report> incompleteReport;
-    private HashMap<Integer, Report> openReport;
-    private HashMap<Integer, Report> archiveReport;
-
-    private HashMap<Integer, Appeal> incompleteAppeal;
-    private HashMap<Integer, Appeal> openAppeal;
-    private HashMap<Integer, Appeal> archiveAppeal;
-
-    private HashMap<Integer, StaffApp> incompleteApply;
-    private HashMap<Integer, StaffApp> openApply;
-    private HashMap<Integer, StaffApp> archiveApply;
+    private HashMap<UUID, Report> incompleteReport;
+    private HashMap<UUID, Report> openReport;
+    private HashMap<UUID, Report> archiveReport;
 
     public Server(Guild guild) {
         System.out.println("Registered new server.");
@@ -129,14 +122,6 @@ public class Server implements Serializable {
         incompleteReport = new HashMap<>();
         openReport = new HashMap<>();
         archiveReport = new HashMap<>();
-
-        incompleteAppeal = new HashMap<>();
-        openAppeal = new HashMap<>();
-        archiveAppeal = new HashMap<>();
-
-        incompleteApply = new HashMap<>();
-        openApply = new HashMap<>();
-        archiveApply = new HashMap<>();
     }
 
     public long getOwnerID() {
@@ -193,11 +178,7 @@ public class Server implements Serializable {
     }
 
     public boolean textChannelsInit(String name) {
-        if (textChannels.get(name) == -1L) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(textChannels.get(name) == -1L);
     }
 
     public void initTextChannel(String name, Long id) {
@@ -305,6 +286,15 @@ public class Server implements Serializable {
             rolePermissions.remove(role.getIdLong());
         }
         rolePermissions.put(role.getIdLong(), permission);
+    }
+
+    public FunctionType getIncompleteFunctionType(UUID uuid) {
+        for (UUID id : incompleteReport.keySet()) {
+            if (id.equals(uuid)) {
+                return FunctionType.REPORT;
+            }
+        }
+        return null;
     }
 }
 

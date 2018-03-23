@@ -1,4 +1,4 @@
-package Utility;
+package FunctionFrame;
 
 public class StaffApp {
 }
