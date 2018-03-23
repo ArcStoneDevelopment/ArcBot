@@ -9,37 +9,37 @@ interface Response {
 
 class ErrorResponse(override val responseNumber: Number) : Response {
     override val type = ResponseType.ERROR
-    val args : ArrayList<String> = ArrayList()
+    val args = ArrayList<String>()
 
     constructor(responseNumber: Number, args: ArrayList<String>) : this(responseNumber) {
-        for (s : String in args) {
-            this.args.add(s)
-        }
+        args.addAll(args)
     }
 }
 
 class SuccessResponse(override  val responseNumber: Number) : Response {
     override val type = ResponseType.SUCCESS
-    val args : ArrayList<String> = ArrayList()
+    val args = ArrayList<String>()
 
     constructor(responseNumber: Number, args: ArrayList<String>) : this(responseNumber) {
-        for (s : String in args) {
-            this.args.add(s)
-        }
+        args.addAll(args)
     }
 }
 
 class InformationResponse(override  val responseNumber: Number) : Response {
     override val type = ResponseType.INFORMATION
-    var args : ArrayList<String> = ArrayList()
+    var args = ArrayList<String>()
 
     constructor(responseNumber: Number, args: ArrayList<String>) : this(responseNumber) {
-        for (s : String in args) {
-            this.args.add(s)
-        }
+        args.addAll(args)
     }
 }
 
 class LevelResponse(override val responseNumber: Number) : Response {
     override val type = ResponseType.LEVEL
+    var args = ArrayList<String>()
+
+    constructor (responseNumber: Number, args: ArrayList<String>) : this(responseNumber) {
+        args.addAll(args)
+    }
+
 }
