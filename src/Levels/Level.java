@@ -1,5 +1,7 @@
 package Levels;
 
+import ResponseFrame.LevelResponse;
+import ResponseFrame.ResponseBuilder;
 import Utility.LevelUser;
 import Utility.Server;
 import Utility.Servers;
@@ -8,13 +10,11 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class Level {
 
-    public static HashMap<UUID, Long> lastSentMessage = new HashMap<>();
+    private static HashMap<UUID, Long> lastSentMessage = new HashMap<>();
 
     public static void handle(GuildMessageReceivedEvent event) {
         Server guild = Servers.activeServers.get(event.getGuild().getIdLong());
@@ -30,13 +30,12 @@ public class Level {
             int previousLevel = user.getLevel();
             user.update(points);
             int newLevel = user.getLevel();
-//            TODO: Level up notification
-            /*
-            if (previousLevel < newLevel) {
-                **Update Message coming soon**
-                TextChannel channel = event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage();
+
+            if (previousLevel < newLevel && guild.textChannelsInit("spam")) {
+                event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage(ResponseBuilder.INSTANCE.build(
+                        new LevelResponse(1, new ArrayList<>(Arrays.asList(event.getMember().getEffectiveName(), "" + previousLevel, "" + newLevel))))).queue();
             }
-            */
+
             guild.setLevelUser(event.getAuthor().getIdLong(), user);
             lastSentMessage.put(user.getUuid(), System.currentTimeMillis());
         } else {

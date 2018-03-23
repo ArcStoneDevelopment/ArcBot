@@ -1,11 +1,13 @@
 package Discord.Commands;
 
 import ResponseFrame.ErrorResponse;
+import ResponseFrame.MasterResponse;
 import ResponseFrame.ResponseBuilder;
 import Utility.*;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -43,34 +45,7 @@ public class ServerEditorCommand implements Command {
         } catch (PermissionException e) {
             command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(1))).queue();
         } catch (SyntaxException e) {
-//            TODO: Proper messaging and error logging needs to be written.
-//            TODO: A re-write of the number system to reduce confusion.
-            switch (e.getIntCause()) {
-                case 1:
-                    System.out.println("1");
-                    break;
-                case 2:
-                    System.out.println("2");
-                    break;
-                case 3:
-                    System.out.println("3");
-                    break;
-                case 4:
-                    System.out.println("4");
-                    break;
-                case 5:
-                    System.out.println("5");
-                    break;
-                case 6:
-                    System.out.println("6");
-                    break;
-                case 7:
-                    System.out.println("7");
-                    break;
-                case 8:
-                    System.out.println("8");
-                    break;
-            }
+            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(e.getIntCause()))).queue();
         }
         return false;
     }
@@ -78,6 +53,7 @@ public class ServerEditorCommand implements Command {
     private void arcBot(CommandBox command, Server server) throws PermissionException {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             EmbedBuilder eb = new EmbedBuilder();
+            eb.setColor(new Color(255,0,255));
             eb.setTitle("__**ArcBot Server Settings.**__");
             eb.setDescription("*" +
                     "The following is a compilation of the settings for your server. As the owner of this discord server, " +
@@ -162,24 +138,80 @@ public class ServerEditorCommand implements Command {
                 if (server.isCommand(invokeKey)) {
                     if (command.getArgs()[2].equalsIgnoreCase("enable")) {
                         if (!(server.getCommandStatus(invokeKey))) {
+                            switch (invokeKey) {
+                                case "level":
+                                    if (!server.getFunction("level").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "leveledit":
+                                    if (!server.getFunction("level").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "appeal":
+                                    if (!server.getFunction("appeal").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "report":
+                                    if (!server.getFunction("report").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "apply":
+                                    if (!server.getFunction("apply").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                            }
                             server.enableCommand(invokeKey);
+                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(11))).queue();
                         } else {
-                            throw new SyntaxException(4);
+                            throw new SyntaxException(3);
                         }
                     } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
                         if (server.getCommandStatus(invokeKey)) {
+                            switch (invokeKey) {
+                                case "level":
+                                    if (server.getFunction("level").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "leveledit":
+                                    if (server.getFunction("level").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "appeal":
+                                    if (server.getFunction("appeal").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "report":
+                                    if (server.getFunction("report").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                                case "apply":
+                                    if (server.getFunction("apply").isEnabled()) {
+                                        throw new SyntaxException(4);
+                                    }
+                                    break;
+                            }
                             server.disableCommand(invokeKey);
+                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(11))).queue();
                         } else {
-                            throw new SyntaxException(5);
+                            throw new SyntaxException(2);
                         }
                     } else {
-                        throw new SyntaxException(3);
+                        throw new SyntaxException(0);
                     }
                 } else {
-                    throw new SyntaxException(2);
+                    throw new SyntaxException(1);
                 }
             } else {
-                throw new SyntaxException(1);
+                throw new SyntaxException(0);
             }
         } else {
             throw new PermissionException();
@@ -193,23 +225,43 @@ public class ServerEditorCommand implements Command {
                     if (command.getArgs()[2].equalsIgnoreCase("enable")) {
                         if (!(server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled())) {
                             server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(true);
+                            switch (command.getArgs()[1].toLowerCase()) {
+                                case "level":
+                                    server.enableCommand("level");
+                                    break;
+                                case "leveledit":
+                                case "appeal":
+                                case "apply":
+                                case "report":
+                            }
+                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(12))).queue();
                         } else {
-                            throw new SyntaxException(4);
+                            throw new SyntaxException(7);
                         }
                     } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
                         if (server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled()) {
                             server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(false);
+                            switch (command.getArgs()[1].toLowerCase()) {
+                                case "level":
+                                    server.disableCommand("level");
+                                    break;
+                                case "leveledit":
+                                case "appeal":
+                                case "apply":
+                                case "report":
+                            }
+                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(12))).queue();
                         } else {
-                            throw new SyntaxException(5);
+                            throw new SyntaxException(6);
                         }
                     } else {
-                        throw new SyntaxException(3);
+                        throw new SyntaxException(0);
                     }
                 } else {
-                    throw new SyntaxException(6);
+                    throw new SyntaxException(5);
                 }
             } else {
-                throw new SyntaxException(1);
+                throw new SyntaxException(0);
             }
         } else {
             throw new PermissionException();
@@ -224,13 +276,13 @@ public class ServerEditorCommand implements Command {
                         Permission permission = Permission.valueOf(command.getArgs()[1].toUpperCase());
                         server.setPermission(command.getEvent().getMessage().getMentionedRoles().get(0), permission);
                     } else {
-                        throw new SyntaxException(8);
+                        throw new SyntaxException(9);
                     }
                 } else {
-                    throw new SyntaxException(7);
+                    throw new SyntaxException(8);
                 }
             } else {
-                throw new SyntaxException(1);
+                throw new SyntaxException(0);
             }
         } else {
             throw new PermissionException();
@@ -242,11 +294,12 @@ public class ServerEditorCommand implements Command {
             if (command.getArgs().length == 2) {
                 if (server.getTextChannelNames().contains(command.getArgs()[1].toLowerCase())) {
                     server.initTextChannel(command.getArgs()[1].toLowerCase(), command.getEvent().getChannel().getIdLong());
+                    command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(13))).queue();
                 } else {
-                    throw new SyntaxException(2);
+                    throw new SyntaxException(10);
                 }
             } else {
-                throw new SyntaxException(1);
+                throw new SyntaxException(0);
             }
         } else {
             throw new PermissionException();

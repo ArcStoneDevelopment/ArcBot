@@ -1,10 +1,12 @@
 package ResponseFrame
 
-import ResponseFrame.ResponseType
-
 interface Response {
     val type : ResponseType
     val responseNumber : Number
+}
+
+class MasterResponse(override val responseNumber: Number) : Response {
+    override val type = ResponseType.MASTER
 }
 
 class ErrorResponse(override val responseNumber: Number) : Response {
