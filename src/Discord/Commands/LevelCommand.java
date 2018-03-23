@@ -1,14 +1,17 @@
 package Discord.Commands;
 
+import ResponseFrame.ErrorResponse;
+import ResponseFrame.LevelResponse;
+import ResponseFrame.ResponseBuilder;
 import Utility.*;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.awt.*;
 import java.util.*;
 
 // TODO: JavaDocs for this class and its methods.
-// TODO: Finish implementing interface methods correctly.
 public class LevelCommand implements Command {
     @Override
     public String getInvoke() {
@@ -20,7 +23,8 @@ public class LevelCommand implements Command {
         try {
             Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
             if (!(server.getFunction("level").isEnabled())) {
-//                TODO: Notification
+                MessageEmbed msg = ResponseBuilder.INSTANCE.build(new ErrorResponse(4));
+                command.getEvent().getChannel().sendMessage(msg).queue();
                 return false;
             }
 
@@ -38,10 +42,13 @@ public class LevelCommand implements Command {
                 }
             }
         } catch (SyntaxException e) {
-//            TODO: Proper syntax error messaging/handling/logging.
             switch (e.getIntCause()) {
                 case 0:
+                    command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(2))).queue();
+                    break;
                 case 1:
+                    command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new LevelResponse(0))).queue();
+                    break;
             }
         }
         return false;

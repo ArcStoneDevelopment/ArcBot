@@ -10,6 +10,7 @@ internal object ResponseBuilder {
         when (response) {
             is ErrorResponse -> return buildError(response)
             is SuccessResponse -> return buildSuccess(response)
+            is LevelResponse -> return buildLevel(response)
         }
         return EmbedBuilder().addBlankField(false).build()
     }
@@ -41,6 +42,21 @@ internal object ResponseBuilder {
                 error = "Unexpected Command Syntax."
                 suggestion = response.args[0]
             }
+//          Function Disabled
+            4 -> {
+                error = "This Function Has Been Disabled."
+                suggestion = "*I've been told by the owner of this discord server to not allow access to this function. If you think this is a mistake, please contact the discord server owner.*"
+            }
+//          Command Disabled
+            5 -> {
+                error = "This Command Has Been Disabled"
+                suggestion = "*I've been told by the owner of this discord server to disable this command. If you think this is a mistake, please contact the discord server owner.*"
+            }
+//          Mojang Connection Error
+            6 -> {
+                error = "Mojang API Connection Error"
+                suggestion = "*I've encountered an error syncing data from the Mojang API. Please try again later.*"
+            }
         }
         builder.setTitle(":x: ERROR: $error")
         builder.setDescription(suggestion)
@@ -69,6 +85,22 @@ internal object ResponseBuilder {
         }
         builder.setTitle(":white_check_mark: SUCCESS: $title")
         builder.setDescription(change)
+        return builder.build()
+    }
+
+    private fun buildLevel(response : LevelResponse) : MessageEmbed {
+        val builder = EmbedBuilder()
+        builder.setColor(Color(230, 230, 250))
+        var title = "N/A"
+        var description = "None Available"
+        when (response.responseNumber) {
+            0 -> {
+                title = "Level User Not Found."
+                description = "*I couldn't find a user with this ID in my database.*"
+            }
+        }
+        builder.setTitle(title)
+        builder.setDescription(description)
         return builder.build()
     }
 }
