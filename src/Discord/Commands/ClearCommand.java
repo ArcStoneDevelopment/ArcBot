@@ -1,8 +1,5 @@
 package Discord.Commands;
 
-import ResponseFrame.ErrorResponse;
-import ResponseFrame.ResponseBuilder;
-import ResponseFrame.SuccessResponse;
 import Utility.*;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageHistory;
@@ -33,10 +30,10 @@ public class ClearCommand implements Command {
                 throw new SyntaxException(0);
             }
         } catch (PermissionException e) {
-            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(1))).queue();
+            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(1))).queue();
         } catch (SyntaxException e) {
-            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(
-                    new ErrorResponse(3, new ArrayList<>(Collections.singleton("*Please enter a valid number of messages.*"))))).queue();
+            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(
+                    new Frame.ResponseFrame.ErrorResponse(3, new ArrayList<>(Collections.singleton("*Please enter a valid number of messages.*"))))).queue();
         }
         return false;
     }
@@ -54,7 +51,7 @@ public class ClearCommand implements Command {
                 }
             }
             Message response = command.getEvent().getChannel().sendMessage(
-                    ResponseBuilder.INSTANCE.build(new SuccessResponse(0))).complete();
+                    Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.SuccessResponse(0))).complete();
 
             new Timer().schedule(new TimerTask() {
                 @Override

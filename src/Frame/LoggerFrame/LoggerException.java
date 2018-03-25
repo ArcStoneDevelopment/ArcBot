@@ -1,4 +1,4 @@
-package LoggerFrame;
+package Frame.LoggerFrame;
 
 /**
  * The Logger Exception is the Logger Framework's way of responding to a variety of cases that may prevent proper logging

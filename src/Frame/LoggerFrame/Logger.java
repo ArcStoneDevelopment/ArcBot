@@ -1,4 +1,4 @@
-package LoggerFrame;
+package Frame.LoggerFrame;
 
 import java.lang.annotation.*;
 

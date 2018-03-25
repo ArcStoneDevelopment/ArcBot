@@ -1,4 +1,4 @@
-package LoggerFrame;
+package Frame.LoggerFrame;
 
 import Utility.Servers;
 import net.dv8tion.jda.core.entities.Guild;

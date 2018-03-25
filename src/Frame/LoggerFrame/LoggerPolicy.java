@@ -1,4 +1,4 @@
-package LoggerFrame;
+package Frame.LoggerFrame;
 
 /**
  * Defines which loggers should run. The current Logger Framework offers three different logger policies: {@code Console},

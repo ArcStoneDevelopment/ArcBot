@@ -1,7 +1,5 @@
 package Levels;
 
-import ResponseFrame.LevelResponse;
-import ResponseFrame.ResponseBuilder;
 import Utility.LevelUser;
 import Utility.Server;
 import Utility.Servers;
@@ -9,7 +7,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.*;
 
 public class Level {
@@ -32,8 +30,8 @@ public class Level {
             int newLevel = user.getLevel();
 
             if (previousLevel < newLevel && guild.textChannelsInit("spam")) {
-                event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage(ResponseBuilder.INSTANCE.build(
-                        new LevelResponse(1, new ArrayList<>(Arrays.asList(event.getMember().getEffectiveName(), "" + previousLevel, "" + newLevel))))).queue();
+                event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(
+                        new Frame.ResponseFrame.LevelResponse(1, new ArrayList<>(Arrays.asList(event.getMember().getEffectiveName(), "" + previousLevel, "" + newLevel))))).queue();
             }
 
             guild.setLevelUser(event.getAuthor().getIdLong(), user);

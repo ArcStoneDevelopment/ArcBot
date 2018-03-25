@@ -1,7 +1,5 @@
 package Discord.Commands;
 
-import ResponseFrame.ErrorResponse;
-import ResponseFrame.ResponseBuilder;
 import Utility.Command;
 import Utility.CommandBox;
 import Utility.SyntaxException;
@@ -9,7 +7,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -50,9 +48,9 @@ public class MinecraftCommand implements Command {
                 throw new SyntaxException(0);
             }
         } catch (SyntaxException e) {
-            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(2))).queue();
+            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(2))).queue();
         } catch (IOException e) {
-            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(6))).queue();
+            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(6))).queue();
         }
         return false;
     }

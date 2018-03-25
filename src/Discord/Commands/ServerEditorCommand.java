@@ -1,14 +1,11 @@
 package Discord.Commands;
 
-import FunctionFrame.Function;
-import ResponseFrame.ErrorResponse;
-import ResponseFrame.MasterResponse;
-import ResponseFrame.ResponseBuilder;
+import Frame.FunctionFrame.Function;
 import Utility.*;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,9 +41,9 @@ public class ServerEditorCommand implements Command {
                 return true;
             }
         } catch (PermissionException e) {
-            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(1))).queue();
+            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(1))).queue();
         } catch (SyntaxException e) {
-            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(e.getIntCause()))).queue();
+            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(e.getIntCause()))).queue();
         }
         return false;
     }
@@ -167,7 +164,7 @@ public class ServerEditorCommand implements Command {
                                     break;
                             }
                             server.enableCommand(invokeKey);
-                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(11))).queue();
+                            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(11))).queue();
                         } else {
                             throw new SyntaxException(3);
                         }
@@ -201,7 +198,7 @@ public class ServerEditorCommand implements Command {
                                     break;
                             }
                             server.disableCommand(invokeKey);
-                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(11))).queue();
+                            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(11))).queue();
                         } else {
                             throw new SyntaxException(2);
                         }
@@ -235,7 +232,7 @@ public class ServerEditorCommand implements Command {
                                 case "apply":
                                 case "report":
                             }
-                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(12))).queue();
+                            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(12))).queue();
                         } else {
                             throw new SyntaxException(7);
                         }
@@ -251,7 +248,7 @@ public class ServerEditorCommand implements Command {
                                 case "apply":
                                 case "report":
                             }
-                            command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(12))).queue();
+                            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(12))).queue();
                         } else {
                             throw new SyntaxException(6);
                         }
@@ -276,6 +273,7 @@ public class ServerEditorCommand implements Command {
                     if (server.isPermission(command.getArgs()[1])) {
                         Permission permission = Permission.valueOf(command.getArgs()[1].toUpperCase());
                         server.setPermission(command.getEvent().getMessage().getMentionedRoles().get(0), permission);
+
                     } else {
                         throw new SyntaxException(9);
                     }
@@ -295,7 +293,7 @@ public class ServerEditorCommand implements Command {
             if (command.getArgs().length == 2) {
                 if (server.getTextChannelNames().contains(command.getArgs()[1].toLowerCase())) {
                     server.initTextChannel(command.getArgs()[1].toLowerCase(), command.getEvent().getChannel().getIdLong());
-                    command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new MasterResponse(13))).queue();
+                    command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(13))).queue();
                 } else {
                     throw new SyntaxException(10);
                 }

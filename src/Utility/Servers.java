@@ -1,9 +1,9 @@
 package Utility;
 
-import LoggerFrame.Logger;
-import LoggerFrame.LoggerCore;
-import LoggerFrame.LoggerException;
-import LoggerFrame.LoggerPolicy;
+import Frame.LoggerFrame.Logger;
+import Frame.LoggerFrame.LoggerCore;
+import Frame.LoggerFrame.LoggerException;
+import Frame.LoggerFrame.LoggerPolicy;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

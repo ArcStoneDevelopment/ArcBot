@@ -92,6 +92,7 @@
                     <jvmTarget>1.8</jvmTarget>
                 </configuration>
             </plugin>
+
             <!--- Java 1.9 Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

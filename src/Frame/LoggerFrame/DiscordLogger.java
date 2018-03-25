@@ -1,4 +1,4 @@
-package LoggerFrame;
+package Frame.LoggerFrame;
 
 import Utility.Server;
 import Utility.Servers;

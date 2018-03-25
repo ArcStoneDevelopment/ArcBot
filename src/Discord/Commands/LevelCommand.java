@@ -1,14 +1,11 @@
 package Discord.Commands;
 
-import ResponseFrame.ErrorResponse;
-import ResponseFrame.LevelResponse;
-import ResponseFrame.ResponseBuilder;
 import Utility.*;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.*;
 
 // TODO: JavaDocs for this class and its methods.
@@ -23,7 +20,7 @@ public class LevelCommand implements Command {
         try {
             Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
             if (!(server.getFunction("level").isEnabled())) {
-                MessageEmbed msg = ResponseBuilder.INSTANCE.build(new ErrorResponse(4));
+                MessageEmbed msg = Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(4));
                 command.getEvent().getChannel().sendMessage(msg).queue();
                 return false;
             }
@@ -44,10 +41,10 @@ public class LevelCommand implements Command {
         } catch (SyntaxException e) {
             switch (e.getIntCause()) {
                 case 0:
-                    command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new ErrorResponse(2))).queue();
+                    command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(2))).queue();
                     break;
                 case 1:
-                    command.getEvent().getChannel().sendMessage(ResponseBuilder.INSTANCE.build(new LevelResponse(0))).queue();
+                    command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.LevelResponse(0))).queue();
                     break;
             }
         }

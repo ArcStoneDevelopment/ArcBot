@@ -1,7 +1,8 @@
 package Utility;
 
 import Discord.Discord;
-import FunctionFrame.*;
+import Frame.FunctionFrame.*;
+import Report.Report;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -293,6 +294,13 @@ public class Server implements Serializable {
             if (id.equals(uuid)) {
                 return FunctionType.REPORT;
             }
+        }
+        return null;
+    }
+
+    public Report getReport(UUID uuid) {
+        if (openReport.containsKey(uuid)) {
+            return openReport.get(uuid);
         }
         return null;
     }

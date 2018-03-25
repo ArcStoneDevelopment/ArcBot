@@ -1,4 +1,4 @@
-package LoggerFrame;
+package Frame.LoggerFrame;
 
 import Utility.SystemTime;
 import net.dv8tion.jda.core.entities.Guild;

@@ -1,4 +1,4 @@
-package FunctionFrame;
+package Frame.FunctionFrame;
 
 import java.util.HashMap;
 import java.util.UUID;

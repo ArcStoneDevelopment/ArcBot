@@ -10,8 +10,8 @@
  * <p>
  *     Using the logger framework is very simple! Two lines of code are necessary. An example of these lines at work can
  *     be seen below. Above the method to be logged, you have to declare the annotation {@code @Logger()} and inside the
- *     parenthesis, you have to declare a logger policy from {@link LoggerFrame.LoggerPolicy}. Once you've done that, all
- *     you have to do is call the logger method from {@link LoggerFrame.LoggerCore}.
+ *     parenthesis, you have to declare a logger policy from {@link Frame.LoggerFrame.LoggerPolicy}. Once you've done that, all
+ *     you have to do is call the logger method from {@link Frame.LoggerFrame.LoggerCore}.
  *     <pre>
  *     {@literal @}{@code Logger (LoggerPolicy.File)
  *     public void myMethod(int parameterOne, String parameterTwo) {
@@ -23,4 +23,4 @@
  * @version v1.5
  * @since v1.5
  */
-package LoggerFrame;
+package Frame.LoggerFrame;

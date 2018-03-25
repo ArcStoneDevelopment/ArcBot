@@ -1,4 +1,4 @@
-package FunctionFrame;
+package Frame.FunctionFrame;
 
 import java.io.Serializable;
 
