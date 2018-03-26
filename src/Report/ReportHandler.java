@@ -40,7 +40,7 @@ public class ReportHandler {
                 if (event.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                     pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
                     report.build();
-                } 
+                }
                 break;
         }
         server.addReport(report);

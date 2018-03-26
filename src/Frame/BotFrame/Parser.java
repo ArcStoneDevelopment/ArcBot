@@ -34,6 +34,6 @@ public class Parser {
         String[] args = new String[split.size()-1];
         split.subList(1, split.size()).toArray(args);
 
-        return new CommandBox(raw, beheaded, splitBeheaded, invoke, args, event);
+        return new CommandBox(raw, invoke, args, event);
     }
 }

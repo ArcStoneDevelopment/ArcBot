@@ -6,13 +6,34 @@ import net.dv8tion.jda.core.entities.MessageHistory;
 
 import java.util.*;
 
+/**
+ * Provides the {@code -clear} command and all various sub-commands.
+ * <br> This command has two sub-commands. The first is {@code -clear [number of messages]} which clears the given number
+ * of messages from the current channel. The second is {@code -clear all} which clears all of the messages (up to the time
+ * limit in JDA) from the current channel.
+ *
+ * @author ArcStone Development LLC
+ * @version v1.0
+ */
 public class ClearCommand implements Command {
 
+    /**
+     * Access the invoke key for this Command.
+     * @return String - "{@code clear}"
+     */
     @Override
     public String getInvoke() {
         return "clear";
     }
 
+    /**
+     * The main point of execution for this command. This method finds the {@link Server} object for the guild through
+     * {@link Servers}, then it parses the arguments to determine the sub-command to be ran.
+     * @param command
+     * The parsed {@link CommandBox} for the event which triggered this command.
+     * @return boolean - If the desired outcome occurred, this will be true. If the desired outcome did not occur, for any
+     * reason, this will be false.
+     */
     @Override
     public boolean execute(CommandBox command) {
         try {
@@ -38,6 +59,16 @@ public class ClearCommand implements Command {
         return false;
     }
 
+    /**
+     * This sub-method is specifically for the {@code -clear all} command. In order for this command to run, the user
+     * must be in the STAFFTEAM {@link Permission} level.
+     * @param command
+     * The parsed {@link CommandBox} for the event which triggered this command.
+     * @param server
+     * The {@link Server} object for this event.
+     * @throws PermissionException
+     * When a user is not in the STAFFTEAM permission level, this exception is thrown.
+     */
     private void clearAll(CommandBox command, Server server) throws PermissionException {
         if (server.hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             MessageHistory history = new MessageHistory(command.getEvent().getChannel());
@@ -64,6 +95,20 @@ public class ClearCommand implements Command {
         }
     }
 
+    /**
+     * Thus sub-method is specifically for the {@code -clear [number of messages]} command. In order for this command to run,
+     * the user must be in the STAFFTEAM {@link Permission} level, and the first argument in the {@link CommandBox}'s
+     * arguments array should be a valid integer.
+     * @param command
+     * This parsed {@link CommandBox} for the event which triggered this command.
+     * @param server
+     * The {@link Server} object for this event.
+     * @throws PermissionException
+     * When a user is not in the STAFFTEAM permission level, this exception is thrown.
+     * @throws SyntaxException
+     * When the first argument in the {@link CommandBox}'s arguments array is not able to be parsed as a valid integer,
+     * this exception is thrown.
+     */
     private void clearNum(CommandBox command, Server server) throws PermissionException, SyntaxException {
         if (server.hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             try {

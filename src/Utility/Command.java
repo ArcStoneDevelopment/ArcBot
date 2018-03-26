@@ -8,7 +8,9 @@ import Frame.LoggerFrame.LoggerPolicy;
 import java.io.Serializable;
 
 public interface Command extends Serializable {
+
     String getInvoke();
+
     boolean execute(CommandBox command);
 
     @Logger(LoggerPolicy.DISCORD)

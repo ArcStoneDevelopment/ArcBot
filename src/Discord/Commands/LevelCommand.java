@@ -8,7 +8,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import java.awt.Color;
 import java.util.*;
 
-// TODO: JavaDocs for this class and its methods.
 public class LevelCommand implements Command {
     @Override
     public String getInvoke() {
