@@ -1,7 +1,9 @@
 package Frame.BotFrame.Listeners;
 
 import Frame.BotFrame.Parser;
+import Frame.FunctionFrame.Handler;
 import Levels.Level;
+import Report.ReportHandler;
 import Utility.Command;
 import Utility.CommandBox;
 import Utility.Server;
@@ -40,6 +42,12 @@ public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-
+        if (Handler.openFunctions.containsKey(event.getAuthor().getIdLong())) {
+            switch (Handler.openFunctions.get(event.getAuthor().getIdLong()).getSOURCE()) {
+                case REPORT:
+                    ReportHandler.handle(event);
+                    break;
+            }
+        }
     }
 }

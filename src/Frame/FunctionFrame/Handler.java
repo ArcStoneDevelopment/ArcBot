@@ -1,8 +1,7 @@
 package Frame.FunctionFrame;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class Handler {
-    public static HashMap<Long, UUID> incompleteFunctions = new HashMap<>();
+    public static HashMap<Long, FunctionOutline> openFunctions = new HashMap<>();
 }

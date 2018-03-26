@@ -3,6 +3,8 @@ package Frame.FunctionFrame;
 import Utility.SystemTime;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -12,7 +14,7 @@ import java.util.UUID;
  * @param <StatusType>
  * This should be one of the StatusType enums. This type should match the function of the subtype.
  */
-public abstract class FunctionCore<StatusType> implements Serializable {
+public abstract class FunctionCore<StatusType> implements Serializable, FunctionOutline {
 
     /**
      * This is the type of function object that is being created. This should match the {@code StatusType} that is provided
@@ -82,7 +84,7 @@ public abstract class FunctionCore<StatusType> implements Serializable {
         this.buildProgress = 0;
         this.timeFiled = SystemTime.getTime();
         this.senderID = senderID;
-        Handler.incompleteFunctions.put(this.senderID, this.uuid);
+        Handler.openFunctions.put(this.senderID, this);
     }
 
     /**

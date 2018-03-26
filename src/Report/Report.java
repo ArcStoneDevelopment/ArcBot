@@ -3,6 +3,7 @@ package Report;
 import Frame.FunctionFrame.FunctionCore;
 import Frame.FunctionFrame.FunctionType;
 import Utility.SystemTime;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.util.ArrayList;
 
@@ -72,5 +73,9 @@ public class Report extends FunctionCore<ReportStatus> {
     }
     public String getClosingMessage() {
         return this.closingMessage;
+    }
+
+    public MessageEmbed message() {
+        return null;
     }
 }

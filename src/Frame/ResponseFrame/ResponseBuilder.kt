@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed
 import java.awt.Color
 
 internal object ResponseBuilder {
+
     fun build(response : Response) : MessageEmbed {
         when (response) {
             is MasterResponse -> return buildMaster(response)

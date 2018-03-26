@@ -289,20 +289,59 @@ public class Server implements Serializable {
         rolePermissions.put(role.getIdLong(), permission);
     }
 
-    public FunctionType getIncompleteFunctionType(UUID uuid) {
-        for (UUID id : incompleteReport.keySet()) {
-            if (id.equals(uuid)) {
-                return FunctionType.REPORT;
-            }
-        }
-        return null;
-    }
-
     public Report getReport(UUID uuid) {
+        if (incompleteReport.containsKey(uuid)) {
+            return incompleteReport.get(uuid);
+        }
+
         if (openReport.containsKey(uuid)) {
             return openReport.get(uuid);
         }
+
+        if (archiveReport.containsKey(uuid)) {
+            return archiveReport.get(uuid);
+        }
+
         return null;
+    }
+
+    public void removeReport(UUID uuid) {
+        if (incompleteReport.containsKey(uuid)) {
+            incompleteReport.remove(uuid);
+        } else if (openReport.containsKey(uuid)) {
+            openReport.remove(uuid);
+        } else if (archiveReport.containsKey(uuid)) {
+            archiveReport.remove(uuid);
+        }
+    }
+
+    public void addReport(Report report) {
+        switch (report.getStatus()) {
+            case INCOMPLETE:
+                if (this.incompleteReport.containsKey(report.getUuid())) {
+                    this.incompleteReport.remove(report.getUuid());
+                }
+                this.incompleteReport.put(report.getUuid(), report);
+                break;
+            case OPEN:
+                if (this.openReport.containsKey(report.getUuid())) {
+                    this.openReport.remove(report.getUuid());
+                }
+                this.openReport.put(report.getUuid(), report);
+                break;
+            case WORKING:
+                if (this.openReport.containsKey(report.getUuid())) {
+                    this.openReport.remove(report.getUuid());
+                }
+                this.openReport.put(report.getUuid(), report);
+                break;
+            case ARCHIVED:
+                if (this.archiveReport.containsKey(report.getUuid())) {
+                    return;
+                }
+                this.archiveReport.put(report.getUuid(), report);
+                break;
+        }
     }
 }
 
