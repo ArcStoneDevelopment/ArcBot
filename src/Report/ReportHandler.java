@@ -20,6 +20,7 @@ public class ReportHandler {
         pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
         report.build();
         Servers.activeServers.get(event.getGuild().getIdLong()).addReport(report);
+        Handler.openFunctions.put(event.getAuthor().getIdLong(), report);
     }
 
     public static void handle(PrivateMessageReceivedEvent event) {

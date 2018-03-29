@@ -141,6 +141,11 @@ internal object ResponseBuilder {
                 error = "Mojang API Connection Error"
                 suggestion = "*I've encountered an error syncing data from the Mojang API. Please try again later.*"
             }
+//          Function Open Error
+            7 -> {
+                error = "Open Function Error"
+                suggestion = "*You already have an open function! You may close that function in private message or complete it as usual.*"
+            }
         }
         builder.setTitle(":x: ERROR: $error")
         builder.setDescription(suggestion)
