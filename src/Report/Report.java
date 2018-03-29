@@ -3,8 +3,13 @@ package Report;
 import Frame.FunctionFrame.FunctionCore;
 import Frame.FunctionFrame.FunctionType;
 import Utility.SystemTime;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Report extends FunctionCore<ReportStatus> {
@@ -75,7 +80,39 @@ public class Report extends FunctionCore<ReportStatus> {
         return this.closingMessage;
     }
 
-    public MessageEmbed message() {
-        return null;
+    public MessageEmbed message(Event event) {
+        Guild guild = event.getJDA().getGuildById(this.getServerID());
+        EmbedBuilder eb = new EmbedBuilder();
+
+        eb.setColor(new Color(0, 139, 139));
+        eb.setTitle("Report (ID: " + this.getUuid() +")");
+        eb.setDescription("__**Status:**__ " + this.getStatus().getStatus());
+        eb.setFooter("*Report UUID: " + this.getUuid() + "*", "https://imgur.com/a/yvWkm");
+
+        eb.addField("Reporter", guild.getMemberById(this.getSenderID()).getEffectiveName(), true);
+        eb.addField("Reported User", this.getReportedName(), true);
+        eb.addField("Offense", this.getOffense(), true);
+        eb.addField("Extra Information", this.getExtraInformation(), false);
+
+        if (this.getEvidence().length == 0) {
+            eb.addField("Evidence", "None Given", false);
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (String s : this.getEvidence()) {
+                sb.append(s);
+                sb.append("\n");
+            }
+            eb.addField("Evidence", sb.toString(), false);
+        }
+
+        if (!(this.getHandlerID() == -1L)) {
+            eb.addField("Staff Handler", guild.getMemberById(this.getHandlerID()).getEffectiveName(), true);
+        }
+
+        if (!(this.getClosingMessage().isEmpty())) {
+            eb.addField("Closed - " + this.getTimeClosed(), this.getClosingMessage(), true);
+        }
+
+        return eb.build();
     }
 }
