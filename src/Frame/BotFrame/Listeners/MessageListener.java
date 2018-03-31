@@ -35,6 +35,8 @@ public class MessageListener extends ListenerAdapter {
                 if (server.getCommandStatus(command.getInvoke())) {
                     Command cmd = server.getCommand(command.getInvoke().toLowerCase());
                     cmd.log(cmd.execute(command), command);
+                } else {
+                    event.getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(5))).queue();
                 }
             }
         }

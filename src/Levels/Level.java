@@ -30,8 +30,7 @@ public class Level {
             int newLevel = user.getLevel();
 
             if (previousLevel < newLevel && guild.textChannelsInit("spam")) {
-                event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(
-                        new Frame.ResponseFrame.LevelResponse(1, new ArrayList<>(Arrays.asList(event.getMember().getEffectiveName(), "" + previousLevel, "" + newLevel))))).queue();
+               // event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage().queue();
             }
 
             guild.setLevelUser(event.getAuthor().getIdLong(), user);
@@ -60,6 +59,19 @@ public class Level {
         return ((5 * (currentLevel * currentLevel) + 50 * currentLevel + 100) + getThreshold(currentLevel - 1));
     }
 
+    /**
+     * Prior to the addition of the {@code ResponseFrame} framework, this method was responsible for building the level
+     * data from a given user into a {@code MessageEmbed}. Since the {@code ResponseFrame} has taken over this responsibility,
+     * this method is now deprecated for removal.
+     * @deprecated
+     * @param event
+     * The MessageEvent that the query was sent from.
+     * @param server
+     * The server that the message was on. This should be the server to query for level data.
+     * @param userID
+     * The discord ID of the user whose level data should be given
+     * @return MessageEmbed - Message containing formatted level information.
+     */
     public static MessageEmbed getLevel(GuildMessageReceivedEvent event, Server server, long userID) {
         LevelUser user = server.getLevelUser(userID);
         EmbedBuilder eb = new EmbedBuilder();

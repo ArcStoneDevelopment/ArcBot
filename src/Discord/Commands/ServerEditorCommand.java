@@ -75,6 +75,9 @@ public class ServerEditorCommand implements Command {
 
             StringBuilder sb1 = new StringBuilder();
             for (Command c : server.getCommands()) {
+                if (c.getInvoke().equalsIgnoreCase("stop")) {
+                    continue;
+                }
                 if (server.getCommandStatus(c.getInvoke())) {
                     sb1.append(":white_check_mark: - ");
                     sb1.append(c.getInvoke());

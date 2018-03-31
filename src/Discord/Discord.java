@@ -28,5 +28,6 @@ public class Discord {
         add(new LevelCommand());
         add (new MinecraftCommand());
         add(new ClearCommand());
+        add(new ReportCommand());
     }};
 }

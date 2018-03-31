@@ -6,7 +6,6 @@ import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.PrivateChannel;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 
@@ -85,6 +84,9 @@ public class ReportHandler {
                     server.removeReport(report.getUuid());
                     server.addReport(report);
                     pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
+                    if (server.getTextChannelID("report") != -1L) {
+                        event.getJDA().getGuildById(server.getID()).getTextChannelById(server.getTextChannelID("report")).sendMessage(report.message(event)).queue();
+                    }
                     return;
                 } else {
                     server.removeReport(report.getUuid());
@@ -132,7 +134,7 @@ public class ReportHandler {
                         "**6.** Evidence cannot be cropped or manipulated in any way, shape or form.");
                 eb.addBlankField(false);
                 eb.addField("Now that all of that is out of the way, would you like to start a report?",
-                        "**Answer* `yes` *to continue. You may respond with* `cancel` *at any time to remove your report.*", false);
+                        "*Answer* `yes` *to continue. You may respond with* `cancel` *at any time to remove your report.*", false);
                 break;
             case 1:
                 eb.addField("Fantastic! What is the IGN of the user you are reporting?",
@@ -164,7 +166,6 @@ public class ReportHandler {
             default:
                 eb.addBlankField(false);
         }
-        eb.setFooter("*Report UUID: " + report.getUuid() + "*", "https://imgur.com/a/yvWkm");
         return eb.build();
     }
 

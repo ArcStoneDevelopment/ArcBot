@@ -7,10 +7,6 @@ import Utility.Servers;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * @deprecated - For removal before production release.
- */
-// TODO: Remove this command before production release. The stop command is not to be used when released.
 public class StopCommand implements Command {
     @Override
     public String getInvoke() {
@@ -20,6 +16,9 @@ public class StopCommand implements Command {
     @Override
     public boolean execute(CommandBox command) {
         try {
+            if (!(command.getEvent().getAuthor().getIdLong() == 185873161009496064L)) {
+                return false;
+            }
             Servers.save();
             new Timer().schedule(new TimerTask() {
                 @Override

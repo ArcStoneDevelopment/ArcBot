@@ -20,7 +20,7 @@ public class LevelCommand implements Command {
             Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
             if (!(server.getFunction("level").isEnabled())) {
                 MessageEmbed msg = Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(4));
-                command.getEvent().getChannel().sendMessage(msg).queue();
+                command.getEvent().getChannel().sendMessage(msg).complete();
                 return false;
             }
 

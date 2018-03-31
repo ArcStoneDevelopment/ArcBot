@@ -1,10 +1,9 @@
 package Frame.FunctionFrame;
 
+import Utility.Servers;
 import Utility.SystemTime;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -33,7 +32,7 @@ public abstract class FunctionCore<StatusType> implements Serializable, Function
     private StatusType status;
 
     /**
-     * The ID of the server from which this function object was created. This should match the server ID in {@link Utility.Servers}.
+     * The ID of the server from which this function object was created. This should match the server ID in {@link Servers}.
      */
     private long serverID;
 
@@ -72,7 +71,7 @@ public abstract class FunctionCore<StatusType> implements Serializable, Function
      * @param status
      * The first status to be initialized to this function.  This should be {@code INCOMPLETE} or something similar.
      * @param serverID
-     * The ID of the server from which this function was started. This should be the ID recognized in {@link Utility.Servers}
+     * The ID of the server from which this function was started. This should be the ID recognized in {@link Servers}
      * @param senderID
      * The JDA ID of the user that started this function.
      */
@@ -135,7 +134,7 @@ public abstract class FunctionCore<StatusType> implements Serializable, Function
     }
 
     /**
-     * Access the JDA given ID of the server from which this function was started. This ID is recognized in {@link Utility.Servers}.
+     * Access the JDA given ID of the server from which this function was started. This ID is recognized in {@link Servers}.
      * @return long - The ID
      */
     public long getServerID() {

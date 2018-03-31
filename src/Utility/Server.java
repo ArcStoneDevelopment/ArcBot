@@ -3,6 +3,7 @@ package Utility;
 import Discord.Discord;
 import Frame.FunctionFrame.*;
 import Report.Report;
+import Report.ReportStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -10,7 +11,6 @@ import net.dv8tion.jda.core.entities.Role;
 import java.io.Serializable;
 import java.util.*;
 
-// TODO: Javadocs
 /**
  * Defines how the bot should interact with a particular Discord server. This class contains settings, level data and
  * all function data for a particular server. These classes are expected to be saved to SQL on occasion to ensure no loss
@@ -22,13 +22,22 @@ import java.util.*;
  */
 public class Server implements Serializable {
 
+    /**
+     * The discord ID of the guild whose data is stored in this object.
+     */
     private long id;
 
+    /**
+     * When a guild is no longer registered with JDA, this variable should be set to true to signal the bot to drop this
+     * object from the SQL table.
+     */
     public boolean drop;
 
+    /**
+     * The discord ID of the member who is the owner of the discord server. This is the only user who may use the {@link Discord.Commands.ServerEditorCommand}.
+     */
     private long ownerID;
 
-//    TODO: Changing of these settings needs to be implemented/propagated throughout the rest of the bot.
     /**
      * Storage of certain server settings. Bot server settings are stored in this HashMap. These settings are originally
      * pulled from {@link Settings} upon object construction, but can be changed by the bot user with appropriate
@@ -83,8 +92,19 @@ public class Server implements Serializable {
      */
     private HashMap<Long, Permission> rolePermissions;
 
+    /**
+     * Reports that have not been finished through the private message system are stored here by the report UUID.
+     */
     private HashMap<UUID, Report> incompleteReport;
+
+    /**
+     * Reports that have been finished, but have not been marked for archival by a staff member are stored here by report UUID.
+     */
     private HashMap<UUID, Report> openReport;
+
+    /**
+     * Reports that have been finished and archived by a staff member are stored here by report UUID.
+     */
     private HashMap<UUID, Report> archiveReport;
 
     public Server(Guild guild) {
@@ -125,22 +145,47 @@ public class Server implements Serializable {
         archiveReport = new HashMap<>();
     }
 
+    /**
+     * Access the discord ID of the member who is registered in discord as the owner of this server.
+     * @return long - The ID.
+     */
     public long getOwnerID() {
         return this.ownerID;
     }
 
+    /**
+     * Change the owner of the server. This should only be called through the {@link Frame.BotFrame.Listeners.BotListener}.
+     * @param ownerID
+     * The discord ID of the new owner.
+     */
     public void setOwnerID(long ownerID) {
         this.ownerID = ownerID;
     }
 
+    /**
+     * The discord ID of the guild whose data is stored in this object.
+     * @return long - Server id.
+     */
     public long getID() {
         return this.id;
     }
 
+    /**
+     * Access a particular setting value by name.
+     * @param settingName
+     * The "Key" for the desired setting value.
+     * @return String - The current setting value.
+     */
     public String getSetting(String settingName) {
         return settings.get(settingName);
     }
 
+    /**
+     * Determine if a discord user has a {@link LevelUser} object registered.
+     * @param id
+     * The discord ID of the user whose {@link LevelUser} value should be found
+     * @return boolean - True if there is a stored LevelUser object, false otherwise.
+     */
     public boolean hasLevelUser(long id) {
         return levels.containsKey(id);
     }
@@ -342,6 +387,28 @@ public class Server implements Serializable {
                 this.archiveReport.put(report.getUuid(), report);
                 break;
         }
+    }
+
+    public Report[] getReports(ReportStatus status) {
+        switch (status) {
+            case ARCHIVED:
+                Report[] array = new Report[this.archiveReport.size()];
+                int idx = 0;
+                for (Report r : this.archiveReport.values()) {
+                    array[idx] = r;
+                    idx++;
+                }
+                return array;
+            case OPEN:
+                Report[] arr = new Report[this.openReport.size()];
+                int index = 0;
+                for (Report r : this.openReport.values()) {
+                    arr[index] = r;
+                    index++;
+                }
+                return arr;
+        }
+        return new Report[0];
     }
 }
 
