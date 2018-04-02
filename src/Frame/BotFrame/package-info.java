@@ -4,7 +4,7 @@
  * rest of ArcBot.
  *
  * @author ArcStone Development LLC
- * @version v1.0
+ * @version v1.5
  * @since v1.0
  */
 package Frame.BotFrame;

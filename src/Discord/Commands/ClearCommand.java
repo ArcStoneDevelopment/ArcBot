@@ -9,14 +9,20 @@ import java.util.*;
 
 /**
  * Provides the {@code -clear} command and all various sub-commands.
- * <br> This command has two sub-commands. The first is {@code -clear [number of messages]} which clears the given number
- * of messages from the current channel. The second is {@code -clear all} which clears all of the messages (up to the time
- * limit in JDA) from the current channel.
+ * <br><br> <strong><u>Two Sub-Commands:</u></strong>
+ * <br> 1. {@code -clear [number of messages]}: Clears the given number of messages from the current channel.
+ * <br> 2. {@code -clear all}: Clears all messages that can be accessed (up to the JDA time limit) in the current channel.
  *
  * @author ArcStone Development LLC
- * @version v1.0
+ * @version v1.5
+ * @since v1.0
  */
 public class ClearCommand implements Command {
+
+    /**
+     * This constructor is used to create objects that allow access to the desired command methods.
+     */
+    public ClearCommand() {}
 
     /**
      * Access the invoke key for this Command.

@@ -22,6 +22,11 @@ import java.util.TimerTask;
 public class StopCommand implements Command {
 
     /**
+     * This constructor is used to create objects that allow access to the desired command methods.
+     */
+    public StopCommand() {}
+
+    /**
      * Access the invoke key for this Command.
      * @return String - "{@code stop}"
      */
