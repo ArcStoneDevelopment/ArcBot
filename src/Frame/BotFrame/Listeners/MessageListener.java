@@ -5,7 +5,7 @@ import Frame.FunctionFrame.Handler;
 import Levels.Level;
 import Report.ReportHandler;
 import Utility.Command;
-import Utility.CommandBox;
+import Frame.BotFrame.CommandBox;
 import Utility.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;

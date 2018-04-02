@@ -11,7 +11,8 @@ import java.util.List;
  * in this function.
  *
  * @author ArcStone Development LLC
- * @version v1.0
+ * @version v1.5
+ * @since v1.0
  */
 public class Discord {
 

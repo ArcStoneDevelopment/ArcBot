@@ -10,11 +10,26 @@ import java.util.UUID;
  * stored in the Handler HashMap (as opposed to the proper {@link Utility.Server} object HashMap.
  *
  * @author ArcStone Development LLC
- * @version v1.0
+ * @version v1.5
+ * @since v1.5
  */
 public interface FunctionOutline {
+    /**
+     * Access the UUID of the function object.
+     * @return UUID
+     */
     UUID getUuid();
+
+    /**
+     * Access the Discord ID of the server where this function object is stored.
+     * @return long - Server ID
+     */
     long getServerID();
+
+    /**
+     * Determine which type this function is (For casting purposes mainly).
+     * @return FunctionType - The type of the function object.
+     */
     FunctionType getSOURCE();
 
 }

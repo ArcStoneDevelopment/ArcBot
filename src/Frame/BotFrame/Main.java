@@ -13,8 +13,36 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 
+/**
+ * Provides a staring point for the bot. (Main Method).
+ *
+ * @author ArcStone Development LLC
+ * @version v1.5
+ * @since v1.0
+ */
 public class Main {
 
+    /**
+     * This class should not be instantiated for any reason. The constructor here is declared private to prevent this operation.
+     */
+    private Main() {}
+
+    /**
+     * This is the starting point for the entire discord bot.
+     * <br> <strong>Order of Operations Here:</strong>
+     * <ol>
+     *     <li>{@link Settings}{@code .load()}</li>
+     *     <li>{@link Servers}{@code .load()}</li>
+     *     <li>Build the {@code JDABuilder instance}</li>
+     *     <li>Start the JDA instance</li>
+     * </ol>
+     * <br> Anything actions in this method are logged to the {@code FILE} {@link LoggerPolicy}
+     * @param args
+     * Arguments given from command line java. This does nothing at the moment.
+     * @throws LoggerException
+     * If there's an issue with any of the logging mechanisms, this exception should stop the program. To prevent
+     * processes from going un-logged.
+     */
     @Logger(LoggerPolicy.FILE)
     public static void main(String[] args) throws LoggerException {
         try {

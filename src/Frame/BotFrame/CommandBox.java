@@ -1,5 +1,6 @@
-package Utility;
+package Frame.BotFrame;
 
+import Utility.Command;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 /**

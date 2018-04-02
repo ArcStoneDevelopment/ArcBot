@@ -2,6 +2,7 @@ package Utility;
 
 import Discord.Discord;
 import Frame.FunctionFrame.*;
+import Levels.LevelUser;
 import Report.Report;
 import Report.ReportStatus;
 import net.dv8tion.jda.core.entities.Guild;
@@ -17,8 +18,8 @@ import java.util.*;
  * of data in the event of an unexpected shut down.
  *
  * @author ArcStone Development LLC
- * @version v1.0
- * @since v1.0
+ * @version v1.5
+ * @since v1.5
  */
 public class Server implements Serializable {
 
@@ -52,7 +53,7 @@ public class Server implements Serializable {
     /**
      * Provides storage for {@link LevelUser} objects used for the chat level system. Each Discord user that chats in
      * this server has a corresponding LevelUser object stored in this TreeMap. The TreeMap format enables custom
-     * comparators to be applied when constructing a leaderboard of the top users. The key in this map is the discord
+     * comparators to be applied when constructing a leader board of the top users. The key in this map is the discord
      * snowflake ID for the user to whom the {@link LevelUser} object (which is the value) matches.
      */
     private HashMap<Long, LevelUser> levels;
@@ -190,14 +191,32 @@ public class Server implements Serializable {
         return levels.containsKey(id);
     }
 
+    /**
+     * Get a {@link LevelUser} object by the id of the member whose data is required.
+     * @param id
+     * The discord ID of the {@link LevelUser} to be accessed.
+     * @return {@link LevelUser}
+     */
     public LevelUser getLevelUser(long id) {
         return levels.get(id);
     }
 
+    /**
+     * Access the HashMap of {@link LevelUser} objects directly. Changes made to this HashMap are NOT stored back to the server object.
+     * @return {@code HashMap<Long, LevelUser>} where the key ({@code Long}) is the discord ID of the user and the value is the {@code LevelUser}
+     * object.
+     */
     public HashMap<Long, LevelUser> getLevels() {
         return levels;
     }
 
+    /**
+     * Change a given {@link LevelUser} object. This method will remove the old {@link LevelUser} and insert the new one.
+     * @param id
+     * The discord ID of the user whose {@link LevelUser} object will be changed.
+     * @param user
+     * The new {@link LevelUser} object.
+     */
     public void setLevelUser(long id, LevelUser user) {
         if (levels.containsKey(id)) {
             levels.remove(id);
@@ -205,10 +224,29 @@ public class Server implements Serializable {
         levels.put(id, user);
     }
 
+    /**
+     * Access all of the valid names of TextChannels stored in the {@code textChannels} map.
+     * @return {@code Set<String>} an immutable Set of (String) textChannel names.
+     * <br> <Strong>Valid Names:</Strong>
+     * <ol>
+     *     <li>{@code spam}</li>
+     *     <li>{@code log}</li>
+     *     <li>{@code report}</li>
+     *     <li>{@code appeal}</li>
+     *     <li>{@code apply}</li>
+     * </ol>
+     */
     public Set<String> getTextChannelNames() {
         return textChannels.keySet();
     }
 
+    /**
+     * Access the name of a text channel via its ID.
+     * @param id
+     * The Discord ID of the textChannel.
+     * @return String - The registered name of the text channel in the server object. If this text channel is not registered
+     * for any purpose, an empty string will be returned.
+     */
     public String getTextChannelName(long id) {
         for (Map.Entry<String, Long> entry : textChannels.entrySet()) {
             if (entry.getValue() == id) {
@@ -218,20 +256,43 @@ public class Server implements Serializable {
         return "";
     }
 
+    /**
+     * Remove the set text channel ID from a given name (unlink a text channel / No longer use for the previously specified purpose).
+     * @param name - The name of the text channel to be unlinked.
+     */
     public void clearTextChannel(String name) {
         textChannels.remove(name);
         textChannels.put(name, -1L);
     }
 
+    /**
+     * Determine if a text channel has been initialized/set by the server owner.
+     * @param name
+     * The name of the text channel to check.
+     * @return boolean - True if the text channel has been initialized. Otherwise, false.
+     */
     public boolean textChannelsInit(String name) {
         return !(textChannels.get(name) == -1L);
     }
 
+    /**
+     * Initialize a text channel with the given ID to the given name.
+     * @param name
+     * The name must match one of the names already presented in the HashMap.
+     * @param id
+     * The discord ID of the channel to be initialized to the given name.
+     */
     public void initTextChannel(String name, Long id) {
         textChannels.remove(name);
         textChannels.put(name, id);
     }
 
+    /**
+     * Access the text channel id that has been assigned to a name.
+     * @param name
+     * The name of the text channel to get.
+     * @return long - The discord ID of the text channel.
+     */
     public long getTextChannelID(String name) {
         return textChannels.get(name);
     }

@@ -1,7 +1,7 @@
 package Discord.Commands;
 
 import Utility.Command;
-import Utility.CommandBox;
+import Frame.BotFrame.CommandBox;
 import Utility.SyntaxException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import org.json.JSONArray;

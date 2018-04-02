@@ -1,6 +1,5 @@
 package Levels;
 
-import Utility.LevelUser;
 import Utility.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -10,10 +9,37 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * Controller class for the {@code Level} function.
+ * <br> To understand the logic behind the system, it is important to understand the actual layout of the levels system.
+ * <p>
+ * The level system adds anywhere from 1 - 20 points per message given that a user has not sent a message to the same
+ * server in the last 30 seconds (to prevent spam). This level data is then stored as {@link LevelUser} objects and saved
+ * to the corresponding {@link Server}.
+ *
+ * @author ArcStone Development LLC
+ * @version v1.5
+ * @since v1.0
+ */
 public class Level {
 
+    /**
+     * HashMap to enforce the 30 second rule for a user. The UUID matches the {@link LevelUser} object (to allow for
+     * multi-server support). The Long is the System time in exact milliseconds.
+     */
     private static HashMap<UUID, Long> lastSentMessage = new HashMap<>();
 
+    /**
+     * This constructor is declared and set to private to prevent instantiation of {@code Level} objects. This class
+     * should only be used as a static utility class.
+     */
+    private Level() {}
+
+    /**
+     * The actual method to perform the logic for adding points to a user.
+     * @param event
+     * The Message event from JDA to be handled.
+     */
     public static void handle(GuildMessageReceivedEvent event) {
         Server guild = Servers.activeServers.get(event.getGuild().getIdLong());
         int points = new Random().nextInt(20) + 1;
@@ -29,9 +55,11 @@ public class Level {
             user.update(points);
             int newLevel = user.getLevel();
 
+            /*
             if (previousLevel < newLevel && guild.textChannelsInit("spam")) {
-               // event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage().queue();
+               event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage().queue();
             }
+            */
 
             guild.setLevelUser(event.getAuthor().getIdLong(), user);
             lastSentMessage.put(user.getUuid(), System.currentTimeMillis());

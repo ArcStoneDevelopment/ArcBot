@@ -1,5 +1,6 @@
 package Discord.Commands;
 
+import Frame.BotFrame.CommandBox;
 import Utility.*;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageHistory;

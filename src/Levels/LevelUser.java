@@ -1,4 +1,4 @@
-package Utility;
+package Levels;
 
 import Levels.Level;
 import Utility.SystemTime;

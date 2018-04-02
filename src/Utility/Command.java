@@ -1,5 +1,6 @@
 package Utility;
 
+import Frame.BotFrame.CommandBox;
 import Frame.LoggerFrame.Logger;
 import Frame.LoggerFrame.LoggerCore;
 import Frame.LoggerFrame.LoggerException;

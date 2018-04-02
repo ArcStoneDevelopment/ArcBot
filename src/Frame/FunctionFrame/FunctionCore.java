@@ -12,6 +12,10 @@ import java.util.UUID;
  * <br> For a better explanation of the idea behind functions, read the overview for this package.
  * @param <StatusType>
  * This should be one of the StatusType enums. This type should match the function of the subtype.
+ *
+ * @author ArcStone Development LLC
+ * @version v1.5
+ * @since v1.5
  */
 public abstract class FunctionCore<StatusType> implements Serializable, FunctionOutline {
 

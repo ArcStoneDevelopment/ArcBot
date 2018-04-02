@@ -1,5 +1,6 @@
 package Discord.Commands;
 
+import Frame.BotFrame.CommandBox;
 import Frame.FunctionFrame.Handler;
 import Report.ReportHandler;
 import Report.ReportStatus;
