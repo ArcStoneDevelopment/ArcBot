@@ -1,6 +1,6 @@
 package Levels;
 
-import Utility.Server;
+import Utility.Server.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;

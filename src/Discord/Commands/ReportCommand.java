@@ -6,6 +6,8 @@ import Report.ReportHandler;
 import Report.ReportStatus;
 import Report.Report;
 import Utility.*;
+import Utility.Server.Server;
+import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 

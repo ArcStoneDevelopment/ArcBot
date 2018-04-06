@@ -1,10 +1,12 @@
 package Frame.FunctionFrame;
 
+import Utility.Server.Server;
+
 import java.io.Serializable;
 
 /**
  * Provides an administrative access point for a function. Each function receives a Function object stored in
- * the {@link Utility.Server} object's HashMap. This object explains/names the function as well as serves
+ * the {@link Server} object's HashMap. This object explains/names the function as well as serves
  * as a wrapper for the enable/disable boolean. This object does not change the functionality of a function.
  *
  * @author ArcStone Development LLC

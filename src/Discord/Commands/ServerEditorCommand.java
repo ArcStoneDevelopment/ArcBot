@@ -3,6 +3,8 @@ package Discord.Commands;
 import Frame.BotFrame.CommandBox;
 import Frame.FunctionFrame.Function;
 import Utility.*;
+import Utility.Server.Server;
+import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 
@@ -53,7 +55,7 @@ public class ServerEditorCommand implements Command {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(255,0,255));
-            eb.setTitle("__**ArcBot Server Settings.**__");
+            eb.setTitle("__**ArcBot Server SettingsMaster.**__");
             eb.setDescription("*" +
                     "The following is a compilation of the settings for your server. As the owner of this discord server, " +
                     "you have the ability to edit any of these settings to fit your needs. We recommend you read the following " +

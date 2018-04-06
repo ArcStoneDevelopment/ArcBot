@@ -7,7 +7,7 @@ import Frame.LoggerFrame.LoggerCore;
 import Frame.LoggerFrame.LoggerException;
 import Frame.LoggerFrame.LoggerPolicy;
 import Utility.Servers;
-import Utility.Settings;
+import Utility.SettingsMaster;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -31,7 +31,7 @@ public class Main {
      * This is the starting point for the entire discord bot.
      * <br> <strong>Order of Operations Here:</strong>
      * <ol>
-     *     <li>{@link Settings}{@code .load()}</li>
+     *     <li>{@link SettingsMaster}{@code .load()}</li>
      *     <li>{@link Servers}{@code .load()}</li>
      *     <li>Build the {@code JDABuilder instance}</li>
      *     <li>Start the JDA instance</li>
@@ -46,7 +46,7 @@ public class Main {
     @Logger(LoggerPolicy.FILE)
     public static void main(String[] args) throws LoggerException {
         try {
-            Settings.load();
+            SettingsMaster.load();
             Servers.load();
             JDABuilder bot = new JDABuilder(AccountType.BOT);
                 bot.setToken("NDIyOTM0MjM3MTE3Njc3NTc4.DY1ldg.nYTPlNyCQbQ-jYvs_fhP3QRsK4I"); //Left intentionally empty for security reasons.

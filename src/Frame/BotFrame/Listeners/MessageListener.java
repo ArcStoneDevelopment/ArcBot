@@ -6,7 +6,7 @@ import Levels.Level;
 import Report.ReportHandler;
 import Utility.Command;
 import Frame.BotFrame.CommandBox;
-import Utility.Server;
+import Utility.Server.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;

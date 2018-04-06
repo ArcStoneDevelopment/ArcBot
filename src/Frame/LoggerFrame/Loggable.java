@@ -1,5 +1,6 @@
 package Frame.LoggerFrame;
 
+import Utility.Server.Server;
 import net.dv8tion.jda.core.entities.Guild;
 
 /**
@@ -20,7 +21,7 @@ interface Loggable {
      * @param success
      * If the method fully achieved the expected outcome/made the expected changes this should be true. Otherwise, false.
      * @param guild
-     * The Guild object related to the {@link Utility.Server} object. This is required if the {@link LoggerPolicy} is
+     * The Guild object related to the {@link Server} object. This is required if the {@link LoggerPolicy} is
      * {@code Discord}. If the logger policy is not set to this, and/or the action carried out was not connected to a
      * particular server, this should be {@code null} (for standardization).
      * @param message

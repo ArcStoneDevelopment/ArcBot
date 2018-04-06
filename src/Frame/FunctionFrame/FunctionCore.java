@@ -17,7 +17,7 @@ import java.util.UUID;
  * @version v1.5
  * @since v1.5
  */
-public abstract class FunctionCore<StatusType> implements Serializable, FunctionOutline {
+public abstract class FunctionCore<StatusType extends Enum> implements Serializable, FunctionOutline {
 
     /**
      * This is the type of function object that is being created. This should match the {@code StatusType} that is provided

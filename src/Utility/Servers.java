@@ -4,6 +4,8 @@ import Frame.LoggerFrame.Logger;
 import Frame.LoggerFrame.LoggerCore;
 import Frame.LoggerFrame.LoggerException;
 import Frame.LoggerFrame.LoggerPolicy;
+import Utility.Server.Server;
+import Utility.SettingsMaster;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,33 +34,33 @@ public class Servers {
     }
 
     public static void delete(long id) throws SQLException {
-        PreparedStatement stmt = Settings.SQL_CONNECTION.prepareStatement("DELETE FROM servers WHERE id=?");
+        PreparedStatement stmt = SettingsMaster.SQL_CONNECTION.prepareStatement("DELETE FROM servers WHERE id=?");
             stmt.setLong(1, id);
         stmt.execute();
         stmt.close();
     }
 
     private static boolean inSQL(long id) throws SQLException {
-        PreparedStatement stmt = Settings.SQL_CONNECTION.prepareStatement("SELECT * FROM servers WHERE id=?");
+        PreparedStatement stmt = SettingsMaster.SQL_CONNECTION.prepareStatement("SELECT * FROM servers WHERE id=?");
             stmt.setLong(1, id);
         ResultSet rs = stmt.executeQuery();
         return rs.next();
     }
 
     public static void saveServer(Server server) throws SQLException {
-        PreparedStatement stmt = Settings.SQL_CONNECTION.prepareStatement(
+        PreparedStatement stmt = SettingsMaster.SQL_CONNECTION.prepareStatement(
                 "SELECT * FROM servers WHERE id=?");
             stmt.setLong(1, server.getID());
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            PreparedStatement statement = Settings.SQL_CONNECTION.prepareStatement(
+            PreparedStatement statement = SettingsMaster.SQL_CONNECTION.prepareStatement(
                     "UPDATE servers set server=? WHERE id=?");
                 statement.setObject(1, server);
                 statement.setLong(2, server.getID());
             statement.execute();
             statement.close();
         } else {
-            PreparedStatement statement = Settings.SQL_CONNECTION.prepareStatement(
+            PreparedStatement statement = SettingsMaster.SQL_CONNECTION.prepareStatement(
                     "INSERT INTO servers (id, server) VALUES (?,?);");
                 statement.setLong(1, server.getID());
                 statement.setObject(2, server);
@@ -71,7 +73,7 @@ public class Servers {
     @Logger(LoggerPolicy.FILE)
     public static void load() throws SQLException, IOException, ClassNotFoundException, LoggerException {
         activeServers.clear();
-        Statement stmt = Settings.SQL_CONNECTION.createStatement();
+        Statement stmt = SettingsMaster.SQL_CONNECTION.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM servers");
         while (rs.next()) {
             byte[] byteArray = rs.getBytes("server");

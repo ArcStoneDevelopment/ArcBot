@@ -1,7 +1,7 @@
 package Report;
 
 import Frame.FunctionFrame.Handler;
-import Utility.Server;
+import Utility.Server.Server;
 import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -12,6 +12,8 @@ import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import java.awt.Color;
 
 public class ReportHandler {
+    private ReportHandler() {}
+
     public static void start(GuildMessageReceivedEvent event) {
         event.getMessage().delete().queue();
         PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
@@ -81,6 +83,7 @@ public class ReportHandler {
             case 6:
                 if (event.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                     report.setStatus(ReportStatus.OPEN);
+                    Handler.openFunctions.remove(event.getAuthor().getIdLong());
                     server.removeReport(report.getUuid());
                     server.addReport(report);
                     pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();

@@ -3,6 +3,8 @@ package Discord.Commands;
 import Frame.BotFrame.CommandBox;
 import Levels.LevelUser;
 import Utility.*;
+import Utility.Server.Server;
+import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -140,6 +142,20 @@ public class LevelCommand implements Command {
         command.getEvent().getChannel().sendMessage(eb.build()).queue();
     }
 
+    /**
+     * Provides the {@code -level leaderboard} command. This method uses a TreeMap to order all of a given {@link Server}'s
+     * {@link LevelUser} objects by point values. Then, it selects the top ten (or all of them if there are not ten). The
+     * data of these level users is displayed in descending order (from highest point value to lowest point value) in a
+     * message embed.
+     * @param command
+     * The {@link CommandBox} that called the {@code execute()} method.
+     * @param server
+     * The server that was pulled from {@link Servers} which matches the guild from which the JDA event occured.
+     * @throws SyntaxException
+     * Exception is thrown if there are nay issues during run-time. The integer system is used in this method.
+     * <br> • <Strong>{@code 0}</Strong>: This number exception is thrown when the command does not meet the following
+     * requirements: (1) Arguments length of 1. (2) The argument "{@code leaderboard}" is the first (and only) argument given.
+     */
     private void levelLeaderboard(CommandBox command, Server server) throws SyntaxException {
         if (command.getArgs().length == 1 && command.getArgs()[0].equalsIgnoreCase("leaderboard")) {
             TreeMap<Integer, LevelUser> orderedLevels = new TreeMap<>(Collections.reverseOrder());

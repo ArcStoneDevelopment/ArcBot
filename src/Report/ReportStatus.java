@@ -2,9 +2,9 @@ package Report;
 
 public enum ReportStatus {
     INCOMPLETE("Unfinished"),
+    ARCHIVED("Completed"),
     OPEN("Not Claimed"),
-    WORKING("Claimed, Not Completed"),
-    ARCHIVED("Completed");
+    WORKING("Claimed, Not Completed");
 
     String status;
     ReportStatus(String status) {

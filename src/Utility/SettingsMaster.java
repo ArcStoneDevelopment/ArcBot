@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public class Settings {
+public class SettingsMaster {
     private static boolean isLoaded = false;
     public static HashMap<String, String> defaultGuildSettings = new HashMap<>() {{
         put ("prefix", "-");
@@ -28,6 +28,6 @@ public class Settings {
                 "root", "root");
         isLoaded = true;
         LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
-                "Settings Core Initialized.");
+                "SettingsMaster Core Initialized.");
     }
 }
