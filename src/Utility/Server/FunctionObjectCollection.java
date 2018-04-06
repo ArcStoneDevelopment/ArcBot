@@ -3,9 +3,10 @@ package Utility.Server;
 import Frame.FunctionFrame.FunctionCore;
 import Utility.FunctionException;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class FunctionObjectCollection<T extends FunctionCore, S extends Enum> {
+public class FunctionObjectCollection<T extends FunctionCore, S extends Enum> implements Serializable {
     private HashMap<UUID, T> incomplete;
     private HashMap<UUID, T> open;
     private HashMap<UUID, T> archive;

@@ -2,10 +2,11 @@ package Utility.Server;
 
 import Utility.SettingsMaster;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Settings {
+public class Settings implements Serializable {
     private HashMap<String, String> core;
 
     Settings() {

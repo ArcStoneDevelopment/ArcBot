@@ -4,10 +4,11 @@ import Discord.Discord;
 import Utility.Command;
 import Utility.FunctionException;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-public class CommandCollection {
+public class CommandCollection implements Serializable {
     private HashMap<Command, Boolean> core;
 
     CommandCollection() {

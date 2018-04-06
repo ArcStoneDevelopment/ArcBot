@@ -4,10 +4,11 @@ import Utility.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PermissionCollection {
+public class PermissionCollection implements Serializable {
     private HashMap<Long, Permission> core;
 
      PermissionCollection() {

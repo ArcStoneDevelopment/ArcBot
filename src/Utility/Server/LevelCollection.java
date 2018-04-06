@@ -2,12 +2,13 @@ package Utility.Server;
 
 import Levels.LevelUser;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class LevelCollection {
+public class LevelCollection implements Serializable {
 
     private HashMap<Long, LevelUser> core;
 

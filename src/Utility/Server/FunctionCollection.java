@@ -3,11 +3,12 @@ package Utility.Server;
 import Frame.FunctionFrame.Function;
 import Utility.FunctionException;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class FunctionCollection {
+public class FunctionCollection implements Serializable {
 
     private TreeMap<String, Function> core;
 

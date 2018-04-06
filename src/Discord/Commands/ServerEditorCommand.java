@@ -37,6 +37,7 @@ public class ServerEditorCommand implements Command {
                         return true;
                     case "permission":
                         permission(command, server);
+                        return true;
                     default:
                 }
             } else {
