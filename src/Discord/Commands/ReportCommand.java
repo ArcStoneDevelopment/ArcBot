@@ -45,13 +45,13 @@ public class ReportCommand implements Command {
     }
 
     private void listCommand(CommandBox command, Server server) throws PermissionException {
-        if (server.hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
+        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(0,139,139));
 
             StringBuilder openReports = new StringBuilder();
             Guild guild = command.getEvent().getGuild();
-            for (Report r : server.getReports(ReportStatus.OPEN)) {
+            for (Report r : server.getReports().getAll(ReportStatus.OPEN)) {
                 openReports.append("ID: **");
                 openReports.append(r.getUuid());
                 openReports.append("** - Sender: ");
@@ -59,7 +59,7 @@ public class ReportCommand implements Command {
                 openReports.append("\n");
             }
             StringBuilder archiveReports = new StringBuilder();
-            for (Report r : server.getReports(ReportStatus.ARCHIVED)) {
+            for (Report r : server.getReports().getAll(ReportStatus.ARCHIVED)) {
                 archiveReports.append("ID: **");
                 archiveReports.append(r.getUuid());
                 archiveReports.append("** - Sender: ");

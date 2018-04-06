@@ -10,7 +10,7 @@ import java.util.Set;
 public class TCCollection {
     private HashMap<String, Long> core;
 
-    public TCCollection() {
+    TCCollection() {
         core = new HashMap<>() {{
             put("spam", -1L);
             put("log", -1L);

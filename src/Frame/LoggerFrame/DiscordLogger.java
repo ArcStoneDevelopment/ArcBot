@@ -43,10 +43,10 @@ class DiscordLogger implements Loggable {
             throw new LoggerException("Guild cannot be null!");
         }
         Server server = Servers.activeServers.get(guild.getIdLong());
-        if (!server.textChannelsInit("log")) {
+        if (!server.getTextChannels().isActive("log")) {
             throw new LoggerException("Log channel is not initialized!");
         }
-        TextChannel channel = guild.getTextChannelById(server.getTextChannelID("log"));
+        TextChannel channel = guild.getTextChannelById(server.getTextChannels().getID("log"));
         EmbedBuilder eb = new EmbedBuilder();
         if (success) {
             eb.setColor(Color.GREEN);

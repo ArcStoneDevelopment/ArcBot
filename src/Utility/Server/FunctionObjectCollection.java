@@ -10,7 +10,7 @@ public class FunctionObjectCollection<T extends FunctionCore, S extends Enum> {
     private HashMap<UUID, T> open;
     private HashMap<UUID, T> archive;
 
-    public FunctionObjectCollection () {
+    FunctionObjectCollection () {
         incomplete = new HashMap<>();
         open = new HashMap<>();
         archive = new HashMap<>();

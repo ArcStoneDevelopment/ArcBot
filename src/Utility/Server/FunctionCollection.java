@@ -11,7 +11,7 @@ public class FunctionCollection {
 
     private TreeMap<String, Function> core;
 
-    public FunctionCollection() {
+    FunctionCollection() {
         core = new TreeMap<>() {{
             put("discord", new Function("discord", true, "N/A"));
             put("level", new Function("level", true, "N/A"));

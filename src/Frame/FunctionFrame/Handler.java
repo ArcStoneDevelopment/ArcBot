@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class Handler {
     /**
-     * The master HashMap containing all open/incompleted function objects.
+     * The master HashMap containing all open/incomplete function objects.
      */
     public static HashMap<Long, FunctionOutline> openFunctions = new HashMap<>();
 }

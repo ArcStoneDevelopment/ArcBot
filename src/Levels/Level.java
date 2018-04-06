@@ -43,8 +43,8 @@ public class Level {
     public static void handle(GuildMessageReceivedEvent event) {
         Server guild = Servers.activeServers.get(event.getGuild().getIdLong());
         int points = new Random().nextInt(20) + 1;
-        if (guild.hasLevelUser(event.getAuthor().getIdLong())) {
-            LevelUser user = guild.getLevelUser(event.getAuthor().getIdLong());
+        if (guild.getLevels().hasLevelUser(event.getAuthor().getIdLong())) {
+            LevelUser user = guild.getLevels().getLevelUser(event.getAuthor().getIdLong());
             if (lastSentMessage.containsKey(user.getUuid())) {
                 if (System.currentTimeMillis() - lastSentMessage.get(user.getUuid()) <= 30000) {
                     return;
@@ -55,18 +55,19 @@ public class Level {
             user.update(points);
             int newLevel = user.getLevel();
 
+            // TODO: This.
             /*
             if (previousLevel < newLevel && guild.textChannelsInit("spam")) {
                event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage().queue();
             }
             */
 
-            guild.setLevelUser(event.getAuthor().getIdLong(), user);
+            guild.getLevels().setLevelUser(event.getAuthor().getIdLong(), user);
             lastSentMessage.put(user.getUuid(), System.currentTimeMillis());
         } else {
             LevelUser user = new LevelUser(event.getAuthor().getIdLong());
             user.update(points);
-            guild.setLevelUser(event.getAuthor().getIdLong(), user);
+            guild.getLevels().setLevelUser(event.getAuthor().getIdLong(), user);
         }
     }
 
@@ -101,7 +102,7 @@ public class Level {
      * @return MessageEmbed - Message containing formatted level information.
      */
     public static MessageEmbed getLevel(GuildMessageReceivedEvent event, Server server, long userID) {
-        LevelUser user = server.getLevelUser(userID);
+        LevelUser user = server.getLevels().getLevelUser(userID);
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(new Color(230, 230, 250));
         eb.setTitle("Levels: " + event.getGuild().getMemberById(user.getId()).getEffectiveName());

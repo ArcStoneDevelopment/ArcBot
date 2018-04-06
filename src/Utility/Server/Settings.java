@@ -8,7 +8,7 @@ import java.util.Set;
 public class Settings {
     private HashMap<String, String> core;
 
-    public Settings() {
+    Settings() {
         this.core = new HashMap<>(SettingsMaster.defaultGuildSettings);
     }
 

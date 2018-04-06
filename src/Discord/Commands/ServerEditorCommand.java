@@ -47,11 +47,13 @@ public class ServerEditorCommand implements Command {
             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(1))).queue();
         } catch (SyntaxException e) {
             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(e.getIntCause()))).queue();
+        } catch (FunctionException e) {
+            return false;
         }
         return false;
     }
 
-    private void arcBot(CommandBox command, Server server) throws PermissionException {
+    private void arcBot(CommandBox command, Server server) throws PermissionException, FunctionException {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(255,0,255));
@@ -64,7 +66,7 @@ public class ServerEditorCommand implements Command {
                     "*");
 
             StringBuilder sb2 = new StringBuilder();
-            for (Function f : server.getFunctions()) {
+            for (Function f : server.getFunctions().getFunctions()) {
                 if (f.isEnabled()) {
                     sb2.append(":white_check_mark: - ");
                     sb2.append(f.getName());
@@ -77,11 +79,11 @@ public class ServerEditorCommand implements Command {
             eb.addField("Functions", sb2.toString(), true);
 
             StringBuilder sb1 = new StringBuilder();
-            for (Command c : server.getCommands()) {
+            for (Command c : server.getCommands().getCommands()) {
                 if (c.getInvoke().equalsIgnoreCase("stop")) {
                     continue;
                 }
-                if (server.getCommandStatus(c.getInvoke())) {
+                if (server.getCommands().getCommandStatus(c.getInvoke())) {
                     sb1.append(":white_check_mark: - ");
                     sb1.append(c.getInvoke());
                 } else {
@@ -93,14 +95,14 @@ public class ServerEditorCommand implements Command {
             eb.addField("Commands", sb1.toString(), true);
 
             StringBuilder sb3 = new StringBuilder();
-            for (String s : server.getTextChannelNames()) {
-                if (!server.textChannelsInit(s)) {
+            for (String s : server.getTextChannels().getNames()) {
+                if (!server.getTextChannels().isActive(s)) {
                     sb3.append(s);
                     sb3.append( " - Not Initialized.");
                 } else {
                     sb3.append(s);
                     sb3.append( " - ");
-                    sb3.append(command.getEvent().getGuild().getTextChannelById(server.getTextChannelID(s)).getAsMention());
+                    sb3.append(command.getEvent().getGuild().getTextChannelById(server.getTextChannels().getID(s)).getAsMention());
                 }
                 sb3.append("\n");
             }
@@ -114,7 +116,7 @@ public class ServerEditorCommand implements Command {
                 sb4.append("**__");
                 sb4.append("\n");
                 for (Role r : command.getEvent().getGuild().getRoles()) {
-                    if (p == server.getPermission(r)) {
+                    if (p == server.getPermissions().getPermission(r)) {
                         sb4.append(r.getName());
                         hasRole = true;
                         sb4.append("\n");
@@ -135,75 +137,75 @@ public class ServerEditorCommand implements Command {
         }
     }
 
-    private void command(CommandBox command, Server server) throws PermissionException, SyntaxException {
+    private void command(CommandBox command, Server server) throws PermissionException, SyntaxException, FunctionException {
         if (command.getEvent().getGuild().getOwner().getUser().getIdLong() == server.getOwnerID()) {
             if (command.getArgs().length == 3) {
                 String invokeKey = command.getArgs()[1];
-                if (server.isCommand(invokeKey)) {
+                if (server.getCommands().isCommand(invokeKey)) {
                     if (command.getArgs()[2].equalsIgnoreCase("enable")) {
-                        if (!(server.getCommandStatus(invokeKey))) {
+                        if (!(server.getCommands().getCommandStatus(invokeKey))) {
                             switch (invokeKey) {
                                 case "level":
-                                    if (!server.getFunction("level").isEnabled()) {
+                                    if (!server.getFunctions().getFunction("level").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "leveledit":
-                                    if (!server.getFunction("level").isEnabled()) {
+                                    if (!server.getFunctions().getFunction("level").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "appeal":
-                                    if (!server.getFunction("appeal").isEnabled()) {
+                                    if (!server.getFunctions().getFunction("appeal").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "report":
-                                    if (!server.getFunction("report").isEnabled()) {
+                                    if (!server.getFunctions().getFunction("report").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "apply":
-                                    if (!server.getFunction("apply").isEnabled()) {
+                                    if (!server.getFunctions().getFunction("apply").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                             }
-                            server.enableCommand(invokeKey);
+                            server.getCommands().enableCommand(invokeKey);
                             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(11))).queue();
                         } else {
                             throw new SyntaxException(3);
                         }
                     } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
-                        if (server.getCommandStatus(invokeKey)) {
+                        if (server.getCommands().getCommandStatus(invokeKey)) {
                             switch (invokeKey) {
                                 case "level":
-                                    if (server.getFunction("level").isEnabled()) {
+                                    if (server.getFunctions().getFunction("level").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "leveledit":
-                                    if (server.getFunction("level").isEnabled()) {
+                                    if (server.getFunctions().getFunction("level").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "appeal":
-                                    if (server.getFunction("appeal").isEnabled()) {
+                                    if (server.getFunctions().getFunction("appeal").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "report":
-                                    if (server.getFunction("report").isEnabled()) {
+                                    if (server.getFunctions().getFunction("report").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                                 case "apply":
-                                    if (server.getFunction("apply").isEnabled()) {
+                                    if (server.getFunctions().getFunction("apply").isEnabled()) {
                                         throw new SyntaxException(4);
                                     }
                                     break;
                             }
-                            server.disableCommand(invokeKey);
+                            server.getCommands().disableCommand(invokeKey);
                             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(11))).queue();
                         } else {
                             throw new SyntaxException(2);
@@ -222,37 +224,41 @@ public class ServerEditorCommand implements Command {
         }
     }
     
-    private void function(CommandBox command, Server server) throws PermissionException, SyntaxException {
+    private void function(CommandBox command, Server server) throws PermissionException, SyntaxException, FunctionException {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             if (command.getArgs().length == 3) {
-                if (server.isFunction(command.getArgs()[1].toLowerCase())) {
+                if (server.getFunctions().isFunction(command.getArgs()[1].toLowerCase())) {
                     if (command.getArgs()[2].equalsIgnoreCase("enable")) {
-                        if (!(server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled())) {
-                            server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(true);
+                        if (!(server.getFunctions().getFunction(command.getArgs()[1].toLowerCase()).isEnabled())) {
+                            server.getFunctions().getFunction(command.getArgs()[1].toLowerCase()).setEnabled(true);
                             switch (command.getArgs()[1].toLowerCase()) {
                                 case "level":
-                                    server.enableCommand("level");
+                                    server.getCommands().enableCommand("level");
                                     break;
                                 case "leveledit":
                                 case "appeal":
                                 case "apply":
                                 case "report":
+                                    server.getCommands().enableCommand("report");
+                                    break;
                             }
                             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(12))).queue();
                         } else {
                             throw new SyntaxException(7);
                         }
                     } else if (command.getArgs()[2].equalsIgnoreCase("disable")) {
-                        if (server.getFunction(command.getArgs()[1].toLowerCase()).isEnabled()) {
-                            server.getFunction(command.getArgs()[1].toLowerCase()).setEnabled(false);
+                        if (server.getFunctions().getFunction(command.getArgs()[1].toLowerCase()).isEnabled()) {
+                            server.getFunctions().getFunction(command.getArgs()[1].toLowerCase()).setEnabled(false);
                             switch (command.getArgs()[1].toLowerCase()) {
                                 case "level":
-                                    server.disableCommand("level");
+                                    server.getCommands().disableCommand("level");
                                     break;
                                 case "leveledit":
                                 case "appeal":
                                 case "apply":
                                 case "report":
+                                    server.getCommands().disableCommand("report");
+                                    break;
                             }
                             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(12))).queue();
                         } else {
@@ -276,9 +282,9 @@ public class ServerEditorCommand implements Command {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             if (command.getArgs().length >= 3) {
                 if (command.getEvent().getMessage().getMentionedRoles().size() == 1) {
-                    if (server.isPermission(command.getArgs()[1])) {
+                    if (server.getPermissions().isPermission(command.getArgs()[1])) {
                         Permission permission = Permission.valueOf(command.getArgs()[1].toUpperCase());
-                        server.setPermission(command.getEvent().getMessage().getMentionedRoles().get(0), permission);
+                        server.getPermissions().setPermission(command.getEvent().getMessage().getMentionedRoles().get(0), permission);
 
                     } else {
                         throw new SyntaxException(9);
@@ -294,11 +300,11 @@ public class ServerEditorCommand implements Command {
         }
     }
 
-    private void textChannel(CommandBox command, Server server) throws PermissionException, SyntaxException {
+    private void textChannel(CommandBox command, Server server) throws PermissionException, SyntaxException, FunctionException {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             if (command.getArgs().length == 2) {
-                if (server.getTextChannelNames().contains(command.getArgs()[1].toLowerCase())) {
-                    server.initTextChannel(command.getArgs()[1].toLowerCase(), command.getEvent().getChannel().getIdLong());
+                if (server.getTextChannels().getNames().contains(command.getArgs()[1].toLowerCase())) {
+                    server.getTextChannels().initialize(command.getArgs()[1].toLowerCase(), command.getEvent().getChannel().getIdLong());
                     command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(13))).queue();
                 } else {
                     throw new SyntaxException(10);

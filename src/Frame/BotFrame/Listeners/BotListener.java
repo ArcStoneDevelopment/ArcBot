@@ -52,24 +52,24 @@ public class BotListener extends ListenerAdapter {
     @Override
     public void onTextChannelDelete(TextChannelDeleteEvent event) {
         Server server = Servers.activeServers.get(event.getGuild().getIdLong());
-        if (server.getTextChannels().contains(event.getChannel().getIdLong())) {
-            String textChannel = server.getTextChannelName(event.getChannel().getIdLong());
+        if (server.getTextChannels().getChannels().contains(event.getChannel().getIdLong())) {
+            String textChannel = server.getTextChannels().getName(event.getChannel().getIdLong());
             PrivateChannel pc = event.getGuild().getOwner().getUser().openPrivateChannel().complete();
             pc.sendMessage("The registered " + textChannel + " channel has been deleted! I've unlinked it. Please re-register the channel ASAP.").queue();
             pc.close().complete();
-            server.clearTextChannel(textChannel);
+            server.getTextChannels().clear(textChannel);
         }
     }
 
     @Override
     public void onRoleDelete(RoleDeleteEvent event) {
         Server server = Servers.activeServers.get(event.getGuild().getIdLong());
-        if (server.getPermission(event.getRole()) != Permission.DEFAULT) {
+        if (server.getPermissions().getPermission(event.getRole()) != Permission.DEFAULT) {
             String role = event.getRole().getName();
             PrivateChannel pc = event.getGuild().getOwner().getUser().openPrivateChannel().complete();
             pc.sendMessage("You have deleted a role (" + role + ") that was not default!").queue();
             pc.close().complete();
-            server.setPermission(event.getRole(), Permission.DEFAULT);
+            server.getPermissions().setPermission(event.getRole(), Permission.DEFAULT);
         }
     }
 }

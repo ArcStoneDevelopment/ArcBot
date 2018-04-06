@@ -56,7 +56,7 @@ public class LevelCommand implements Command {
     public boolean execute(CommandBox command) {
         try {
             Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
-            if (!(server.getFunction("level").isEnabled())) {
+            if (!(server.getFunctions().getFunction("level").isEnabled())) {
                 MessageEmbed msg = Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(4));
                 command.getEvent().getChannel().sendMessage(msg).complete();
                 return false;
@@ -84,6 +84,8 @@ public class LevelCommand implements Command {
                     command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.LevelResponse(0))).queue();
                     break;
             }
+        } catch (FunctionException e) {
+            return false;
         }
         return false;
     }
@@ -125,8 +127,8 @@ public class LevelCommand implements Command {
             throw new SyntaxException(0);
         }
 
-        if (server.hasLevelUser(userID)) {
-            user = server.getLevelUser(userID);
+        if (server.getLevels().hasLevelUser(userID)) {
+            user = server.getLevels().getLevelUser(userID);
             guildUser = command.getEvent().getGuild().getMemberById(userID);
         } else {
             throw new SyntaxException(1);
@@ -158,10 +160,7 @@ public class LevelCommand implements Command {
      */
     private void levelLeaderboard(CommandBox command, Server server) throws SyntaxException {
         if (command.getArgs().length == 1 && command.getArgs()[0].equalsIgnoreCase("leaderboard")) {
-            TreeMap<Integer, LevelUser> orderedLevels = new TreeMap<>(Collections.reverseOrder());
-            for (Map.Entry<Long, LevelUser> entry : server.getLevels().entrySet()) {
-                orderedLevels.put(entry.getValue().getPoints(), entry.getValue());
-            }
+            TreeMap<Integer, LevelUser> orderedLevels = server.getLevels().getLevels();
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(230, 230, 250));
             eb.setTitle(":clipboard: __**Level Leaderboard**__ :clipboard:");

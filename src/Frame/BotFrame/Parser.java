@@ -26,7 +26,7 @@ public class Parser {
     public static CommandBox parse(Server server, GuildMessageReceivedEvent event) {
 
         String raw = event.getMessage().getContentRaw();
-        String beheaded = raw.substring(server.getSetting("prefix").length(), raw.length());
+        String beheaded = raw.substring(server.getSettings().getSetting("prefix").length(), raw.length());
         String[] splitBeheaded = beheaded.split(" ");
         ArrayList<String> split = new ArrayList<>(Arrays.asList(splitBeheaded));
         String invoke = split.get(0);

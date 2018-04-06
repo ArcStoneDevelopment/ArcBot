@@ -16,29 +16,33 @@ public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-        if (event.getAuthor().isBot()) {
-            return;
-        }
+        try {
+            if (event.getAuthor().isBot()) {
+                return;
+            }
 
-        Server server = Servers.activeServers.get(event.getGuild().getIdLong());
-        if (server.drop) {
-            return;
-        }
+            Server server = Servers.activeServers.get(event.getGuild().getIdLong());
+            if (server.drop) {
+                return;
+            }
 
-        if (server.getFunction("level").isEnabled()) {
-            Level.handle(event);
-        }
+            if (server.getFunctions().getFunction("level").isEnabled()) {
+                Level.handle(event);
+            }
 
-        if (server.getFunction("discord").isEnabled()) {
-            if (event.getMessage().getContentRaw().startsWith(server.getSetting("prefix"))) {
-                CommandBox command = Parser.parse(server, event);
-                if (server.getCommandStatus(command.getInvoke())) {
-                    Command cmd = server.getCommand(command.getInvoke().toLowerCase());
-                    cmd.log(cmd.execute(command), command);
-                } else {
-                    event.getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(5))).queue();
+            if (server.getFunctions().getFunction("discord").isEnabled()) {
+                if (event.getMessage().getContentRaw().startsWith(server.getSettings().getSetting("prefix"))) {
+                    CommandBox command = Parser.parse(server, event);
+                    if (server.getCommands().getCommandStatus(command.getInvoke())) {
+                        Command cmd = server.getCommands().getCommand(command.getInvoke().toLowerCase());
+                        cmd.log(cmd.execute(command), command);
+                    } else {
+                        event.getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(5))).queue();
+                    }
                 }
             }
+        } catch (Exception e) {
+            return;
         }
     }
 

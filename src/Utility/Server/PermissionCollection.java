@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class PermissionCollection {
     private HashMap<Long, Permission> core;
 
-    public PermissionCollection() {
+     PermissionCollection() {
         core = new HashMap<>();
     }
 

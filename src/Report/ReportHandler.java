@@ -20,85 +20,89 @@ public class ReportHandler {
         Report report = new Report(event.getGuild().getIdLong(), event.getAuthor().getIdLong());
         pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
         report.build();
-        Servers.activeServers.get(event.getGuild().getIdLong()).addReport(report);
+        Servers.activeServers.get(event.getGuild().getIdLong()).getReports().add(report);
         Handler.openFunctions.put(event.getAuthor().getIdLong(), report);
     }
 
     public static void handle(PrivateMessageReceivedEvent event) {
-        Server server = Servers.activeServers.get(Handler.openFunctions.get(event.getAuthor().getIdLong()).getServerID());
-        Report report = server.getReport(Handler.openFunctions.get(event.getAuthor().getIdLong()).getUuid());
-        PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
+        try {
+            Server server = Servers.activeServers.get(Handler.openFunctions.get(event.getAuthor().getIdLong()).getServerID());
+            Report report = server.getReports().get(Handler.openFunctions.get(event.getAuthor().getIdLong()).getUuid());
+            PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
 
-        if (event.getMessage().getContentRaw().equalsIgnoreCase("cancel")) {
-            pc.sendMessage(getResponse(-1, report)).queue();
-            pc.close().complete();
-            server.removeReport(report.getUuid());
-            return;
-        }
+            if (event.getMessage().getContentRaw().equalsIgnoreCase("cancel")) {
+                pc.sendMessage(getResponse(-1, report)).queue();
+                pc.close().complete();
+                server.getReports().remove(report.getUuid());
+                return;
+            }
 
-        switch (report.getBuildProgress()) {
-            case 1:
-                if (event.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                    pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
-                    report.build();
-                } else {
-                    pc.sendMessage(getResponse(-2, report)).queue();
-                }
-                break;
-            case 2:
-                report.setReportedName(event.getMessage().getContentRaw());
-                pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
-                report.build();
-                break;
-            case 3:
-                report.setOffense(event.getMessage().getContentRaw());
-                pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
-                report.build();
-                break;
-            case 4:
-                if (event.getMessage().getContentRaw().equalsIgnoreCase("done")) {
-                    pc.sendMessage(getResponse(-3, report)).queue();
-                    report.build();
-                    break;
-                }
-
-                if (isValidEvidence(event.getMessage().getContentRaw())) {
-                    report.addEvidence(event.getMessage().getContentRaw());
-                    pc.sendMessage(getResponse(report.getBuildProgress(),report)).queue();
-                    break;
-                } else {
-                    pc.sendMessage(getResponse(-4, report)).queue();
-                    break;
-                }
-            case 5:
-                if (event.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                    report.setExtraInformation("None.");
-                } else {
-                    report.setExtraInformation(event.getMessage().getContentRaw());
-                }
-                pc.sendMessage(report.message(event)).queue();
-                pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
-                report.build();
-                break;
-            case 6:
-                if (event.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                    report.setStatus(ReportStatus.OPEN);
-                    Handler.openFunctions.remove(event.getAuthor().getIdLong());
-                    server.removeReport(report.getUuid());
-                    server.addReport(report);
-                    pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
-                    if (server.getTextChannelID("report") != -1L) {
-                        event.getJDA().getGuildById(server.getID()).getTextChannelById(server.getTextChannelID("report")).sendMessage(report.message(event)).queue();
+            switch (report.getBuildProgress()) {
+                case 1:
+                    if (event.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
+                        report.build();
+                    } else {
+                        pc.sendMessage(getResponse(-2, report)).queue();
                     }
-                    return;
-                } else {
-                    server.removeReport(report.getUuid());
-                    pc.sendMessage(getResponse(-1, report)).queue();
-                    return;
-                }
+                    break;
+                case 2:
+                    report.setReportedName(event.getMessage().getContentRaw());
+                    pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
+                    report.build();
+                    break;
+                case 3:
+                    report.setOffense(event.getMessage().getContentRaw());
+                    pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
+                    report.build();
+                    break;
+                case 4:
+                    if (event.getMessage().getContentRaw().equalsIgnoreCase("done")) {
+                        pc.sendMessage(getResponse(-3, report)).queue();
+                        report.build();
+                        break;
+                    }
+
+                    if (isValidEvidence(event.getMessage().getContentRaw())) {
+                        report.addEvidence(event.getMessage().getContentRaw());
+                        pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
+                        break;
+                    } else {
+                        pc.sendMessage(getResponse(-4, report)).queue();
+                        break;
+                    }
+                case 5:
+                    if (event.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        report.setExtraInformation("None.");
+                    } else {
+                        report.setExtraInformation(event.getMessage().getContentRaw());
+                    }
+                    pc.sendMessage(report.message(event)).queue();
+                    pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
+                    report.build();
+                    break;
+                case 6:
+                    if (event.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        report.setStatus(ReportStatus.OPEN);
+                        Handler.openFunctions.remove(event.getAuthor().getIdLong());
+                        server.getReports().remove(report.getUuid());
+                        server.getReports().add(report);
+                        pc.sendMessage(getResponse(report.getBuildProgress(), report)).queue();
+                        if (server.getTextChannels().isActive("report")) {
+                            event.getJDA().getGuildById(server.getID()).getTextChannelById(server.getTextChannels().getID("report")).sendMessage(report.message(event)).queue();
+                        }
+                        return;
+                    } else {
+                        server.getReports().remove(report.getUuid());
+                        pc.sendMessage(getResponse(-1, report)).queue();
+                        return;
+                    }
+            }
+            server.getReports().add(report);
+            pc.close().complete();
+        } catch (Exception e) {
+
         }
-        server.addReport(report);
-        pc.close().complete();
     }
 
     private static MessageEmbed getResponse(int responseNumber, Report report) {

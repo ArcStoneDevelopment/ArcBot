@@ -79,7 +79,7 @@ public class ClearCommand implements Command {
      * When a user is not in the STAFFTEAM permission level, this exception is thrown.
      */
     private void clearAll(CommandBox command, Server server) throws PermissionException {
-        if (server.hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
+        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             MessageHistory history = new MessageHistory(command.getEvent().getChannel());
             List<Message> messages;
             while (true) {
@@ -119,7 +119,7 @@ public class ClearCommand implements Command {
      * this exception is thrown.
      */
     private void clearNum(CommandBox command, Server server) throws PermissionException, SyntaxException {
-        if (server.hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
+        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             try {
                 int numMessage = Integer.parseInt(command.getArgs()[0]);
                 MessageHistory history = new MessageHistory(command.getEvent().getChannel());

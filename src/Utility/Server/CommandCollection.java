@@ -10,7 +10,7 @@ import java.util.Set;
 public class CommandCollection {
     private HashMap<Command, Boolean> core;
 
-    public CommandCollection() {
+    CommandCollection() {
         core = new HashMap<>() {{
             for (Command c : Discord.commands) {
                 put (c, true);

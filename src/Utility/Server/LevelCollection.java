@@ -11,7 +11,7 @@ public class LevelCollection {
 
     private HashMap<Long, LevelUser> core;
 
-    public LevelCollection() {
+    LevelCollection() {
         this.core = new HashMap<>();
     }
 
