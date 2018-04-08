@@ -17,7 +17,27 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Servers {
+public class Servers implements Runnable {
+
+    public Thread thread;
+
+    public Servers() throws Exception {
+        thread = new Thread(this, "Server Saver Thread.");
+        load();
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                Thread.sleep(60000);
+                save();
+            }
+        } catch (Exception e) {
+            return;
+        }
+    }
+
     public static HashMap<Long, Server> activeServers = new HashMap<>();
 
     public static void save() throws SQLException {
@@ -71,7 +91,7 @@ public class Servers {
     }
 
     @Logger(LoggerPolicy.FILE)
-    public static void load() throws SQLException, IOException, ClassNotFoundException, LoggerException {
+    private static void load() throws SQLException, IOException, ClassNotFoundException, LoggerException {
         activeServers.clear();
         Statement stmt = SettingsMaster.SQL_CONNECTION.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM servers");

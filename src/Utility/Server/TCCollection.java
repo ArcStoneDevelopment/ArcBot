@@ -1,6 +1,6 @@
 package Utility.Server;
 
-import Utility.FunctionException;
+import Utility.ServerException;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -43,12 +43,13 @@ public class TCCollection implements Serializable {
         return !(core.get(name) == -1L);
     }
 
-    public void initialize(String name, Long id) throws FunctionException {
+    public void initialize(String name, Long id) throws ServerException {
         if (core.containsKey(name)) {
             core.remove(name);
             core.put(name, id);
+            return;
         }
-        throw new FunctionException();
+        throw new ServerException();
     }
 
     public long getID(String name) {

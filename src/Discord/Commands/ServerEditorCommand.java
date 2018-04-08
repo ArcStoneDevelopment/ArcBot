@@ -48,17 +48,18 @@ public class ServerEditorCommand implements Command {
             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(1))).queue();
         } catch (SyntaxException e) {
             command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(e.getIntCause()))).queue();
-        } catch (FunctionException e) {
+        } catch (ServerException e) {
+            command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(-1))).queue();
             return false;
         }
         return false;
     }
 
-    private void arcBot(CommandBox command, Server server) throws PermissionException, FunctionException {
+    private void arcBot(CommandBox command, Server server) throws PermissionException, ServerException {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(255,0,255));
-            eb.setTitle("__**ArcBot Server SettingsMaster.**__");
+            eb.setTitle("__**ArcBot Server Settings.**__");
             eb.setDescription("*" +
                     "The following is a compilation of the settings for your server. As the owner of this discord server, " +
                     "you have the ability to edit any of these settings to fit your needs. We recommend you read the following " +
@@ -138,7 +139,7 @@ public class ServerEditorCommand implements Command {
         }
     }
 
-    private void command(CommandBox command, Server server) throws PermissionException, SyntaxException, FunctionException {
+    private void command(CommandBox command, Server server) throws PermissionException, SyntaxException, ServerException {
         if (command.getEvent().getGuild().getOwner().getUser().getIdLong() == server.getOwnerID()) {
             if (command.getArgs().length == 3) {
                 String invokeKey = command.getArgs()[1];
@@ -225,7 +226,7 @@ public class ServerEditorCommand implements Command {
         }
     }
     
-    private void function(CommandBox command, Server server) throws PermissionException, SyntaxException, FunctionException {
+    private void function(CommandBox command, Server server) throws PermissionException, SyntaxException, ServerException {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             if (command.getArgs().length == 3) {
                 if (server.getFunctions().isFunction(command.getArgs()[1].toLowerCase())) {
@@ -286,7 +287,7 @@ public class ServerEditorCommand implements Command {
                     if (server.getPermissions().isPermission(command.getArgs()[1])) {
                         Permission permission = Permission.valueOf(command.getArgs()[1].toUpperCase());
                         server.getPermissions().setPermission(command.getEvent().getMessage().getMentionedRoles().get(0), permission);
-
+                        command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.MasterResponse(14))).queue();
                     } else {
                         throw new SyntaxException(9);
                     }
@@ -301,7 +302,7 @@ public class ServerEditorCommand implements Command {
         }
     }
 
-    private void textChannel(CommandBox command, Server server) throws PermissionException, SyntaxException, FunctionException {
+    private void textChannel(CommandBox command, Server server) throws PermissionException, SyntaxException, ServerException {
         if (command.getEvent().getAuthor().getIdLong() == server.getOwnerID()) {
             if (command.getArgs().length == 2) {
                 if (server.getTextChannels().getNames().contains(command.getArgs()[1].toLowerCase())) {

@@ -84,7 +84,7 @@ public class LevelCommand implements Command {
                     command.getEvent().getChannel().sendMessage(Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.LevelResponse(0))).queue();
                     break;
             }
-        } catch (FunctionException e) {
+        } catch (ServerException e) {
             return false;
         }
         return false;

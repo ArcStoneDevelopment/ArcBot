@@ -16,11 +16,24 @@
  *     {@literal @}{@code Logger (LoggerPolicy.File)
  *     public void myMethod(int parameterOne, String parameterTwo) {
  *         //Other Code Here
- *         LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true, -1L, "Log This Message!");
+ *         LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true, "Log This Message!");
+ *     }
+ *    }</pre>
+ * <br><br> <strong>Method Inference:</strong>
+ * <p>
+ *     For most cases, the logger framework can infer the calling method. This is a convenience addition in version 2.0 to
+ *     make using this framework even easier! To understand when you can (and when you can't) use the method inference
+ *     features of this framework, please read the {@link Frame.LoggerFrame.LoggerCore} documentation. If you determine
+ *     that you can use method inference, you can use the following form:
+ *     <pre>
+ *     {@literal @}{@code Logger (LoggerPolicy.File)
+ *     public void myMethod(int parameterOne, String parameterTwo) {
+ *         //Other Code Here
+ *         LoggerCore.log(true, "Log This Message!");
  *     }
  *    }</pre>
  * @author ArcStone Development LLC
- * @version v1.5
+ * @version v2.0
  * @since v1.5
  */
 package Frame.LoggerFrame;

@@ -23,59 +23,63 @@ internal object ResponseBuilder {
         var title = "N/A"
         var description = "None Available"
         when (response.responseNumber) {
+            //Server Error
+            -1 -> {
+                title = ":x:"
+            }
             //Syntax Error
             0 -> {
-                title = "Unexpected Syntax Error"
+                title = ":x: Unexpected Syntax Error"
                 description = "You entered a command improperly. If you need help, visit the setup page on the Github Wiki."
             }
             //Command Invoke Key Error
             1 -> {
-                title = "Command Not Found"
+                title = ":x: Command Not Found"
                 description = "There is no command with this invoke key."
             }
             //Disable Command Error
             2 -> {
-                title = "Improper Action Error"
+                title = ":x: Improper Action Error"
                 description = "This command is already disabled!"
             }
             //Enable Command Error
             3 -> {
-                title = "Improper Action Error"
+                title = ":x: Improper Action Error"
                 description = "This command is already enabled!"
             }
             //Command - Function Mapping Error
             4 -> {
-                title = "Command - Function Mapping Error"
+                title = ":x: Command - Function Mapping Error"
                 description = "This command is tied to a function. Its status cannot be manually edited -- it will always match the status of the function."
             }
             //Function Name Error
             5 -> {
-                title = "Function Not Found"
+                title = ":x: Function Not Found"
                 description = "There is no function with this name."
             }
             //Disable Function Error
             6 -> {
-                title = "Improper Action Error"
+                title = ":x: Improper Action Error"
                 description = "This function is already disabled!"
             }
             //Enable Function Error
             7 -> {
-                title = "Improper Action Error"
+                title = ":x: Improper Action Error"
                 description = "This function is already enabled!"
             }
             //Role Mention Error
             8 -> {
-                title = "Role Mention Error"
+                title = ":x: Role Mention Error"
                 description = "You must directly mention a valid role on the server to assign permission."
             }
             //Permission Name Error
             9 -> {
-                title = "Permission Level Not Found"
+                title = ":x: Permission Level Not Found"
                 description = "There is no permission level with this name."
             }
             //Text Channel Name Error
             10 -> {
-                title = "Text Channel Key Not Found"
+                title = ":x: Text Channel Key Not Found"
                 description = "There is not text channel with that name."
             }
             //Successful command status change
@@ -92,6 +96,11 @@ internal object ResponseBuilder {
             13 -> {
                 title = ":white_check_mark: Text Channel Initialized"
                 description = "I will now use this text channel."
+            }
+            //Permission init successful
+            14 -> {
+                title = ":white_check_mark: Permission Level Set"
+                description = "This role is now linked to the permission level."
             }
         }
         builder.setTitle(title)

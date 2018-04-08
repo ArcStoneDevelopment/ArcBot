@@ -28,6 +28,6 @@ public class SettingsMaster {
                 "root", "root");
         isLoaded = true;
         LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
-                "SettingsMaster Core Initialized.");
+                "Settings Core Initialized.");
     }
 }

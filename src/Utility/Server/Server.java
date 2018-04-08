@@ -8,17 +8,10 @@ import Levels.LevelUser;
 import Report.Report;
 import Report.ReportStatus;
 import Utility.Command;
-import Utility.FunctionException;
 import Utility.Permission;
-import Utility.SettingsMaster;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
 
 import java.io.Serializable;
-import java.util.*;
-
-import static Appeal.AppealStatus.*;
 
 /**
  * Defines how the bot should interact with a particular Discord server. This class contains settings, level data and
@@ -26,7 +19,7 @@ import static Appeal.AppealStatus.*;
  * of data in the event of an unexpected shut down.
  *
  * @author ArcStone Development LLC
- * @version v1.5
+ * @version v2.0
  * @since v1.5
  */
 public class Server implements Serializable {
@@ -47,17 +40,54 @@ public class Server implements Serializable {
      */
     private long ownerID;
 
+    /**
+     * Collection of {@link Command} objects with the appropriate tools for status checking/changing.
+     */
     private CommandCollection commands;
+
+    /**
+     * Collection of {@link Function} objects with the appropriate tools for manipulating/accessing pieces of those functions/
+     */
     private FunctionCollection functions;
+
+    /**
+     * Collection storing all {@link LevelUser} data for this server.
+     */
     private LevelCollection levels;
+
+    /**
+     * Collection mapping JDA Roles with {@link Permission} levels.
+     */
     private PermissionCollection permissions;
+
+    /**
+     * Collection for accessing and manipulating server-specific settings.
+     */
     private Settings settings;
+
+    /**
+     * Collection providing mappings for various keys with JDA TextChannel IDs.
+     */
     private TCCollection textChannels;
+
+    /**
+     * Collection providing storage and manipulation for {@link Report} objects in various {@link ReportStatus} states.
+     */
     private FunctionObjectCollection<Report, ReportStatus> reports;
+
+    /**
+     * Collection providing storage and manipulation for {@link Appeal} objects in various {@link AppealStatus} states.
+     */
     private FunctionObjectCollection<Appeal, AppealStatus> appeals;
 
+    /**
+     * Primary constructor for creating {@code Server} objects for a given guild.
+     * This constructor populates the {@code id} and {@code ownerID} variables based on the guild parameter. Once this
+     * is done, the constructors for each collection object in this class are called.
+     * @param guild
+     * The guild whose information will be stored in this object.
+     */
     public Server(Guild guild) {
-        System.out.println("Registered new server.");
         this.id = guild.getIdLong();
         this.ownerID = guild.getOwner().getUser().getIdLong();
         this.drop = false;
@@ -97,34 +127,66 @@ public class Server implements Serializable {
         return this.id;
     }
 
+    /**
+     * Access the collection of {@link Command}s for this server.
+     * @return {@link CommandCollection} - The data storage/manipulation object for this server's {@link Command} data.
+     */
     public CommandCollection getCommands() {
         return commands;
     }
 
+    /**
+     * Access the collection of {@link Function}s for this server.
+     * @return {@link FunctionCollection} - The data storage/manipulation object for this server's {@link Function} data.
+     */
     public FunctionCollection getFunctions() {
         return functions;
     }
 
+    /**
+     * Access the collection of {@link LevelUser}s for this server.
+     * @return {@link LevelCollection} - The data storage/manipulation object for this server's {@link LevelUser} data.
+     */
     public LevelCollection getLevels() {
         return levels;
     }
 
+    /**
+     * Access the map of {@link Permission} levels for this server.
+     * @return {@link PermissionCollection} - The storage/manipulation object for this server's {@link Permission} data.
+     */
     public PermissionCollection getPermissions() {
         return permissions;
     }
 
+    /**
+     * Access the collection of settings for this server.
+     * @return {@link Settings} - The storage/manipulation object for this server's specific settings.
+     */
     public Settings getSettings() {
         return settings;
     }
 
+    /**
+     * Access the TextChannel data for this server.
+     * @return {@link TCCollection} - The storage/manipulation object for this server's active/inactive TextChannels.
+     */
     public TCCollection getTextChannels() {
         return textChannels;
     }
 
+    /**
+     * Access the {@link Report} data for this server.
+     * @return {@link FunctionObjectCollection} - The storage/manipulation object for this server's {@link Report} data.
+     */
     public FunctionObjectCollection<Report, ReportStatus> getReports() {
         return reports;
     }
 
+    /**
+     * Access the {@link Appeal} data for this server.
+     * @return {@link FunctionObjectCollection} - The storage/manipulation object for this server's {@link Appeal} data.
+     */
     public FunctionObjectCollection<Appeal, AppealStatus> getAppeals() {
         return appeals;
     }
