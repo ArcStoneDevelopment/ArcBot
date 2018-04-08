@@ -101,7 +101,6 @@ public class Servers implements Runnable {
             Server thisServer = (Server)objectIn.readObject();
             activeServers.put(thisServer.getID(), thisServer);
         }
-        LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
-                "Servers initialized from SQL.");
+        LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,"Servers initialized from SQL.");
     }
 }

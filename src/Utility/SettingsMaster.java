@@ -27,7 +27,6 @@ public class SettingsMaster {
         SQL_CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/ArcBot?useSSL=false&serverTimezone=UTC",
                 "root", "root");
         isLoaded = true;
-        LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
-                "Settings Core Initialized.");
+        LoggerCore.log(true, "Settings Core Initialized.");
     }
 }

@@ -58,12 +58,10 @@ public class Main {
             bot.addEventListener(new BotListener(),
                                  new MessageListener());
             bot.buildBlocking();
-            LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), true,
-                    "Bot Load Complete.");
+            LoggerCore.log(true,"Bot Load Complete.");
         } catch (Exception e) {
             e.printStackTrace();
-            LoggerCore.log(new Object(){}.getClass().getEnclosingMethod(), false,
-                    "Exception Loading Bot.");
+            LoggerCore.log(false,"Exception Loading Bot.");
             System.exit(-1);
         }
     }

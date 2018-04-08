@@ -13,6 +13,34 @@ import java.util.List;
  * or a daemon serving as a parser and connector for methods and Logging classes based on the annotation. This class also
  * holds instances of each of the Loggers. The Logger classes are not designed as singletons, but instantiating other instances
  * of the logger classes could cause errors.
+ * <br><br> <Strong>What is method inference?</Strong>
+ * <p> Typically, the logger framework calls make you pass in a parameter which looks like this: {@code new Object(){}.getClass().getEnclosingMethod()}.
+ * We find this to be cumbersome and unnecessary in most cases. Method inference allows the calling method to be inferred, meaning
+ * you can leave out this extra parameter. However, there are a few situations where you cannot use method inference and still
+ * need to include this extra parameter.
+ * <br><br> <strong>When can you use method inference?</strong>
+ * <p> The following conditions must be met to use method inference:
+ * <ol>
+ *     <li>The method must be public.</li>
+ *     <li>Only one method in the same class with the same name has a logger annotation. (Multiple methods with the same name are
+ *     eligible for method inference if and only if only one of those methods has a logger annotation.)</li>
+ * </ol>
+ * <p> The following is an example of code that will not work with method inference because two methods have the same name and
+ * both have the logger annotation. If only one had the logger annotation (remove the annotation from one of the two methods) the
+ * code would run fine.:
+ * <pre>
+ *     {@literal @}{@code Logger (LoggerPolicy.DISCORD)
+ *     public void method(int parameter) {
+ *         //Other code here
+ *         LoggerCore.log(true, guild, "Log this!");
+ *     }
+ *     }
+ *     {@literal @}{@code Logger (LoggerPolicy.DISCORD)
+ *     public void method(String parameter) {
+ *         //Other code here
+ *         LoggerCore.log(true, guild, "Log this!");
+ *     }
+ *     }</pre>
  *
  * @author ArcStone Development LLC
  * @since v1.5
@@ -31,8 +59,7 @@ public class LoggerCore {
     }};
 
     /**
-     * Internal method for method reflection inference. See other method java docs in this class for an understanding of when inference
-     * can be used.
+     * Internal method for method reflection inference.
      * @return Method - the reflected method object representing the method which called the logging framework.
      * @throws LoggerException
      * Thrown if there is a {@code ClassNotFoundException}, if the method cannot be accurately inferred, or if the logger
@@ -49,7 +76,7 @@ public class LoggerCore {
                     methods.remove(m);
                 }
             }
-            for (Method m : methods) {
+            for (Method m : new ArrayList<>(methods)) {
                 if (!(m.isAnnotationPresent(Logger.class))) {
                     methods.remove(m);
                 }
@@ -67,26 +94,7 @@ public class LoggerCore {
 
     /**
      * Properly invokes logging mechanisms for classes which are eligible for method inference who are logging with the
-     * {@code DISCORD} policy. In order to minimize the amount of code needed to be written to use the logger framework,
-     * this method provides a special mechanism or inferring the calling method. Method inference only works when the class
-     * from which the call to this method is sent contains the logger annotation with only ONE method of the same name.
-     * <br> <strong>Example Error Code:</strong>
-     * <pre>
-     *     {@literal @} {@code Logger (LoggerPolicy.DISCORD)
-     *     public void method(int parameter) {
-     *         //Other code here
-     *         LoggerCore.log(true, guild, "Log this!");
-     *     }
-     *     }
-     *     {@literal @} {@code Logger (LoggerPolicy.DISCORD)
-     *     public void method(String parameter) {
-     *         //Other code here
-     *         LoggerCore.log(true, guild, "Log this!");
-     *     }
-     *     }</pre>
-     * This code will not run because two methods with the same name have the logger annotation. Multiple methods in a class
-     * may have the logger annotation provided the names of the methods are different. If this requirement is not met,
-     * use a direct call with the enclosing method command. (As shown here: {@link Frame.LoggerFrame}).
+     * {@code DISCORD} policy. If the requirements for inference are not met, use a direct call with the enclosing method command.
      * @param actionSuccess
      * A boolean to determine if the method/function being logged carried out its intended job correctly. Should be true
      * if it did, and no otherwise.
@@ -109,26 +117,7 @@ public class LoggerCore {
 
     /**
      * Properly invokes logging mechanisms for classes which are eligible for method inference who are not logging with
-     * the {@code DISCORD} policy. In order to minimize the amount of code needed to be written to use the logger framework,
-     * this method provides a special mechanism or inferring the calling method. Method inference only works when the class
-     * from which the call to this method is sent contains the logger annotation with only ONE method of the same name.
-     * <br> <strong>Example Error Code:</strong>
-     * <pre>
-     *     {@literal @} {@code Logger (LoggerPolicy.DISCORD)
-     *     public void method(int parameter) {
-     *         //Other code here
-     *         LoggerCore.log(true, guild, "Log this!");
-     *     }
-     *     }
-     *     {@literal @} {@code Logger (LoggerPolicy.DISCORD)
-     *     public void method(String parameter) {
-     *         //Other code here
-     *         LoggerCore.log(true, guild, "Log this!");
-     *     }
-     *     }</pre>
-     * This code will not run because two methods with the same name have the logger annotation. Multiple methods in a class
-     * may have the logger annotation provided the names of the methods are different. If this requirement is not met,
-     * use a direct call with the enclosing method command. (As shown here: {@link Frame.LoggerFrame}).
+     * the {@code DISCORD} policy.  If the requirements for inference are not met, use a direct call with the enclosing method command.
      * @param actionSuccess
      * A boolean to determine if the method/function being logged carried out its intended job correctly. Should be true
      * if it did, and no otherwise.
