@@ -2,6 +2,8 @@ package Discord.Commands;
 
 import Utility.Command;
 import Frame.BotFrame.CommandBox;
+import Utility.CommandInfo;
+import Utility.Permission;
 import Utility.SyntaxException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import org.json.JSONArray;
@@ -20,12 +22,27 @@ public class MinecraftCommand implements Command {
 
     private static final String charset = StandardCharsets.UTF_8.name();
     private static final String contentType = "application/json";
+    private CommandInfo info;
+
+
+    public MinecraftCommand() {
+        info = new CommandInfo("minecraft");
+        info.addCommand("[]", "-minecraft", "Get the status of Mojang services.", Permission.DEFAULT);
+        info.addCommand("head", "-minecraft head [IGN]", "Get a render of the head of a user by in-game name (IGN)", Permission.DEFAULT);
+        info.addCommand("skin", "-minecraft skin [IGN]", "Get a render of the skin of a user by in-game name (IGN)", Permission.DEFAULT);
+        info.addCommand("uuid", "-minecraft uuid [IGN]", "Get the UUID of a user by in-game name (IGN_", Permission.DEFAULT);
+    }
+
+    @Override
+    public CommandInfo getInfo() {
+        return info;
+    }
 
     @Override
     public String getInvoke() {
-        return "minecraft";
+        return info.getInvoke();
     }
-//    TODO: Add some form of user name check for invalid user names.
+
     @Override
     public boolean execute(CommandBox command) {
         try {

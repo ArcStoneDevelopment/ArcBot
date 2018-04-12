@@ -29,7 +29,9 @@ public enum Permission {
     /**
      * The Owner permission level which is the highest integer value (3).
      */
-    OWNER(3);
+    OWNER(3),
+
+    SERVER_OWNER(4);
 
     /**
      * The integer value associated with a given enum value.

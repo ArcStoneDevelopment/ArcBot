@@ -1,6 +1,7 @@
 package Utility.Server;
 
 import Levels.LevelUser;
+import Utility.ServerException;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -20,8 +21,11 @@ public class LevelCollection implements Serializable {
         return this.core.containsKey(id);
     }
 
-    public LevelUser getLevelUser(long id) {
-        return this.core.get(id);
+    public LevelUser getLevelUser(long id) throws ServerException {
+        if (this.core.containsKey(id)) {
+            return this.core.get(id);
+        }
+        throw new ServerException();
     }
 
     public void setLevelUser(long id, LevelUser user) {

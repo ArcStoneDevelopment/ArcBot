@@ -17,6 +17,8 @@ import java.io.Serializable;
  * @version v1.0
  */
 public interface Command extends Serializable {
+
+    CommandInfo getInfo();
     /**
      * Access the invoke key for this command. In order for a given command to run, the {@link Frame.BotFrame.Listeners.MessageListener}
      * compares the invoke key from a {@link CommandBox} with this invoke key. This String should be the expected invoke

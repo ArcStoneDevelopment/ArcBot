@@ -1,6 +1,7 @@
 package Levels;
 
 import Utility.Server.Server;
+import Utility.ServerException;
 import Utility.Servers;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -41,34 +42,39 @@ public class Level {
      * The Message event from JDA to be handled.
      */
     public static void handle(GuildMessageReceivedEvent event) {
-        Server guild = Servers.activeServers.get(event.getGuild().getIdLong());
-        int points = new Random().nextInt(20) + 1;
-        if (guild.getLevels().hasLevelUser(event.getAuthor().getIdLong())) {
-            LevelUser user = guild.getLevels().getLevelUser(event.getAuthor().getIdLong());
-            if (lastSentMessage.containsKey(user.getUuid())) {
-                if (System.currentTimeMillis() - lastSentMessage.get(user.getUuid()) <= 30000) {
+        try {
+            Server guild = Servers.activeServers.get(event.getGuild().getIdLong());
+            int points = new Random().nextInt(20) + 1;
+            if (guild.getLevels().hasLevelUser(event.getAuthor().getIdLong())) {
+                LevelUser user = guild.getLevels().getLevelUser(event.getAuthor().getIdLong());
+                if (user.getDisabled()) {
                     return;
                 }
-                lastSentMessage.remove(user.getUuid());
-            }
-            int previousLevel = user.getLevel();
-            user.update(points);
-            int newLevel = user.getLevel();
+                if (lastSentMessage.containsKey(user.getUuid())) {
+                    if (System.currentTimeMillis() - lastSentMessage.get(user.getUuid()) <= 30000) {
+                        return;
+                    }
+                    lastSentMessage.remove(user.getUuid());
+                }
+                int previousLevel = user.getLevel();
+                user.update(points);
+                int newLevel = user.getLevel();
 
-            // TODO: This.
+                // TODO: This.
             /*
             if (previousLevel < newLevel && guild.textChannelsInit("spam")) {
                event.getGuild().getTextChannelById(guild.getTextChannelID("spam")).sendMessage().queue();
             }
             */
 
-            guild.getLevels().setLevelUser(event.getAuthor().getIdLong(), user);
-            lastSentMessage.put(user.getUuid(), System.currentTimeMillis());
-        } else {
-            LevelUser user = new LevelUser(event.getAuthor().getIdLong());
-            user.update(points);
-            guild.getLevels().setLevelUser(event.getAuthor().getIdLong(), user);
-        }
+                guild.getLevels().setLevelUser(event.getAuthor().getIdLong(), user);
+                lastSentMessage.put(user.getUuid(), System.currentTimeMillis());
+            } else {
+                LevelUser user = new LevelUser(event.getAuthor().getIdLong());
+                user.update(points);
+                guild.getLevels().setLevelUser(event.getAuthor().getIdLong(), user);
+            }
+        } catch (Exception e) {}
     }
 
     /**
@@ -102,13 +108,17 @@ public class Level {
      * @return MessageEmbed - Message containing formatted level information.
      */
     public static MessageEmbed getLevel(GuildMessageReceivedEvent event, Server server, long userID) {
-        LevelUser user = server.getLevels().getLevelUser(userID);
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setColor(new Color(230, 230, 250));
-        eb.setTitle("Levels: " + event.getGuild().getMemberById(user.getId()).getEffectiveName());
-        eb.addField("__**Points**__", "" + user.getPoints(), true);
-        eb.addField("__**Level**__", "" + user.getLevel(), true);
-        eb.addField("__**Last Level Up:**__", user.getLevelHistory().get(user.getLevel()), true);
-        return eb.build();
+        try {
+            LevelUser user = server.getLevels().getLevelUser(userID);
+            EmbedBuilder eb = new EmbedBuilder();
+            eb.setColor(new Color(230, 230, 250));
+            eb.setTitle("Levels: " + event.getGuild().getMemberById(user.getId()).getEffectiveName());
+            eb.addField("__**Points**__", "" + user.getPoints(), true);
+            eb.addField("__**Level**__", "" + user.getLevel(), true);
+            eb.addField("__**Last Level Up:**__", user.getLevelHistory().get(user.getLevel()), true);
+            return eb.build();
+        } catch (Exception e) {
+            return new EmbedBuilder(){}.addBlankField(false).build();
+        }
     }
 }

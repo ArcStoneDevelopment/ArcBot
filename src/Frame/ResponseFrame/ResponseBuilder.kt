@@ -155,6 +155,11 @@ internal object ResponseBuilder {
                 error = "Open Function Error"
                 suggestion = "*You already have an open function! You may close that function in private message or complete it as usual.*"
             }
+//          8Ball Error
+            8 -> {
+                error = "Syntax Error"
+                suggestion = "*You have to ask a question for me to answer it!*"
+            }
         }
         builder.setTitle(":x: ERROR: $error")
         builder.setDescription(suggestion)
@@ -201,6 +206,21 @@ internal object ResponseBuilder {
             1 -> {
                 title = ":tada: Congratulations!"
                 description = "${response.args[0]} has moved from level ${response.args[1]} to ${response.args[2]}!"
+            }
+//          Level User Error
+            2 -> {
+                title = ":X: LevelUser Error"
+                description = "*The mentioned user does not have any level data in the database!*"
+            }
+//          Already Disabled Error
+            3 -> {
+                title = ":x: Level User Error"
+                description = "*This user is already disabled.*"
+            }
+//          Already Enabled Error
+            4 -> {
+                title = ":x: Level User Error"
+                description = "*This user is already enabled.*"
             }
         }
         builder.setTitle(title)

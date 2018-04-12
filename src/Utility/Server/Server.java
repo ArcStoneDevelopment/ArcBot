@@ -95,7 +95,7 @@ public class Server implements Serializable {
         commands = new CommandCollection();
         functions = new FunctionCollection();
         levels = new LevelCollection();
-        permissions = new PermissionCollection();
+        permissions = new PermissionCollection(this.ownerID);
         settings = new Settings();
         textChannels = new TCCollection();
         reports = new FunctionObjectCollection<>();
@@ -117,6 +117,7 @@ public class Server implements Serializable {
      */
     public void setOwnerID(long ownerID) {
         this.ownerID = ownerID;
+        this.permissions.setOwnerID(ownerID);
     }
 
     /**

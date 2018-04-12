@@ -1,6 +1,8 @@
 package Frame.BotFrame;
 
 import Utility.Command;
+import Utility.Server.Server;
+import Utility.Servers;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 /**
@@ -36,6 +38,8 @@ public class CommandBox
      */
     private GuildMessageReceivedEvent event;
 
+    private Server server;
+
     /**
      * This constructor populates all of the instance variables.
      * @param raw
@@ -53,6 +57,7 @@ public class CommandBox
         this.invoke = invoke;
         this.args = args;
         this.event = event;
+        this.server = Servers.activeServers.get(event.getGuild().getIdLong());
     }
 
     /**
@@ -89,5 +94,9 @@ public class CommandBox
     public GuildMessageReceivedEvent getEvent()
     {
         return event;
+    }
+
+    public Server getServer() {
+        return server;
     }
 }

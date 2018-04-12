@@ -12,12 +12,27 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// TODO: JavaDocs for this class and its methods.
-
 public class ServerEditorCommand implements Command {
+
+    private CommandInfo info;
+
+    public ServerEditorCommand() {
+        info = new CommandInfo("arcbot");
+        info.addCommand("[]", "-arcbot", "See the current settings for your server.", Permission.SERVER_OWNER);
+        info.addCommand("command", "-arbot command [invoke] [enable/disable]", "Enable or disable a command with the given invoke key.", Permission.SERVER_OWNER);
+        info.addCommand("function", "-arcbot function [function name] [enable/disable]", "Enable or disable a function (and its accompanying commands) with the given name.", Permission.SERVER_OWNER);
+        info.addCommand("permission", "-arbot permission [permission name] [@role]", "Assign a bot permission level to a particular server role.", Permission.SERVER_OWNER);
+        info.addCommand("textchannel", "-arcbot textchannel [name]", "Designate the current text channel as the channel associated with the given name for bot use.", Permission.SERVER_OWNER);
+    }
+
+    @Override
+    public CommandInfo getInfo() {
+        return info;
+    }
+
     @Override
     public String getInvoke() {
-        return "arcbot";
+        return info.getInvoke();
     }
 
     @Override

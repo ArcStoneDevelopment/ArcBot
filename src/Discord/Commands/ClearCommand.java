@@ -21,10 +21,23 @@ import java.util.*;
  */
 public class ClearCommand implements Command {
 
+    private CommandInfo info;
+
     /**
      * This constructor is used to create objects that allow access to the desired command methods.
      */
-    public ClearCommand() {}
+    public ClearCommand() {
+        info = new CommandInfo("clear");
+        info.addCommand("all", "-clear all",
+                "Clears all of the messages in a text channel", Permission.STAFFTEAM);
+        info.addCommand("[number of messages]", "-clear [number of messages]",
+                "Clears the specified number of messages from a text channel.", Permission.STAFFTEAM);
+    }
+
+    @Override
+    public CommandInfo getInfo() {
+        return info;
+    }
 
     /**
      * Access the invoke key for this Command.
@@ -32,7 +45,7 @@ public class ClearCommand implements Command {
      */
     @Override
     public String getInvoke() {
-        return "clear";
+        return info.getInvoke();
     }
 
     /**

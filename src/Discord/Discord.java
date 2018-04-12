@@ -24,11 +24,13 @@ public class Discord {
      * This list contains all of the valid {@link Command} objects.
      */
     public static List<Command> commands = new ArrayList<>() {{
-        add(new StopCommand());
         add(new ServerEditorCommand());
         add(new LevelCommand());
         add (new MinecraftCommand());
         add(new ClearCommand());
         add(new ReportCommand());
+        add(new LevelEditCommand());
+        add(new EightBallCommand());
+        add(new HelpCommand());
     }};
 }

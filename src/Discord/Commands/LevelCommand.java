@@ -25,10 +25,22 @@ import java.util.*;
  */
 public class LevelCommand implements Command {
 
+    private CommandInfo info;
+
     /**
      * This constructor is used to create objects that allow access to the desired command methods.
      */
-    public LevelCommand() {}
+    public LevelCommand() {
+        info = new CommandInfo("level");
+        info.addCommand("[]", "-level", "View your own level statistics.", Permission.DEFAULT);
+        info.addCommand("[@user]", "-level [@user]", "View a mentioned user's level statistics.", Permission.DEFAULT);
+        info.addCommand("leaderboard", "-level leaderboard", "View the top ten users on the server ranked by points.", Permission.DEFAULT);
+    }
+
+    @Override
+    public CommandInfo getInfo() {
+        return info;
+    }
 
     /**
      * Access the invoke key for this Command.
@@ -36,7 +48,7 @@ public class LevelCommand implements Command {
      */
     @Override
     public String getInvoke() {
-        return "level";
+        return info.getInvoke();
     }
 
     /**
@@ -128,8 +140,12 @@ public class LevelCommand implements Command {
         }
 
         if (server.getLevels().hasLevelUser(userID)) {
-            user = server.getLevels().getLevelUser(userID);
-            guildUser = command.getEvent().getGuild().getMemberById(userID);
+            try {
+                user = server.getLevels().getLevelUser(userID);
+                guildUser = command.getEvent().getGuild().getMemberById(userID);
+            } catch (ServerException e) {
+                throw new SyntaxException(1);
+            }
         } else {
             throw new SyntaxException(1);
         }

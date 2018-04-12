@@ -16,6 +16,13 @@ import java.util.UUID;
  * @version v1.0
  */
 public class LevelUser implements Serializable {
+
+    /**
+     * Boolean to determine whether or not the user has been marked blocked from the level system. If this is true, the
+     * point/level values of this user will not change.
+     */
+    private boolean disabled;
+
     /**
      * The current level of the user. Starts at 0.
      */
@@ -58,6 +65,22 @@ public class LevelUser implements Serializable {
         levelHistory = new TreeMap<>() {{
             put(0, SystemTime.getTime());
         }};
+        disabled = false;
+    }
+
+    public void reset() {
+        this.level = 0;
+        this.points = 0;
+        levelHistory.clear();
+        levelHistory.put(0, SystemTime.getTime());
+    }
+
+    public boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     /**

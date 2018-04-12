@@ -10,12 +10,22 @@ import java.util.HashMap;
 
 public class PermissionCollection implements Serializable {
     private HashMap<Long, Permission> core;
+    private long ownerID;
 
-     PermissionCollection() {
+     PermissionCollection(long ownerID) {
         core = new HashMap<>();
+        this.ownerID = ownerID;
+    }
+
+    public void setOwnerID(long ownerID) {
+         this.ownerID = ownerID;
     }
 
     public boolean hasPermission(Member member, Permission permission) {
+         if (permission.equals(Permission.SERVER_OWNER)) {
+                return member.getUser().getIdLong() == this.ownerID;
+         }
+
         Permission highestPermission = Permission.DEFAULT;
         for (Role r : member.getRoles()) {
             if (Permission.comparator.compare(getPermission(r), highestPermission) > 0) {

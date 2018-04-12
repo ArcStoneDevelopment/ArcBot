@@ -14,9 +14,22 @@ import net.dv8tion.jda.core.entities.Guild;
 import java.awt.Color;
 
 public class ReportCommand implements Command {
+
+    private CommandInfo info;
+
+    public ReportCommand() {
+        info = new CommandInfo("report");
+        info.addCommand("[]", "-report", "Open a new report.", Permission.DEFAULT);
+    }
+
+    @Override
+    public CommandInfo getInfo() {
+        return info;
+    }
+
     @Override
     public String getInvoke() {
-        return "report";
+        return info.getInvoke();
     }
 
     @Override
