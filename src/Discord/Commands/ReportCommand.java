@@ -20,6 +20,7 @@ public class ReportCommand implements Command {
     public ReportCommand() {
         info = new CommandInfo("report");
         info.addCommand("[]", "-report", "Open a new report.", Permission.DEFAULT);
+        info.addCommand("list", "-report list", "List the UUIDs of all open/archived reports.", Permission.STAFFTEAM);
     }
 
     @Override
@@ -44,11 +45,10 @@ public class ReportCommand implements Command {
             }
         }
         try {
-            Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
             String subCommand = command.getArgs()[0].toLowerCase();
             switch (subCommand) {
                 case "list":
-                    listCommand(command, server);
+                    listCommand(command);
                     return true;
             }
         } catch (PermissionException e) {
@@ -57,14 +57,14 @@ public class ReportCommand implements Command {
         return false;
     }
 
-    private void listCommand(CommandBox command, Server server) throws PermissionException {
-        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
+    private void listCommand(CommandBox command) throws PermissionException {
+        if (command.getServer().getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(0,139,139));
 
             StringBuilder openReports = new StringBuilder();
             Guild guild = command.getEvent().getGuild();
-            for (Report r : server.getReports().getAll(ReportStatus.OPEN)) {
+            for (Report r : command.getServer().getReports().getAll(ReportStatus.OPEN)) {
                 openReports.append("ID: **");
                 openReports.append(r.getUuid());
                 openReports.append("** - Sender: ");
@@ -72,7 +72,7 @@ public class ReportCommand implements Command {
                 openReports.append("\n");
             }
             StringBuilder archiveReports = new StringBuilder();
-            for (Report r : server.getReports().getAll(ReportStatus.ARCHIVED)) {
+            for (Report r : command.getServer().getReports().getAll(ReportStatus.ARCHIVED)) {
                 archiveReports.append("ID: **");
                 archiveReports.append(r.getUuid());
                 archiveReports.append("** - Sender: ");

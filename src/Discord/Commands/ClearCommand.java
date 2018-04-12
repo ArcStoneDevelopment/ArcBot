@@ -59,14 +59,13 @@ public class ClearCommand implements Command {
     @Override
     public boolean execute(CommandBox command) {
         try {
-            Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
             if (command.getArgs().length == 1) {
                 switch (command.getArgs()[0]) {
                     case "all":
-                        clearAll(command, server);
+                        clearAll(command);
                         return true;
                     default:
-                        clearNum(command, server);
+                        clearNum(command);
                         return true;
                 }
             } else {
@@ -91,8 +90,8 @@ public class ClearCommand implements Command {
      * @throws PermissionException
      * When a user is not in the STAFFTEAM permission level, this exception is thrown.
      */
-    private void clearAll(CommandBox command, Server server) throws PermissionException {
-        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
+    private void clearAll(CommandBox command) throws PermissionException {
+        if (command.getServer().getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             MessageHistory history = new MessageHistory(command.getEvent().getChannel());
             List<Message> messages;
             while (true) {
@@ -131,8 +130,8 @@ public class ClearCommand implements Command {
      * When the first argument in the {@link CommandBox}'s arguments array is not able to be parsed as a valid integer,
      * this exception is thrown.
      */
-    private void clearNum(CommandBox command, Server server) throws PermissionException, SyntaxException {
-        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
+    private void clearNum(CommandBox command) throws PermissionException, SyntaxException {
+        if (command.getServer().getPermissions().hasPermission(command.getEvent().getMember(), Permission.STAFFTEAM)) {
             try {
                 int numMessage = Integer.parseInt(command.getArgs()[0]);
                 MessageHistory history = new MessageHistory(command.getEvent().getChannel());

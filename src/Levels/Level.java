@@ -95,10 +95,10 @@ public class Level {
     }
 
     /**
+     * @deprecated
      * Prior to the addition of the {@code ResponseFrame} framework, this method was responsible for building the level
      * data from a given user into a {@code MessageEmbed}. Since the {@code ResponseFrame} has taken over this responsibility,
      * this method is now deprecated for removal.
-     * @deprecated
      * @param event
      * The MessageEvent that the query was sent from.
      * @param server
@@ -107,6 +107,7 @@ public class Level {
      * The discord ID of the user whose level data should be given
      * @return MessageEmbed - Message containing formatted level information.
      */
+    @Deprecated
     public static MessageEmbed getLevel(GuildMessageReceivedEvent event, Server server, long userID) {
         try {
             LevelUser user = server.getLevels().getLevelUser(userID);

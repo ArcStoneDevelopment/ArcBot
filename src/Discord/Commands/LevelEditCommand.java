@@ -30,17 +30,16 @@ public class LevelEditCommand implements Command {
     @Override
     public boolean execute(CommandBox command) {
         try {
-            Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
             if (command.getArgs().length >= 1 && command.getEvent().getMessage().getMentionedUsers().size() == 1) {
                 switch (command.getArgs()[0]) {
                     case "block":
-                        block(command, server);
+                        block(command);
                         return true;
                     case "unblock":
-                        unBlock(command, server);
+                        unBlock(command);
                         return true;
                     case "reset":
-                        resetUser(command, server);
+                        resetUser(command);
                         return true;
                     default:
                         throw new SyntaxException(0);
@@ -77,10 +76,10 @@ public class LevelEditCommand implements Command {
         return false;
     }
 
-    private void block(CommandBox command, Server server) throws PermissionException, SyntaxException, ServerException {
-        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.OWNER)) {
-            if (server.getLevels().hasLevelUser(command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong())) {
-                LevelUser user = server.getLevels().getLevelUser(
+    private void block(CommandBox command) throws PermissionException, SyntaxException, ServerException {
+        if (command.getServer().getPermissions().hasPermission(command.getEvent().getMember(), Permission.OWNER)) {
+            if (command.getServer().getLevels().hasLevelUser(command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong())) {
+                LevelUser user = command.getServer().getLevels().getLevelUser(
                         command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong());
                 if (user.getDisabled()) {
                     throw new SyntaxException(2);
@@ -95,10 +94,10 @@ public class LevelEditCommand implements Command {
         }
     }
 
-    private void unBlock (CommandBox command, Server server) throws PermissionException, SyntaxException, ServerException {
-        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.OWNER)) {
-            if (server.getLevels().hasLevelUser(command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong())) {
-                LevelUser user = server.getLevels().getLevelUser(
+    private void unBlock (CommandBox command) throws PermissionException, SyntaxException, ServerException {
+        if (command.getServer().getPermissions().hasPermission(command.getEvent().getMember(), Permission.OWNER)) {
+            if (command.getServer().getLevels().hasLevelUser(command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong())) {
+                LevelUser user = command.getServer().getLevels().getLevelUser(
                         command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong());
                 if (!(user.getDisabled())) {
                     throw new SyntaxException(3);
@@ -113,10 +112,10 @@ public class LevelEditCommand implements Command {
         }
     }
 
-    private void resetUser(CommandBox command, Server server) throws PermissionException, SyntaxException, ServerException {
-        if (server.getPermissions().hasPermission(command.getEvent().getMember(), Permission.OWNER)) {
-            if (server.getLevels().hasLevelUser(command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong())) {
-                LevelUser user = server.getLevels().getLevelUser(
+    private void resetUser(CommandBox command) throws PermissionException, SyntaxException, ServerException {
+        if (command.getServer().getPermissions().hasPermission(command.getEvent().getMember(), Permission.OWNER)) {
+            if (command.getServer().getLevels().hasLevelUser(command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong())) {
+                LevelUser user = command.getServer().getLevels().getLevelUser(
                         command.getEvent().getMessage().getMentionedUsers().get(0).getIdLong());
                 user.reset();
                 //MESSAGE HERE

@@ -67,23 +67,22 @@ public class LevelCommand implements Command {
     @Override
     public boolean execute(CommandBox command) {
         try {
-            Server server = Servers.activeServers.get(command.getEvent().getGuild().getIdLong());
-            if (!(server.getFunctions().getFunction("level").isEnabled())) {
+            if (!(command.getServer().getFunctions().getFunction("level").isEnabled())) {
                 MessageEmbed msg = Frame.ResponseFrame.ResponseBuilder.INSTANCE.build(new Frame.ResponseFrame.ErrorResponse(4));
                 command.getEvent().getChannel().sendMessage(msg).complete();
                 return false;
             }
 
             if (command.getArgs().length == 0) {
-                levelUser(command, server);
+                levelUser(command);
                 return true;
             } else if (command.getArgs().length > 0) {
                 switch (command.getArgs()[0].toLowerCase()) {
                     case "leaderboard":
-                        levelLeaderboard(command, server);
+                        levelLeaderboard(command);
                         return true;
                     default:
-                        levelUser(command, server);
+                        levelUser(command);
                         return true;
                 }
             }
@@ -126,7 +125,7 @@ public class LevelCommand implements Command {
      * <br> • <strong>{@code 1}</strong>: This number exception is thrown when the server object given does not have the {@link LevelUser}
      * that is required.
      */
-    private void levelUser(CommandBox command, Server server) throws SyntaxException {
+    private void levelUser(CommandBox command) throws SyntaxException {
         Member guildUser;
         LevelUser user;
         long userID;
@@ -139,9 +138,9 @@ public class LevelCommand implements Command {
             throw new SyntaxException(0);
         }
 
-        if (server.getLevels().hasLevelUser(userID)) {
+        if (command.getServer().getLevels().hasLevelUser(userID)) {
             try {
-                user = server.getLevels().getLevelUser(userID);
+                user = command.getServer().getLevels().getLevelUser(userID);
                 guildUser = command.getEvent().getGuild().getMemberById(userID);
             } catch (ServerException e) {
                 throw new SyntaxException(1);
@@ -174,9 +173,9 @@ public class LevelCommand implements Command {
      * <br> • <Strong>{@code 0}</Strong>: This number exception is thrown when the command does not meet the following
      * requirements: (1) Arguments length of 1. (2) The argument "{@code leaderboard}" is the first (and only) argument given.
      */
-    private void levelLeaderboard(CommandBox command, Server server) throws SyntaxException {
+    private void levelLeaderboard(CommandBox command) throws SyntaxException {
         if (command.getArgs().length == 1 && command.getArgs()[0].equalsIgnoreCase("leaderboard")) {
-            TreeMap<Integer, LevelUser> orderedLevels = server.getLevels().getLevels();
+            TreeMap<Integer, LevelUser> orderedLevels = command.getServer().getLevels().getLevels();
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(230, 230, 250));
             eb.setTitle(":clipboard: __**Level Leaderboard**__ :clipboard:");
