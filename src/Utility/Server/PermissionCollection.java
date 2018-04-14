@@ -22,17 +22,18 @@ public class PermissionCollection implements Serializable {
     }
 
     public boolean hasPermission(Member member, Permission permission) {
-         if (permission.equals(Permission.SERVER_OWNER)) {
-                return member.getUser().getIdLong() == this.ownerID;
+         switch (permission) {
+             case SERVER_OWNER:
+                 return member.getUser().getIdLong() == ownerID;
+             default:
+                 Permission highestPermission = Permission.DEFAULT;
+                 for (Role r : member.getRoles()) {
+                     if (Permission.comparator.compare(getPermission(r), highestPermission) > 0) {
+                         highestPermission = getPermission(r);
+                     }
+                 }
+                 return Permission.comparator.compare(highestPermission, permission) >= 0;
          }
-
-        Permission highestPermission = Permission.DEFAULT;
-        for (Role r : member.getRoles()) {
-            if (Permission.comparator.compare(getPermission(r), highestPermission) > 0) {
-                highestPermission = getPermission(r);
-            }
-        }
-        return Permission.comparator.compare(highestPermission, permission) >= 0;
     }
 
     public boolean isPermission(String name) {

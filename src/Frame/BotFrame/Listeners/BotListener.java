@@ -1,4 +1,8 @@
 package Frame.BotFrame.Listeners;
+import Frame.LoggerFrame.Logger;
+import Frame.LoggerFrame.LoggerCore;
+import Frame.LoggerFrame.LoggerException;
+import Frame.LoggerFrame.LoggerPolicy;
 import Utility.Permission;
 import Utility.Server.Server;
 import Utility.Servers;
@@ -21,21 +25,27 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public class BotListener extends ListenerAdapter {
     
     @Override
+    @Logger(LoggerPolicy.FILE)
     public void onGuildJoin(GuildJoinEvent event) {
-        if (Servers.activeServers.containsKey(event.getGuild().getIdLong())) {
-            return;
-        }
         try {
-            Servers.activeServers.put(event.getGuild().getIdLong(), new Server(event.getGuild()));
-            Servers.saveServer(Servers.activeServers.get(event.getGuild().getIdLong()));
-        } catch (Exception e) {
+            if (Servers.activeServers.containsKey(event.getGuild().getIdLong())) {
+                Servers.activeServers.get(event.getGuild().getIdLong()).drop = false;
+                return;
+            }
+            try {
+                Servers.activeServers.put(event.getGuild().getIdLong(), new Server(event.getGuild()));
+                Servers.saveServer(Servers.activeServers.get(event.getGuild().getIdLong()));
+            } catch (Exception e) {
+                return;
+            }
+            LoggerCore.log(true, event.getGuild(), "Server Added");
+            PrivateChannel pc = event.getGuild().getOwner().getUser().openPrivateChannel().complete();
+            pc.sendMessage("Hi! I'm ArcBot. Thanks for adding me to your server.").queue();
+            pc.sendMessage("I've been loaded with all of the default settings. " +
+                    "Please enter `-arcbot` in your server to get a full list of settings that you can change.").queue();
+        } catch (LoggerException e) {
             return;
         }
-        System.out.println("New Server Added.");
-        PrivateChannel pc = event.getGuild().getOwner().getUser().openPrivateChannel().complete();
-        pc.sendMessage("Hi! I'm ArcBot. Thanks for adding me to your server.").queue();
-        pc.sendMessage("I've been loaded with all of the default settings. " +
-                "Please enter `-arcbot` in your server to get a full list of settings that you can change.").queue();
     }
 
     @Override

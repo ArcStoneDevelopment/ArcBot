@@ -38,13 +38,7 @@ public class HelpCommand implements Command {
                 case 1:
                     commandHelp(command);
                     return true;
-                default:
-                    throw new SyntaxException(0);
             }
-        } catch (PermissionException e) {
-
-        } catch (SyntaxException e) {
-
         } catch (ServerException e) {
 
         }
@@ -56,21 +50,38 @@ public class HelpCommand implements Command {
         eb.setColor(new Color(52, 255, 255));
         eb.setTitle(":clipboard: __**Command Help**__");
         for (Command c :command.getServer().getCommands().getCommands()) {
-            eb.addField("__**" + c.getInfo().getInvoke().substring(0,1).toUpperCase() + c.getInfo().getInvoke().substring(1) + "**__",
-                    "", false);
+            String title = ":small_blue_diamond: __**" + c.getInfo().getInvoke().substring(0,1).toUpperCase() +
+                    c.getInfo().getInvoke().substring(1) + "**__ :small_blue_diamond:";
+            StringBuilder sb = new StringBuilder();
+            int subCommandCount = 0;
             for (String s : c.getInfo().keys()) {
                 if (command.getServer().getPermissions().hasPermission(command.getEvent().getMember(), c.getInfo().getPermission(s))) {
-                    eb.addField(" - " + c.getInfo().getUsage(s), c.getInfo().getDescription(s), false);
+                    sb.append("• __" + c.getInfo().getUsage(s) + "__");
+                    sb.append("\n");
+                    sb.append("*" + c.getInfo().getDescription(s) + "*");
+                    sb.append("\n\n");
+                    subCommandCount++;
                 }
             }
-            eb.addBlankField(false);
+            if (subCommandCount > 0) {
+                eb.addField(title, sb.toString(), false);
+            }
         }
         PrivateChannel pc = command.getEvent().getAuthor().openPrivateChannel().complete();
         pc.sendMessage(eb.build()).queue();
         pc.close().complete();
     }
 
-    private static void commandHelp(CommandBox command) throws ServerException, PermissionException {
-
+    private static void commandHelp(CommandBox command) throws ServerException {
+        PrivateChannel pc = command.getEvent().getAuthor().openPrivateChannel().complete();
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setColor(new Color(52, 255, 255));
+        Command cmd = command.getServer().getCommands().getCommand(command.getArgs()[0]);
+        eb.setTitle(cmd.getInvoke().substring(0, 1).toUpperCase() + cmd.getInvoke().substring(1));
+        for (String s : cmd.getInfo().keys()) {
+            eb.addField(cmd.getInfo().getUsage(s), "*" + cmd.getInfo().getDescription(s) + "*", false);
+        }
+        pc.sendMessage(eb.build()).queue();
+        pc.close().queue();
     }
 }

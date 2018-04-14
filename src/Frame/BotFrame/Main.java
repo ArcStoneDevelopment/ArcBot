@@ -50,7 +50,7 @@ public class Main {
             Servers serverHandler = new Servers();
                 serverHandler.thread.start();
             JDABuilder bot = new JDABuilder(AccountType.BOT);
-                bot.setToken("NDIyOTM0MjM3MTE3Njc3NTc4.DY1ldg.nYTPlNyCQbQ-jYvs_fhP3QRsK4I"); //Left intentionally empty for security reasons.
+                 //Left intentionally empty for security reasons.
                 bot.setGame(Game.playing("ArcStone Development"));
                 bot.setStatus(OnlineStatus.ONLINE);
                 bot.setAutoReconnect(true);

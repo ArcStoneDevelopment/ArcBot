@@ -1,10 +1,11 @@
 package Utility;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-public class CommandInfo {
+public class CommandInfo implements Serializable {
 
     private String invoke;
     private HashMap<String, SubCommand> commands;
@@ -39,11 +40,13 @@ public class CommandInfo {
     }
 }
 
-class SubCommand {
+class SubCommand implements Serializable {
     String usage;
     String description;
     Permission permission;
     SubCommand(String usage, String description, Permission permission) {
-
+        this.usage = usage;
+        this.description = description;
+        this.permission = permission;
     }
 }

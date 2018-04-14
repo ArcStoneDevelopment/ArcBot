@@ -42,6 +42,7 @@ public class MessageListener extends ListenerAdapter {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
     }
